@@ -77,7 +77,7 @@ const schemaMarkup = JSON.stringify([
     '@type': 'CollectionPage',
     name: 'Browser Tools Hub',
     url: 'https://tools.example.com/',
-    description: 'A single-domain browser tools site with dev-tools and media-tools categories, shared trust pages, and child routes aligned to one clear search intent each.',
+    description: 'A single-domain browser tools site with dev-tools, media-tools, creator-tools, and document-tools categories, plus shared trust pages and focused child routes.',
   },
   {
     '@context': 'https://schema.org',
@@ -125,10 +125,10 @@ const schemaMarkup = JSON.stringify([
           Single-domain grouped launch
         </p>
         <h1 class="mt-6 text-4xl font-extrabold tracking-tight sm:text-6xl">
-          One browser tools site, with separate routes for dev work and media work
+          One browser tools site, with focused routes for dev, media, creator, and document work
         </h1>
         <p class="mt-5 max-w-2xl text-lg leading-8 text-slate-200">
-          Instead of deploying separate hubs for every tool family, this site keeps dev tools and media tools under one domain. The trust pages stay shared, the categories stay clean, and each child route still targets one narrow user intent.
+          Instead of deploying separate hubs for every tool family, this site keeps developer tools, media workflows, creator helpers, and document routes under one domain. The trust pages stay shared, the categories stay clean, and each child route still targets one narrow user intent.
         </p>
         <div class="mt-8 flex flex-wrap gap-3">
           <a href="#tool-categories" class="inline-flex items-center rounded-xl bg-white px-5 py-3 font-semibold text-slate-900 no-underline hover:bg-slate-100">
@@ -176,7 +176,7 @@ const schemaMarkup = JSON.stringify([
         <div class="prose-copy">
           <h2 class="text-3xl font-bold tracking-tight text-slate-900">Why keep both groups on one domain?</h2>
           <p>
-            The deployment, trust, analytics, and SEO plumbing are easier when the site is one Astro project. The category split keeps the information architecture disciplined, so the domain can cover both developer workflows and media workflows without turning into a generic junk drawer of tools.
+            The deployment, trust, analytics, and SEO plumbing are easier when the site is one Astro project. The category split keeps the information architecture disciplined, so the domain can cover developer workflows, media workflows, creator helpers, and document utilities without turning into a generic junk drawer of tools.
           </p>
           <div class="mt-6 grid gap-4 sm:grid-cols-2">
             <div class="card p-5">
@@ -217,7 +217,7 @@ const schemaMarkup = JSON.stringify([
             <h3 class="mt-3 text-2xl font-semibold text-slate-900">{tool.title}</h3>
             <p class="mt-3 text-slate-600">{tool.description}</p>
             <a href={tool.href} class="mt-5 inline-flex items-center text-sm font-semibold text-brand-700 no-underline hover:text-brand-800">
-              Open route
+              Open {tool.title}
             </a>
           </article>
         ))}
@@ -233,11 +233,11 @@ const schemaMarkup = JSON.stringify([
       <div class="mt-8 space-y-4">
         <details class="card p-5" open>
           <summary class="cursor-pointer text-lg font-semibold text-slate-900">What should the homepage rank for?</summary>
-          <p class="mt-3 text-slate-600">The homepage should rank for grouped browser tools and suite-level utility queries. The category pages should carry the broader dev-tools and media-tools clusters, while the child pages carry the direct transactional terms.</p>
+          <p class="mt-3 text-slate-600">The homepage should rank for grouped browser tools and suite-level utility queries. The category pages should carry the broader dev-tools, media-tools, creator-tools, and document-tools clusters, while the child pages carry the direct transactional terms.</p>
         </details>
         <details class="card p-5">
           <summary class="cursor-pointer text-lg font-semibold text-slate-900">Why not deploy dev and media tools as two separate hubs?</summary>
-          <p class="mt-3 text-slate-600">If the goal is one domain, keeping them in one Astro project is cleaner. You avoid duplicated trust pages, duplicated deployment config, and multiple parallel site roots.</p>
+          <p class="mt-3 text-slate-600">If the goal is one domain, keeping the four tool families in one Astro project is cleaner. You avoid duplicated trust pages, duplicated deployment config, and multiple parallel site roots.</p>
         </details>
         <details class="card p-5">
           <summary class="cursor-pointer text-lg font-semibold text-slate-900">How is SEO protected when multiple tool families share a domain?</summary>

@@ -38,8 +38,8 @@ const schemaMarkup = JSON.stringify({
 ---
 
 <BaseLayout
-  title="Creator Tools — Social Preview, X Drafting, Humanizer, Prompt Tools"
-  description="The creator-tools directory of Browser Tools Hub: Social Profiler, XHunter, Writetune, and Prompt Refiner."
+  title="Creator Tools for Preview, X Drafting, and Prompts"
+  description="Browse creator tools for metadata previews, X thread drafting, AI text humanizing, and prompt optimization on one browser-first route family."
   canonicalPath="/creator-tools/"
   schemaMarkup={schemaMarkup}
 >
@@ -68,10 +68,60 @@ const schemaMarkup = JSON.stringify({
             <h2 class="mt-3 text-2xl font-semibold text-slate-900">{tool.title}</h2>
             <p class="mt-3 text-slate-600">{tool.description}</p>
             <a href={tool.href} class="mt-5 inline-flex items-center text-sm font-semibold text-brand-700 no-underline hover:text-brand-800">
-              Open route
+              Open {tool.title}
             </a>
           </article>
         ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-slate-200 bg-white py-16">
+    <div class="section-shell">
+      <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+        <div class="prose-copy">
+          <h2 class="text-3xl font-bold tracking-tight text-slate-900">What belongs in the creator-tools directory?</h2>
+          <p>
+            This section is for publishing-adjacent jobs that happen before content goes live. That includes checking metadata previews, drafting X threads and reply angles, rewriting stiff AI copy, and turning loose ideas into cleaner prompts. These jobs share the same audience even though the child routes target different query clusters.
+          </p>
+          <p>
+            Grouping them in one directory also protects the main domain from mixed intent. The category page explains the shared creator workflow, while each child route still owns one narrow task. That means <strong>Social Profiler</strong> can focus on preview QA, <strong>XHunter</strong> can focus on thread and reply drafting, <strong>Writetune</strong> can focus on humanizing AI text, and <strong>Prompt Refiner</strong> can focus on prompt structure.
+          </p>
+          <div class="mt-6 grid gap-4 sm:grid-cols-2">
+            <div class="card p-5">
+              <h3 class="text-lg font-semibold text-slate-900">Suite-level navigation</h3>
+              <p class="mt-2 text-sm text-slate-600">Creators can move from preview QA to drafting to prompt cleanup without leaving the same site or relearning a new trust layer.</p>
+            </div>
+            <div class="card p-5">
+              <h3 class="text-lg font-semibold text-slate-900">Child-page focus</h3>
+              <p class="mt-2 text-sm text-slate-600">Each child page stays specific enough to rank for its own workflow instead of collapsing everything into one generic AI creator page.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-slate-950 p-6 text-slate-100">
+          <h2 class="text-xl font-semibold text-white">Launch scope</h2>
+          <ul class="mt-4 space-y-3 text-sm">
+            <li><strong class="text-brand-200">Preview QA:</strong> Social Profiler</li>
+            <li><strong class="text-brand-200">X drafting:</strong> XHunter</li>
+            <li><strong class="text-brand-200">Tone cleanup:</strong> Writetune</li>
+            <li><strong class="text-brand-200">Prompt design:</strong> Prompt Refiner</li>
+            <li><strong class="text-brand-200">Shared promise:</strong> browser-first creator workflows with no heavy suite required</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16">
+    <div class="section-shell">
+      <div class="max-w-3xl">
+        <h2 class="text-3xl font-bold tracking-tight text-slate-900">When should someone use this directory?</h2>
+        <p class="mt-4 text-lg text-slate-600">
+          Use this section when the problem is not raw asset processing but publishing quality. If you need better social cards, stronger X structure, more human AI copy, or clearer prompts, these routes are designed to cover that pre-publish layer.
+        </p>
+        <p class="mt-4 text-slate-600">
+          That distinction matters for SEO too. The creator-tools directory should own the category-level creator workflow queries, while the child routes carry the direct transactional phrases such as metadata preview tool, tweet hunter alternative, AI humanizer, and prompt optimizer.
+        </p>
       </div>
     </div>
   </section>

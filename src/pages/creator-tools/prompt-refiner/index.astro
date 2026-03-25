@@ -17,7 +17,7 @@ const schemaMarkup = JSON.stringify({
 
 <BaseLayout
   title="Prompt Refiner — 免费 AI 提示词优化工具"
-  description="一键将简单想法转化为结构化 AI System Prompt。支持中英文，浏览器本地处理，无需登录。"
+  description="Turn a rough idea into a structured AI system prompt, clarify role, task, constraints, and output format, and refine Chinese or English prompts locally."
   canonicalPath="/creator-tools/prompt-refiner/"
   schemaMarkup={schemaMarkup}
 >
@@ -43,6 +43,34 @@ const schemaMarkup = JSON.stringify({
         <h2 class="text-2xl font-semibold text-slate-900">Related tools</h2>
         <p class="mt-3 text-slate-600"><a href="/creator-tools/writetune/" class="text-brand-700">Writetune</a> 适合在输出阶段继续处理文本语气和可读性。</p>
       </article>
+    </div>
+  </section>
+
+  <section class="border-y border-slate-200 bg-white py-16">
+    <div class="section-shell">
+      <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+        <div class="prose-copy">
+          <h2 class="text-3xl font-bold tracking-tight text-slate-900">What Prompt Refiner is for</h2>
+          <p>
+            Prompt Refiner is for the earlier stage of the workflow, before the model has produced a weak answer. Instead of cleaning up output after the fact, this route helps you structure the request itself: who the model should act as, what task it should complete, what constraints it should respect, and what kind of output shape you actually want.
+          </p>
+          <p>
+            That makes it useful for operators, students, creators, and solo builders who already know the goal but do not want to manually write long system prompts every time. The route is especially useful when the original idea is just a sentence fragment or a vague direction and needs to become something reusable.
+          </p>
+          <p>
+            The route also complements the other creator pages. If the issue is poor prompt structure, fix it here first. If the issue is that the final text still sounds too robotic, continue to <strong>Writetune</strong>. That separation keeps each page aligned to one clear job-to-be-done instead of mixing ideation, drafting, and rewriting on one route.
+          </p>
+        </div>
+        <div class="card bg-slate-950 p-6 text-slate-100">
+          <h2 class="text-xl font-semibold text-white">Typical refinements</h2>
+          <ul class="mt-4 space-y-3 text-sm">
+            <li><strong class="text-brand-200">Role:</strong> turn “help me” into a clear expert perspective</li>
+            <li><strong class="text-brand-200">Task:</strong> define exactly what should be produced</li>
+            <li><strong class="text-brand-200">Constraints:</strong> keep tone, format, and limits explicit</li>
+            <li><strong class="text-brand-200">Output:</strong> request tables, bullets, JSON, or templates upfront</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </section>
 </BaseLayout>
