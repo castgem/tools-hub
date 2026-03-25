@@ -1,0 +1,249 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const categories = [
+  {
+    href: '/dev-tools/',
+    title: 'Dev Tools',
+    description: 'JSON workflows, text cleanup, regex testing, Base64 helpers, cron building, and SQL formatting.',
+    tag: 'Developer utilities',
+    cta: 'Explore dev tools',
+  },
+  {
+    href: '/media-tools/',
+    title: 'Media Tools',
+    description: 'Image optimization, WebP conversion, Video to GIF workflows, and simple logo creation in one suite.',
+    tag: 'Creator workflows',
+    cta: 'Explore media tools',
+  },
+  {
+    href: '/creator-tools/',
+    title: 'Creator Tools',
+    description: 'Social previews, X drafting helpers, AI text humanization, and prompt optimization workflows.',
+    tag: 'Content systems',
+    cta: 'Explore creator tools',
+  },
+  {
+    href: '/document-tools/',
+    title: 'Document Tools',
+    description: 'PDF workflows for merge, compress, split, convert, and browser-first file handling.',
+    tag: 'Document utilities',
+    cta: 'Explore document tools',
+  },
+];
+
+const featuredTools = [
+  {
+    href: '/dev-tools/json-convertor/',
+    title: 'JSON Convertor',
+    description: 'Format JSON, infer TypeScript, convert curl snippets, and inspect JWT payloads.',
+    group: 'Dev Tools',
+  },
+  {
+    href: '/dev-tools/text-formatter/',
+    title: 'Text Formatter',
+    description: 'Clean, encode, deduplicate, and count text with one browser-first route.',
+    group: 'Dev Tools',
+  },
+  {
+    href: '/media-tools/image-optimizer/',
+    title: 'Image Optimizer',
+    description: 'Compress, resize, and export images without forcing an upload step.',
+    group: 'Media Tools',
+  },
+  {
+    href: '/media-tools/video-to-gif/',
+    title: 'Video to GIF',
+    description: 'Turn short clips into shareable GIFs in the browser with FFmpeg.wasm.',
+    group: 'Media Tools',
+  },
+  {
+    href: '/creator-tools/social-profiler/',
+    title: 'Social Profiler',
+    description: 'Preview metadata and link cards before sharing to Google, X, Facebook, and LinkedIn.',
+    group: 'Creator Tools',
+  },
+  {
+    href: '/document-tools/pdf-easier/',
+    title: 'PDF Easier',
+    description: 'A browser-first PDF toolkit covering merge, compress, split, and conversion workflows.',
+    group: 'Document Tools',
+  },
+];
+
+const schemaMarkup = JSON.stringify([
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Browser Tools Hub',
+    url: 'https://tools.example.com/',
+    description: 'A single-domain browser tools site with dev-tools and media-tools categories, shared trust pages, and child routes aligned to one clear search intent each.',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What kinds of tools are included in Browser Tools Hub?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The current grouped launch includes dev-tools, media-tools, creator-tools, and document-tools. Together they cover developer utilities, media workflows, creator publishing helpers, prompt tools, and PDF tasks.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Why put dev tools and media tools on one domain?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The shared domain concentrates trust pages, deployment, analytics, and internal linking. The category structure still keeps each child page focused on one clear job-to-be-done instead of flattening everything into one generic tool page.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Do these tools upload data to a server?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The launch build is designed around browser-based processing wherever practical. JSON, text, and most media workflows stay local in the browser during launch, though deployment-time policies still need to be verified on the live host.',
+        },
+      },
+    ],
+  },
+]);
+---
+
+<BaseLayout
+  title="Browser Tools Hub — Dev, Media, Creator, and Document Tools"
+  description="A single shared domain for browser-based dev tools, media tools, creator tools, and document tools with one trust layer and one deployment target."
+  canonicalPath="/"
+  schemaMarkup={schemaMarkup}
+>
+  <section class="overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-brand-900 text-white">
+    <div class="section-shell py-16 sm:py-24">
+      <div class="max-w-4xl">
+        <p class="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-sm font-medium text-brand-100">
+          Single-domain grouped launch
+        </p>
+        <h1 class="mt-6 text-4xl font-extrabold tracking-tight sm:text-6xl">
+          One browser tools site, with separate routes for dev work and media work
+        </h1>
+        <p class="mt-5 max-w-2xl text-lg leading-8 text-slate-200">
+          Instead of deploying separate hubs for every tool family, this site keeps dev tools and media tools under one domain. The trust pages stay shared, the categories stay clean, and each child route still targets one narrow user intent.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="#tool-categories" class="inline-flex items-center rounded-xl bg-white px-5 py-3 font-semibold text-slate-900 no-underline hover:bg-slate-100">
+            Explore categories
+          </a>
+          <a href="/privacy/" class="inline-flex items-center rounded-xl border border-white/20 px-5 py-3 font-semibold text-white no-underline hover:bg-white/10">
+            Privacy model
+          </a>
+        </div>
+        <div class="mt-6 flex flex-wrap gap-3 text-sm text-slate-200">
+          <span class="rounded-full border border-white/15 px-3 py-1">No signup</span>
+          <span class="rounded-full border border-white/15 px-3 py-1">Browser-only processing</span>
+          <span class="rounded-full border border-white/15 px-3 py-1">One shared deploy target</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tool-categories" class="py-16">
+    <div class="section-shell">
+      <div class="max-w-3xl">
+        <h2 class="text-3xl font-bold tracking-tight text-slate-900">Tool categories</h2>
+        <p class="mt-3 text-lg text-slate-600">
+          The homepage owns the site-wide promise. Each category owns a theme. Each child route owns one dominant query intent.
+        </p>
+      </div>
+      <div class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        {categories.map((tool) => (
+          <article class="card p-6">
+            <p class="text-sm font-medium text-brand-700">{tool.tag}</p>
+            <h3 class="mt-3 text-2xl font-semibold text-slate-900">{tool.title}</h3>
+            <p class="mt-3 text-slate-600">{tool.description}</p>
+            <a href={tool.href} class="mt-5 inline-flex items-center text-sm font-semibold text-brand-700 no-underline hover:text-brand-800">
+              {tool.cta}
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-slate-200 bg-white py-16">
+    <div class="section-shell">
+      <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+        <div class="prose-copy">
+          <h2 class="text-3xl font-bold tracking-tight text-slate-900">Why keep both groups on one domain?</h2>
+          <p>
+            The deployment, trust, analytics, and SEO plumbing are easier when the site is one Astro project. The category split keeps the information architecture disciplined, so the domain can cover both developer workflows and media workflows without turning into a generic junk drawer of tools.
+          </p>
+          <div class="mt-6 grid gap-4 sm:grid-cols-2">
+            <div class="card p-5">
+              <h3 class="text-lg font-semibold text-slate-900">Shared infrastructure</h3>
+              <p class="mt-2 text-sm text-slate-600">One domain means one trust layer, one Netlify deploy target, one analytics setup, and one sitemap strategy.</p>
+            </div>
+            <div class="card p-5">
+              <h3 class="text-lg font-semibold text-slate-900">Category-level clarity</h3>
+              <p class="mt-2 text-sm text-slate-600">The `/dev-tools/` and `/media-tools/` directories make it obvious what belongs together and what should stay separate.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-slate-950 p-6 text-slate-100">
+          <h2 class="text-xl font-semibold text-white">Launch taxonomy</h2>
+          <ul class="mt-4 space-y-3 text-sm">
+            <li><strong class="text-brand-200">Root:</strong> Browser Tools Hub</li>
+            <li><strong class="text-brand-200">Category:</strong> Dev Tools</li>
+            <li><strong class="text-brand-200">Category:</strong> Media Tools</li>
+            <li><strong class="text-brand-200">Category:</strong> Creator Tools</li>
+            <li><strong class="text-brand-200">Category:</strong> Document Tools</li>
+            <li><strong class="text-brand-200">Children:</strong> intent-specific tool pages under each directory</li>
+            <li><strong class="text-brand-200">Trust:</strong> About, Contact, Privacy</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16">
+    <div class="section-shell">
+      <div class="max-w-3xl">
+        <h2 class="text-3xl font-bold tracking-tight text-slate-900">Featured child routes</h2>
+      </div>
+      <div class="mt-8 grid gap-6 md:grid-cols-2">
+        {featuredTools.map((tool) => (
+          <article class="card p-6">
+            <p class="text-sm font-medium text-brand-700">{tool.group}</p>
+            <h3 class="mt-3 text-2xl font-semibold text-slate-900">{tool.title}</h3>
+            <p class="mt-3 text-slate-600">{tool.description}</p>
+            <a href={tool.href} class="mt-5 inline-flex items-center text-sm font-semibold text-brand-700 no-underline hover:text-brand-800">
+              Open route
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-16">
+    <div class="section-shell">
+      <div class="max-w-3xl">
+        <h2 class="text-3xl font-bold tracking-tight text-slate-900">Frequently asked questions</h2>
+      </div>
+      <div class="mt-8 space-y-4">
+        <details class="card p-5" open>
+          <summary class="cursor-pointer text-lg font-semibold text-slate-900">What should the homepage rank for?</summary>
+          <p class="mt-3 text-slate-600">The homepage should rank for grouped browser tools and suite-level utility queries. The category pages should carry the broader dev-tools and media-tools clusters, while the child pages carry the direct transactional terms.</p>
+        </details>
+        <details class="card p-5">
+          <summary class="cursor-pointer text-lg font-semibold text-slate-900">Why not deploy dev and media tools as two separate hubs?</summary>
+          <p class="mt-3 text-slate-600">If the goal is one domain, keeping them in one Astro project is cleaner. You avoid duplicated trust pages, duplicated deployment config, and multiple parallel site roots.</p>
+        </details>
+        <details class="card p-5">
+          <summary class="cursor-pointer text-lg font-semibold text-slate-900">How is SEO protected when multiple tool families share a domain?</summary>
+          <p class="mt-3 text-slate-600">The category directories prevent the domain from collapsing into one generic page. The root explains the site, the category pages explain the tool family, and the child routes stay tightly aligned to one dominant workflow.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

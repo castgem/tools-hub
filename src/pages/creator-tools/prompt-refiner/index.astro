@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PromptRefiner from '../../../components/PromptRefiner.astro';
+
+const schemaMarkup = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Prompt Refiner',
+  url: 'https://tools.example.com/creator-tools/prompt-refiner/',
+  applicationCategory: 'ProductivityApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  description: 'Turn a rough idea into a structured system prompt in Chinese or English.',
+  inLanguage: ['zh-CN', 'en'],
+});
+---
+
+<BaseLayout
+  title="Prompt Refiner — 免费 AI 提示词优化工具"
+  description="一键将简单想法转化为结构化 AI System Prompt。支持中英文，浏览器本地处理，无需登录。"
+  canonicalPath="/creator-tools/prompt-refiner/"
+  schemaMarkup={schemaMarkup}
+>
+  <section class="bg-gradient-to-br from-indigo-50 to-white py-16">
+    <div class="section-shell max-w-4xl">
+      <a href="/creator-tools/" class="text-sm font-medium text-brand-700 no-underline hover:text-brand-800">← Back to Creator Tools</a>
+      <h1 class="mt-4 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">Prompt Refiner</h1>
+      <p class="mt-4 text-lg text-slate-600">
+        把一句简单想法转化为结构化 System Prompt。这个页面适合需要快速整理角色、任务、约束、输出格式的人，不需要登录，也不需要 API。
+      </p>
+    </div>
+  </section>
+
+  <PromptRefiner />
+
+  <section class="pb-16">
+    <div class="section-shell grid gap-6 md:grid-cols-2">
+      <article class="card p-6">
+        <h2 class="text-2xl font-semibold text-slate-900">中文优先</h2>
+        <p class="mt-3 text-slate-600">这个 route 对中文和中英混合输入尤其友好，适合国内常见的 prompt 起草习惯。</p>
+      </article>
+      <article class="card p-6">
+        <h2 class="text-2xl font-semibold text-slate-900">Related tools</h2>
+        <p class="mt-3 text-slate-600"><a href="/creator-tools/writetune/" class="text-brand-700">Writetune</a> 适合在输出阶段继续处理文本语气和可读性。</p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,446 @@
+---
+---
+<section id="tool" class="py-12 sm:py-16">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 sm:p-8">
+      <div class="mb-6">
+        <label for="tone-selector" class="block text-sm font-semibold text-gray-700 mb-2">Choose tone</label>
+        <div id="tone-selector" class="flex flex-wrap gap-2" role="radiogroup" aria-label="Writing tone">
+          <button type="button" role="radio" aria-checked="true" aria-label="Standard tone" class="tone-btn active px-4 py-2 rounded-full text-sm font-medium border-2 transition-all" data-tone="standard">Standard</button>
+          <button type="button" role="radio" aria-checked="false" aria-label="Academic tone" class="tone-btn px-4 py-2 rounded-full text-sm font-medium border-2 transition-all" data-tone="academic">Academic</button>
+          <button type="button" role="radio" aria-checked="false" aria-label="Business tone" class="tone-btn px-4 py-2 rounded-full text-sm font-medium border-2 transition-all" data-tone="business">Business</button>
+          <button type="button" role="radio" aria-checked="false" aria-label="Casual tone" class="tone-btn px-4 py-2 rounded-full text-sm font-medium border-2 transition-all" data-tone="casual">Casual</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label for="input-text" class="block text-sm font-semibold text-gray-700 mb-2">Paste your AI text</label>
+          <textarea
+            id="input-text"
+            class="w-full h-48 sm:h-64 p-4 border border-gray-300 rounded-xl text-sm leading-relaxed resize-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
+            placeholder="Paste your AI-generated text here..."
+          ></textarea>
+          <div class="mt-2 flex items-center justify-between text-xs text-gray-500">
+            <span id="input-count">0 characters / 0 words</span>
+            <button type="button" id="clear-btn" class="text-gray-600 hover:text-gray-800 transition-colors">Clear</button>
+          </div>
+        </div>
+
+        <div>
+          <label for="output-text" class="block text-sm font-semibold text-gray-700 mb-2">Humanized result</label>
+          <textarea
+            id="output-text"
+            class="w-full h-48 sm:h-64 p-4 border border-gray-200 rounded-xl text-sm leading-relaxed resize-none bg-gray-50"
+            readonly
+            placeholder="Your humanized text will appear here..."
+          ></textarea>
+          <div class="mt-2 flex items-center justify-between text-xs text-gray-500">
+            <span id="output-count">0 characters / 0 words</span>
+            <button type="button" id="copy-btn" class="text-brand-600 hover:text-brand-800 font-medium transition-colors hidden">Copy to clipboard</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 flex justify-center">
+        <button
+          type="button"
+          id="humanize-btn"
+          class="px-8 py-3 bg-brand-600 text-white font-semibold rounded-xl hover:bg-brand-700 focus:ring-4 focus:ring-brand-200 transition-all text-base shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Humanize Your Text
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .tone-btn {
+    border-color: #e5e7eb;
+    color: #6b7280;
+    background: white;
+  }
+  .tone-btn:hover {
+    border-color: #d8b4fe;
+    color: #7e22ce;
+  }
+  .tone-btn.active {
+    border-color: #9333ea;
+    color: #9333ea;
+    background: #faf5ff;
+  }
+</style>
+
+<script>
+  // --- Broad synonym map: covers both AI-typical and everyday words ---
+  const synonymMap: Record<string, string[]> = {
+    // AI-typical formal words
+    'utilize': ['use', 'work with', 'rely on'],
+    'implement': ['set up', 'put in place', 'roll out'],
+    'facilitate': ['help', 'make easier', 'enable'],
+    'demonstrate': ['show', 'highlight', 'prove'],
+    'comprehensive': ['complete', 'full', 'all-around'],
+    'subsequently': ['then', 'after that', 'next'],
+    'furthermore': ['also', 'plus', 'on top of that'],
+    'nevertheless': ['still', 'even so', 'that said'],
+    'consequently': ['so', 'as a result', 'because of this'],
+    'additionally': ['also', 'plus', 'and'],
+    'significantly': ['greatly', 'a lot', 'noticeably'],
+    'approximately': ['about', 'around', 'roughly'],
+    'immediately': ['right away', 'at once', 'straight away'],
+    'particularly': ['especially', 'mainly', 'most of all'],
+    'essentially': ['basically', 'really', 'at its core'],
+    'effectively': ['well', 'in practice', 'successfully'],
+    'incorporate': ['include', 'add', 'bring in'],
+    'leverage': ['use', 'take advantage of', 'tap into'],
+    'optimize': ['improve', 'fine-tune', 'make better'],
+    'streamline': ['simplify', 'speed up', 'smooth out'],
+    'mitigate': ['reduce', 'lessen', 'cut down on'],
+    'prioritize': ['focus on', 'put first', 'zero in on'],
+    'methodology': ['method', 'approach', 'way'],
+    'delve': ['dig into', 'explore', 'look at'],
+    'crucial': ['key', 'important', 'vital'],
+    'robust': ['strong', 'solid', 'reliable'],
+    'innovative': ['new', 'fresh', 'creative'],
+    'meticulous': ['careful', 'thorough', 'detailed'],
+    // Common everyday words for broader coverage
+    'provide': ['give', 'offer', 'deliver'],
+    'obtain': ['get', 'grab', 'pick up'],
+    'require': ['need', 'call for', 'take'],
+    'assist': ['help', 'support', 'give a hand'],
+    'purchase': ['buy', 'get', 'pick up'],
+    'sufficient': ['enough', 'plenty of', 'adequate'],
+    'numerous': ['many', 'lots of', 'a bunch of'],
+    'attempt': ['try', 'go for', 'take a shot at'],
+    'commence': ['start', 'begin', 'kick off'],
+    'terminate': ['end', 'stop', 'wrap up'],
+    'indicate': ['show', 'point to', 'suggest'],
+    'determine': ['figure out', 'find out', 'decide'],
+    'establish': ['set up', 'create', 'build'],
+    'maintain': ['keep', 'hold onto', 'stick with'],
+    'achieve': ['reach', 'hit', 'pull off'],
+    'enhance': ['improve', 'boost', 'level up'],
+    'generate': ['create', 'produce', 'come up with'],
+    'select': ['choose', 'pick', 'go with'],
+    'modify': ['change', 'tweak', 'adjust'],
+    'ensure': ['make sure', 'guarantee', 'see to it that'],
+    'various': ['different', 'a range of', 'all kinds of'],
+    'however': ['but', 'though', 'then again'],
+    'therefore': ['so', 'that\'s why', 'because of that'],
+    'although': ['even though', 'while', 'despite the fact that'],
+    'regarding': ['about', 'when it comes to', 'as for'],
+    'concerning': ['about', 'around', 'related to'],
+    'typically': ['usually', 'most of the time', 'as a rule'],
+    'frequently': ['often', 'a lot', 'all the time'],
+    'occasionally': ['sometimes', 'now and then', 'once in a while'],
+    'rapidly': ['quickly', 'fast', 'in no time'],
+    'extremely': ['very', 'super', 'incredibly'],
+    'instantly': ['right away', 'in a flash', 'on the spot'],
+    'entirely': ['completely', 'fully', 'all the way'],
+    'precisely': ['exactly', 'spot-on', 'right'],
+    'capable': ['able', 'up to the task', 'equipped'],
+    'transform': ['change', 'turn into', 'reshape'],
+    'identical': ['the same', 'matching', 'alike'],
+    'individual': ['person', 'someone', 'user'],
+    'component': ['part', 'piece', 'element'],
+    'specific': ['particular', 'certain', 'exact'],
+    'appropriate': ['right', 'fitting', 'suitable'],
+    'significant': ['big', 'major', 'important'],
+    'opportunity': ['chance', 'opening', 'shot'],
+    'challenge': ['problem', 'hurdle', 'tough spot'],
+    'consider': ['think about', 'look at', 'weigh'],
+    'excellent': ['great', 'awesome', 'top-notch'],
+    'content': ['writing', 'text', 'material'],
+    'rewrite': ['rework', 'redo', 'rephrase'],
+    'natural': ['human-like', 'organic', 'authentic'],
+    'detection': ['scanning', 'checking', 'screening'],
+    'quality': ['caliber', 'standard', 'grade'],
+  };
+
+  // Phrase-level replacements (checked before word-level)
+  const phraseMap: Record<string, string[]> = {
+    'in order to': ['to', 'so you can', 'for'],
+    'due to the fact that': ['because', 'since', 'as'],
+    'at the end of the day': ['ultimately', 'in the end', 'when it comes down to it'],
+    'a wide range of': ['many', 'various', 'all sorts of'],
+    'it is important to note': ['keep in mind', 'worth noting', 'note that'],
+    'it is worth mentioning': ['also', 'notably', 'on that note'],
+    'in conclusion': ['to sum up', 'all in all', 'in short'],
+    'on the other hand': ['then again', 'but', 'at the same time'],
+    'as a result': ['so', 'because of this', 'that\'s why'],
+    'for example': ['like', 'say', 'for instance'],
+    'in addition': ['also', 'plus', 'and'],
+    'such as': ['like', 'including', 'for example'],
+    'make sure': ['be sure to', 'double-check that', 'see that'],
+    'a lot of': ['plenty of', 'tons of', 'loads of'],
+    'as well as': ['along with', 'and', 'plus'],
+    'with regard to': ['about', 'when it comes to', 'as for'],
+    'in terms of': ['when it comes to', 'for', 'as far as'],
+    'is able to': ['can', 'has the ability to', 'is capable of'],
+    'has the ability to': ['can', 'is able to', 'knows how to'],
+  };
+
+  // Contraction map
+  const contractionMap: Record<string, string> = {
+    'do not': 'don\'t', 'does not': 'doesn\'t', 'did not': 'didn\'t',
+    'is not': 'isn\'t', 'are not': 'aren\'t', 'was not': 'wasn\'t',
+    'were not': 'weren\'t', 'will not': 'won\'t', 'would not': 'wouldn\'t',
+    'could not': 'couldn\'t', 'should not': 'shouldn\'t', 'cannot': 'can\'t',
+    'can not': 'can\'t', 'have not': 'haven\'t', 'has not': 'hasn\'t',
+    'had not': 'hadn\'t', 'it is': 'it\'s', 'that is': 'that\'s',
+    'there is': 'there\'s', 'what is': 'what\'s', 'who is': 'who\'s',
+    'i am': 'I\'m', 'you are': 'you\'re', 'we are': 'we\'re',
+    'they are': 'they\'re', 'i will': 'I\'ll', 'you will': 'you\'ll',
+    'we will': 'we\'ll', 'they will': 'they\'ll', 'i have': 'I\'ve',
+    'you have': 'you\'ve', 'we have': 'we\'ve', 'they have': 'they\'ve',
+    'i would': 'I\'d', 'you would': 'you\'d', 'we would': 'we\'d',
+    'they would': 'they\'d', 'let us': 'let\'s',
+  };
+
+  const toneConfig: Record<string, {
+    fillers: string[];
+    starters: string[];
+    connectors: string[];
+    useContractions: boolean;
+    fillerRate: number;
+    starterRate: number;
+    splitRate: number;
+  }> = {
+    standard: {
+      fillers: ['actually', 'honestly', 'really', 'pretty much', 'in fact'],
+      starters: ['Look,', 'Here\'s the thing —', 'So,', 'The thing is,', 'Honestly,', 'Truth be told,'],
+      connectors: [' — and ', '. Plus, ', '. Also, ', ', and honestly '],
+      useContractions: true,
+      fillerRate: 0.35,
+      starterRate: 0.3,
+      splitRate: 0.25,
+    },
+    academic: {
+      fillers: ['notably', 'indeed', 'in particular', 'specifically', 'importantly'],
+      starters: ['It is evident that', 'Research indicates that', 'One should note that', 'Upon closer examination,', 'Importantly,'],
+      connectors: ['; moreover, ', '. In addition, ', '. Furthermore, ', '; in particular, '],
+      useContractions: false,
+      fillerRate: 0.25,
+      starterRate: 0.25,
+      splitRate: 0.15,
+    },
+    business: {
+      fillers: ['in practice', 'from our experience', 'typically', 'as a rule', 'realistically'],
+      starters: ['From a practical standpoint,', 'In practice,', 'The key takeaway here is that', 'What matters most is that', 'Bottom line —'],
+      connectors: ['. More importantly, ', '. On top of that, ', '. That said, ', ' — and crucially, '],
+      useContractions: true,
+      fillerRate: 0.3,
+      starterRate: 0.3,
+      splitRate: 0.2,
+    },
+    casual: {
+      fillers: ['like', 'basically', 'honestly', 'just', 'literally', 'pretty much', 'tbh'],
+      starters: ['So yeah,', 'Okay so,', 'Real talk —', 'Here\'s the deal:', 'Not gonna lie,', 'Honestly?', 'Look,'],
+      connectors: [' — and like, ', '. Oh and also, ', '. Plus, ', ', which is pretty cool because '],
+      useContractions: true,
+      fillerRate: 0.45,
+      starterRate: 0.4,
+      splitRate: 0.3,
+    },
+  };
+
+  function pick<T>(arr: T[]): T {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  function chance(rate: number): boolean {
+    return Math.random() < rate;
+  }
+
+  function capitalize(s: string): string {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
+  function humanizeText(text: string, tone: string): string {
+    if (!text.trim()) return '';
+
+    let result = text;
+    const cfg = toneConfig[tone] || toneConfig.standard;
+
+    // Step 1: Phrase-level replacements (longer patterns first)
+    for (const [phrase, replacements] of Object.entries(phraseMap)) {
+      const regex = new RegExp(phrase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+      result = result.replace(regex, () => pick(replacements));
+    }
+
+    // Step 2: Word-level synonym replacement
+    for (const [word, replacements] of Object.entries(synonymMap)) {
+      const regex = new RegExp(`\\b${word}\\b`, 'gi');
+      result = result.replace(regex, (match) => {
+        if (!chance(0.7)) return match; // 70% chance to replace each occurrence
+        const rep = pick(replacements);
+        return match[0] === match[0].toUpperCase() ? capitalize(rep) : rep;
+      });
+    }
+
+    // Step 3: Apply contractions (for non-academic tones)
+    if (cfg.useContractions) {
+      for (const [full, contracted] of Object.entries(contractionMap)) {
+        const regex = new RegExp(`\\b${full}\\b`, 'gi');
+        result = result.replace(regex, () => contracted);
+      }
+    }
+
+    // Step 4: Sentence-level transformations
+    const sentences = result.match(/[^.!?]+[.!?]+/g) || [result];
+    const processed: string[] = [];
+
+    for (let i = 0; i < sentences.length; i++) {
+      let s = sentences[i].trim();
+
+      // Split long sentences (>15 words) at a comma
+      if (chance(cfg.splitRate)) {
+        const words = s.split(' ');
+        if (words.length > 15) {
+          const commaIdx = s.indexOf(',', Math.floor(s.length * 0.3));
+          if (commaIdx > 10 && commaIdx < s.length - 10) {
+            const firstPart = s.slice(0, commaIdx).trim();
+            const secondPart = s.slice(commaIdx + 1).trim();
+            const ending = s.match(/[.!?]+$/)?.[0] || '.';
+            s = firstPart + ending + ' ' + capitalize(secondPart);
+          }
+        }
+      }
+
+      // Add sentence starters to some non-first sentences
+      if (i > 0 && chance(cfg.starterRate)) {
+        const starter = pick(cfg.starters);
+        // Lowercase the first char of the existing sentence
+        const body = s.charAt(0).toLowerCase() + s.slice(1);
+        s = `${starter} ${body}`;
+      }
+
+      // Insert filler words
+      if (chance(cfg.fillerRate)) {
+        const filler = pick(cfg.fillers);
+        const words = s.split(' ');
+        if (words.length > 3) {
+          // Insert after 1st-3rd word
+          const pos = Math.min(1 + Math.floor(Math.random() * 3), words.length - 1);
+          words.splice(pos, 0, filler);
+          s = words.join(' ');
+        }
+      }
+
+      // Casual: sometimes swap period for exclamation
+      if (tone === 'casual' && chance(0.2) && s.endsWith('.')) {
+        s = s.slice(0, -1) + '!';
+      }
+
+      // Occasionally merge two short sentences
+      if (i < sentences.length - 1 && chance(0.2)) {
+        const nextS = sentences[i + 1]?.trim();
+        if (nextS && s.split(' ').length < 10 && nextS.split(' ').length < 10) {
+          const connector = pick(cfg.connectors);
+          const nextBody = nextS.replace(/[.!?]+$/, '');
+          const ending = nextS.match(/[.!?]+$/)?.[0] || '.';
+          s = s.replace(/[.!?]+$/, '') + connector + nextBody.charAt(0).toLowerCase() + nextBody.slice(1) + ending;
+          i++; // skip next sentence since we merged it
+        }
+      }
+
+      processed.push(s);
+    }
+
+    // Step 5: Minor post-processing — vary spacing and clean up
+    let output = processed.join(' ');
+
+    // Remove double spaces
+    output = output.replace(/ {2,}/g, ' ');
+    // Fix capitalization after periods
+    output = output.replace(/([.!?])\s+([a-z])/g, (_, punct, char) => `${punct} ${char.toUpperCase()}`);
+
+    return output.trim();
+  }
+
+  function countWords(text: string): number {
+    return text.trim() ? text.trim().split(/\s+/).length : 0;
+  }
+
+  function updateCount(elementId: string, text: string) {
+    const el = document.getElementById(elementId);
+    if (el) {
+      el.textContent = `${text.length} characters / ${countWords(text)} words`;
+    }
+  }
+
+  // Tone selector
+  document.querySelectorAll('.tone-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tone-btn').forEach((b) => {
+        b.classList.remove('active');
+        b.setAttribute('aria-checked', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-checked', 'true');
+    });
+  });
+
+  // Input counter
+  const inputEl = document.getElementById('input-text') as HTMLTextAreaElement;
+  const outputEl = document.getElementById('output-text') as HTMLTextAreaElement;
+  const humanizeBtn = document.getElementById('humanize-btn') as HTMLButtonElement;
+  const copyBtn = document.getElementById('copy-btn') as HTMLButtonElement;
+  const clearBtn = document.getElementById('clear-btn') as HTMLButtonElement;
+
+  inputEl?.addEventListener('input', () => {
+    updateCount('input-count', inputEl.value);
+  });
+
+  // Humanize action
+  humanizeBtn?.addEventListener('click', () => {
+    const text = inputEl?.value || '';
+    if (!text.trim()) return;
+
+    const activeTone = document.querySelector('.tone-btn.active') as HTMLElement;
+    const tone = activeTone?.dataset.tone || 'standard';
+
+    humanizeBtn.disabled = true;
+    humanizeBtn.textContent = 'Humanizing...';
+
+    // Simulate brief processing delay
+    setTimeout(() => {
+      const result = humanizeText(text, tone);
+      if (outputEl) {
+        outputEl.value = result;
+        updateCount('output-count', result);
+      }
+      copyBtn?.classList.remove('hidden');
+      humanizeBtn.disabled = false;
+      humanizeBtn.textContent = 'Humanize Your Text';
+    }, 600);
+  });
+
+  // Copy to clipboard
+  copyBtn?.addEventListener('click', async () => {
+    const text = outputEl?.value || '';
+    if (!text) return;
+    try {
+      await navigator.clipboard.writeText(text);
+      const original = copyBtn.textContent;
+      copyBtn.textContent = 'Copied!';
+      setTimeout(() => {
+        copyBtn.textContent = original;
+      }, 1500);
+    } catch {
+      // Fallback
+      outputEl?.select();
+      document.execCommand('copy');
+    }
+  });
+
+  // Clear
+  clearBtn?.addEventListener('click', () => {
+    if (inputEl) inputEl.value = '';
+    if (outputEl) outputEl.value = '';
+    updateCount('input-count', '');
+    updateCount('output-count', '');
+    copyBtn?.classList.add('hidden');
+  });
+</script>

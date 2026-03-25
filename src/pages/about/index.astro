@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const schemaMarkup = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: 'About Browser Tools Hub',
+  url: 'https://tools.example.com/about/',
+});
+---
+
+<BaseLayout
+  title="About Browser Tools Hub — Shared-Domain Dev and Media Utilities"
+  description="Learn why Browser Tools Hub keeps developer tools and media tools under one shared domain with category-level routing and one trust layer."
+  canonicalPath="/about/"
+  schemaMarkup={schemaMarkup}
+>
+  <section class="py-16">
+    <div class="section-shell max-w-3xl prose-copy">
+      <h1 class="text-4xl font-extrabold tracking-tight text-slate-900">About Browser Tools Hub</h1>
+      <p>This grouped site exists to keep multiple browser-based tool families on one domain without collapsing them into one vague utility page. Instead of deploying separate microsites for every cluster, Browser Tools Hub keeps the trust layer, deployment setup, and category navigation in one place.</p>
+      <p>The first launch combines two grouped sections: <strong>Dev Tools</strong> and <strong>Media Tools</strong>. The dev side covers JSON workflows, text cleanup, regex testing, Base64 helpers, cron building, and SQL formatting. The media side covers image optimization, WebP conversion, Video to GIF workflows, and lightweight logo creation.</p>
+      <p>All routes are static, browser-first, and designed to avoid the usual problems with older utility sites: cluttered layouts, thin trust pages, and upload-heavy workflows for jobs that are practical to handle locally.</p>
+      <p>The information architecture is deliberate. The homepage explains the site-wide promise, each category page explains a tool family, and each child route owns one narrow search intent. That structure makes the site easier to deploy and easier to grow without turning the domain into a junk drawer.</p>
+      <p>For launch, the site intentionally stays limited to the strongest routes. More child pages and supporting content can be added later if the category split proves useful and the existing pages perform well.</p>
+      <h2 class="mt-8 text-2xl font-semibold text-slate-900">What the launch includes</h2>
+      <p>The current grouped launch includes the dev-tools category page, the media-tools category page, and seven child routes across those two sections. Shared About, Contact, and Privacy pages give the whole domain a cleaner trust surface than a collection of disconnected microsites.</p>
+    </div>
+  </section>
+</BaseLayout>

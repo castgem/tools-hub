@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const tools = [
+  {
+    href: '/creator-tools/social-profiler/',
+    title: 'Social Profiler',
+    description: 'Preview Google, X, Facebook, and LinkedIn cards before publishing.',
+    tag: 'Metadata QA',
+  },
+  {
+    href: '/creator-tools/xhunter/',
+    title: 'XHunter',
+    description: 'Draft threads, reuse post templates, and build smarter replies for X.',
+    tag: 'Creator workflow',
+  },
+  {
+    href: '/creator-tools/writetune/',
+    title: 'Writetune',
+    description: 'Humanize AI text with tone controls and browser-side rewriting.',
+    tag: 'AI writing',
+  },
+  {
+    href: '/creator-tools/prompt-refiner/',
+    title: 'Prompt Refiner',
+    description: 'Turn a rough idea into a structured system prompt in Chinese or English.',
+    tag: 'Prompt tools',
+  },
+];
+
+const schemaMarkup = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Creator Tools',
+  url: 'https://tools.example.com/creator-tools/',
+  description: 'Creator publishing helpers for link previews, X drafting, AI text humanization, and prompt optimization.',
+});
+---
+
+<BaseLayout
+  title="Creator Tools — Social Preview, X Drafting, Humanizer, Prompt Tools"
+  description="The creator-tools directory of Browser Tools Hub: Social Profiler, XHunter, Writetune, and Prompt Refiner."
+  canonicalPath="/creator-tools/"
+  schemaMarkup={schemaMarkup}
+>
+  <section class="overflow-hidden bg-gradient-to-br from-rose-950 via-orange-900 to-amber-700 text-white">
+    <div class="section-shell py-16 sm:py-24">
+      <div class="max-w-4xl">
+        <p class="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-sm font-medium text-orange-100">
+          Browser Tools Hub category
+        </p>
+        <h1 class="mt-6 text-4xl font-extrabold tracking-tight sm:text-6xl">
+          Creator tools for previews, posting systems, prompt design, and AI rewrite workflows
+        </h1>
+        <p class="mt-5 max-w-2xl text-lg leading-8 text-orange-100">
+          This category groups the publishing and content helpers that creators, marketers, and solo operators use before they hit publish: preview cards, X drafting, AI text cleanup, and prompt refinement.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16">
+    <div class="section-shell">
+      <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        {tools.map((tool) => (
+          <article class="card p-6">
+            <p class="text-sm font-medium text-brand-700">{tool.tag}</p>
+            <h2 class="mt-3 text-2xl font-semibold text-slate-900">{tool.title}</h2>
+            <p class="mt-3 text-slate-600">{tool.description}</p>
+            <a href={tool.href} class="mt-5 inline-flex items-center text-sm font-semibold text-brand-700 no-underline hover:text-brand-800">
+              Open route
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

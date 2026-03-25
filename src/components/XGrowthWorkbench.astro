@@ -1,0 +1,517 @@
+---
+const templates = [
+  {
+    category: 'launch',
+    name: 'Launch reveal',
+    when: 'For announcing a product, feature, or update with clarity.',
+    structure: 'Hook with the promised outcome -> why it matters now -> what changed -> who it is for -> CTA.',
+    example: 'After weeks of patchwork workflows, I built a simpler X drafting system for solo creators. Here is what it fixes and who it helps.',
+  },
+  {
+    category: 'authority',
+    name: 'Lesson thread',
+    when: 'For turning a hard-earned insight into authority content.',
+    structure: 'Bold claim -> context -> 3 practical lessons -> common mistake -> takeaway.',
+    example: 'Most creators do not need more ideas. They need a cleaner publishing system. Three lessons changed that for me.',
+  },
+  {
+    category: 'authority',
+    name: 'Case-study breakdown',
+    when: 'For sharing a result and making it teachable.',
+    structure: 'Result -> starting point -> what changed -> 3 tactical moves -> what to copy.',
+    example: 'A small workflow change doubled the number of posts I could ship each week. Here is the breakdown.',
+  },
+  {
+    category: 'story',
+    name: 'Founder story',
+    when: 'For relationship-building posts with a personal angle.',
+    structure: 'Scene -> tension -> decision -> lesson -> next chapter.',
+    example: 'I kept blaming the algorithm until I realized the real problem was my content system.',
+  },
+  {
+    category: 'engagement',
+    name: 'Contrarian take',
+    when: 'For strong opinions that invite replies without sounding combative.',
+    structure: 'Common advice -> where it fails -> your alternative -> one example -> question back to readers.',
+    example: 'Hot take: most creators should stop chasing automation and fix their drafts first.',
+  },
+  {
+    category: 'engagement',
+    name: 'Question-led post',
+    when: 'For collecting replies while signaling expertise.',
+    structure: 'Specific question -> 2 constraints -> why you are asking -> invite examples.',
+    example: 'What is one X workflow you would pay for, and what part would you still want to keep manual?',
+  },
+  {
+    category: 'education',
+    name: 'Mini framework',
+    when: 'For teaching a repeatable process in a compact way.',
+    structure: 'Name the framework -> 3 steps -> when to use it -> mistake to avoid.',
+    example: 'My 3-part thread formula: hook, proof, pull. Use it when your post has one core lesson.',
+  },
+  {
+    category: 'education',
+    name: 'Mistake / fix',
+    when: 'For content that starts with a painful error and resolves it fast.',
+    structure: 'Mistake -> why it hurts -> fix -> small example -> action step.',
+    example: 'Mistake: turning every thread into a life story. Fix: lead with the reader payoff before your context.',
+  },
+  {
+    category: 'launch',
+    name: 'Feature spotlight',
+    when: 'For introducing a single feature without writing a full launch thread.',
+    structure: 'Problem -> feature -> what changes -> who should use it -> CTA.',
+    example: 'Creators told me templates were easy to save but hard to reuse. So I built a local library that keeps the structure ready to copy.',
+  },
+];
+---
+
+<section id="workbench" class="section workbench" data-workbench>
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Interactive workbench</p>
+      <h2>XHunter Workbench</h2>
+      <p class="section-copy">
+        All three workflows run in your browser. Paste source text, shape the output, and copy the result into X when it is ready.
+      </p>
+    </div>
+
+    <div class="workbench-shell">
+      <div class="workbench-tabs" role="tablist" aria-label="XHunter tools">
+        <button class="tab-button active" type="button" role="tab" aria-selected="true" data-tab="thread">Thread Maker</button>
+        <button class="tab-button" type="button" role="tab" aria-selected="false" data-tab="templates">Template Library</button>
+        <button class="tab-button" type="button" role="tab" aria-selected="false" data-tab="reply">Reply Assistant</button>
+      </div>
+
+      <section class="tab-panel active" data-panel="thread" role="tabpanel" aria-label="Thread Maker">
+        <div class="tool-grid">
+          <div class="tool-card">
+            <div class="tool-card-head">
+              <p class="tool-kicker">01</p>
+              <h3>Turn a long-form idea into an X thread</h3>
+            </div>
+            <p class="tool-note">
+              Paste a blog excerpt, notes, or a rough idea. XHunter reshapes it into a structured thread draft using transparent browser-side heuristics.
+            </p>
+            <label class="field">
+              <span>Source text</span>
+              <textarea id="thread-source" rows="10" placeholder="Paste a blog paragraph, notes, or a rough creator insight."></textarea>
+            </label>
+            <div class="field-row">
+              <label class="field">
+                <span>Goal</span>
+                <input id="thread-goal" type="text" placeholder="Example: get more saves from creator-operators" />
+              </label>
+              <label class="field">
+                <span>Tone</span>
+                <select id="thread-tone">
+                  <option value="sharp">Sharp</option>
+                  <option value="analytical">Analytical</option>
+                  <option value="warm">Warm</option>
+                  <option value="contrarian">Contrarian</option>
+                </select>
+              </label>
+              <label class="field field-small">
+                <span>Posts</span>
+                <select id="thread-count">
+                  <option value="6">6</option>
+                  <option value="7" selected>7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                </select>
+              </label>
+            </div>
+            <div class="tool-actions">
+              <button id="thread-generate" class="button button-primary" type="button">Build thread</button>
+              <button id="thread-copy" class="button button-secondary" type="button">Copy all</button>
+            </div>
+            <p class="status-line" id="thread-status" aria-live="polite">Nothing generated yet.</p>
+          </div>
+
+          <div class="tool-card tool-output-card">
+            <div class="tool-card-head">
+              <p class="tool-kicker">Output</p>
+              <h3>Thread draft</h3>
+            </div>
+            <p class="tool-note">Each post stays compact so you can tighten, personalize, and publish faster.</p>
+            <ol id="thread-results" class="output-list">
+              <li class="placeholder-item">Your numbered thread draft will appear here.</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section class="tab-panel" data-panel="templates" role="tabpanel" aria-label="Template Library">
+        <div class="tool-card">
+          <div class="tool-card-head">
+            <p class="tool-kicker">02</p>
+            <h3>Browse proven post structures</h3>
+          </div>
+          <p class="tool-note">
+            These are reusable creator patterns, not magic formulas. Filter by goal, then copy the structure and adapt it to your point of view.
+          </p>
+
+          <div class="template-filters" role="toolbar" aria-label="Template filters">
+            <button class="filter-button active" type="button" data-filter="all">All</button>
+            <button class="filter-button" type="button" data-filter="launch">Launch</button>
+            <button class="filter-button" type="button" data-filter="authority">Authority</button>
+            <button class="filter-button" type="button" data-filter="story">Story</button>
+            <button class="filter-button" type="button" data-filter="engagement">Engagement</button>
+            <button class="filter-button" type="button" data-filter="education">Education</button>
+          </div>
+
+          <div class="template-grid">
+            {templates.map((template) => (
+              <article class="template-card" data-category={template.category}>
+                <p class="template-category">{template.category}</p>
+                <h4>{template.name}</h4>
+                <p><strong>Use it when:</strong> {template.when}</p>
+                <p><strong>Structure:</strong> {template.structure}</p>
+                <p><strong>Example:</strong> {template.example}</p>
+                <button
+                  class="button button-secondary copy-template"
+                  type="button"
+                  data-copy={`${template.name}\n\nUse it when: ${template.when}\nStructure: ${template.structure}\nExample: ${template.example}`}
+                >
+                  Copy template
+                </button>
+              </article>
+            ))}
+          </div>
+          <p class="status-line" id="template-status" aria-live="polite">Select a category or copy a template.</p>
+        </div>
+      </section>
+
+      <section class="tab-panel" data-panel="reply" role="tabpanel" aria-label="Reply Assistant">
+        <div class="tool-grid">
+          <div class="tool-card">
+            <div class="tool-card-head">
+              <p class="tool-kicker">03</p>
+              <h3>Draft stronger engagement replies</h3>
+            </div>
+            <p class="tool-note">
+              Paste the post you want to respond to. XHunter will suggest multiple reply angles so you can add value instead of writing generic agreement.
+            </p>
+            <label class="field">
+              <span>Target post</span>
+              <textarea id="reply-source" rows="9" placeholder="Paste the post or the main point you want to reply to."></textarea>
+            </label>
+            <div class="field-row">
+              <label class="field">
+                <span>Your angle</span>
+                <input id="reply-angle" type="text" placeholder="Example: solo creator workflows, founder lessons, audience research" />
+              </label>
+              <label class="field">
+                <span>Style</span>
+                <select id="reply-style">
+                  <option value="add_value">Add value</option>
+                  <option value="question">Ask a smart question</option>
+                  <option value="agreement">Agree and extend</option>
+                  <option value="contrarian">Respectful pushback</option>
+                </select>
+              </label>
+            </div>
+            <div class="tool-actions">
+              <button id="reply-generate" class="button button-primary" type="button">Draft replies</button>
+            </div>
+            <p class="status-line" id="reply-status" aria-live="polite">No replies generated yet.</p>
+          </div>
+
+          <div class="tool-card tool-output-card">
+            <div class="tool-card-head">
+              <p class="tool-kicker">Output</p>
+              <h3>Reply angles</h3>
+            </div>
+            <div id="reply-results" class="reply-results">
+              <p class="placeholder-item">Your reply options will appear here.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
+
+<script>
+  (() => {
+    const root = document.querySelector('[data-workbench]');
+    if (!root) return;
+
+    const tabs = [...root.querySelectorAll('[data-tab]')];
+    const panels = [...root.querySelectorAll('[data-panel]')];
+
+    const setTab = (name) => {
+      tabs.forEach((tab) => {
+        const active = tab.dataset.tab === name;
+        tab.classList.toggle('active', active);
+        tab.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+
+      panels.forEach((panel) => {
+        panel.classList.toggle('active', panel.dataset.panel === name);
+      });
+    };
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => setTab(tab.dataset.tab));
+    });
+
+    const safeText = (value) => value.replace(/\s+/g, ' ').trim();
+
+    const clip = async (text, statusNode, successMessage) => {
+      if (!text) {
+        if (statusNode) statusNode.textContent = 'Nothing to copy yet.';
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(text);
+        if (statusNode) statusNode.textContent = successMessage;
+      } catch {
+        if (statusNode) statusNode.textContent = 'Copy failed. Select the text manually.';
+      }
+    };
+
+    const fitPost = (prefix, body) => {
+      const limit = 278 - prefix.length;
+      const clean = safeText(body);
+      if (clean.length <= limit) return clean;
+
+      const trimmed = clean.slice(0, Math.max(0, limit - 1));
+      const cut = trimmed.lastIndexOf(' ');
+      return `${(cut > 80 ? trimmed.slice(0, cut) : trimmed).trim()}…`;
+    };
+
+    const splitSource = (text) =>
+      text
+        .split(/\n+/)
+        .flatMap((line) => line.split(/(?<=[.!?。！？])\s+/))
+        .map((line) => safeText(line.replace(/^[-*]\s*/, '')))
+        .filter(Boolean);
+
+    const summarizeTopic = (text) => {
+      const clean = safeText(text);
+      if (!clean) return 'your idea';
+      const compact = clean.replace(/[.?!。！？].*$/, '');
+      return compact.slice(0, 72).trim();
+    };
+
+    const threadSource = root.querySelector('#thread-source');
+    const threadGoal = root.querySelector('#thread-goal');
+    const threadTone = root.querySelector('#thread-tone');
+    const threadCount = root.querySelector('#thread-count');
+    const threadGenerate = root.querySelector('#thread-generate');
+    const threadCopy = root.querySelector('#thread-copy');
+    const threadStatus = root.querySelector('#thread-status');
+    const threadResults = root.querySelector('#thread-results');
+    let lastThread = '';
+
+    const renderThread = (posts) => {
+      threadResults.innerHTML = '';
+
+      posts.forEach((post, index) => {
+        const li = document.createElement('li');
+        li.className = 'output-item';
+
+        const head = document.createElement('div');
+        head.className = 'output-item-head';
+
+        const label = document.createElement('strong');
+        label.textContent = `Post ${index + 1}`;
+
+        const chars = document.createElement('span');
+        chars.className = 'output-count';
+        chars.textContent = `${post.length} chars`;
+
+        head.append(label, chars);
+
+        const body = document.createElement('p');
+        body.textContent = post;
+
+        li.append(head, body);
+        threadResults.append(li);
+      });
+    };
+
+    const buildThread = () => {
+      const source = threadSource.value.trim();
+      const goal = threadGoal.value.trim();
+      const tone = threadTone.value;
+      const count = Number(threadCount.value) || 7;
+
+      if (!source) {
+        threadStatus.textContent = 'Paste source text first.';
+        return;
+      }
+
+      const chunks = splitSource(source);
+      const topic = summarizeTopic(goal || chunks[0] || source);
+
+      const hooks = {
+        sharp: `If you want better X posts without more busywork, use this ${count}-post draft on ${topic}.`,
+        analytical: `Here is a ${count}-post X thread structure you can use to turn ${topic} into a clearer argument.`,
+        warm: `If ${topic} matters to your audience, here is a simple ${count}-post thread you can build from it.`,
+        contrarian: `Most creators overcomplicate threads. Here is the cleaner ${count}-post version for ${topic}.`,
+      };
+
+      const toneLine = {
+        sharp: 'Lead with the payoff before your context.',
+        analytical: 'Break the idea into one promise, a few proof points, and one clear takeaway.',
+        warm: 'Keep the thread useful and conversational, not performative.',
+        contrarian: 'Challenge the default advice, then explain what works better.',
+      };
+
+      const posts = [
+        hooks[tone],
+        `Core angle: ${goal || `help creators understand ${topic}`}. ${toneLine[tone]}`,
+      ];
+
+      const sourceBullets = chunks.slice(0, Math.max(2, count - 3));
+
+      sourceBullets.forEach((chunk, index) => {
+        const cleaned = safeText(chunk);
+        if (!cleaned) return;
+
+        const prefaces = [
+          'Start here:',
+          'Then make this concrete:',
+          'Add proof:',
+          'Give one example:',
+          'Name the mistake:',
+          'Close the gap:',
+        ];
+
+        posts.push(`${prefaces[index] || 'Keep it specific:'} ${cleaned}`);
+      });
+
+      while (posts.length < count - 1) {
+        posts.push(`Keep each post focused on one move. If a sentence does not earn the scroll, cut it.`);
+      }
+
+      posts.push(`If this is useful, rewrite your next X thread with one hook, three proof points, and one direct CTA.`);
+
+      const numberedPosts = posts.slice(0, count).map((post, index, list) => {
+        const prefix = `${index + 1}/${list.length} `;
+        return `${prefix}${fitPost(prefix, post)}`;
+      });
+
+      lastThread = numberedPosts.join('\n\n');
+      renderThread(numberedPosts);
+      threadStatus.textContent = 'Thread draft generated. Review and tighten before publishing.';
+    };
+
+    threadGenerate?.addEventListener('click', buildThread);
+    threadCopy?.addEventListener('click', () => clip(lastThread, threadStatus, 'Thread copied to clipboard.'));
+
+    const filterButtons = [...root.querySelectorAll('[data-filter]')];
+    const templateCards = [...root.querySelectorAll('.template-card')];
+    const templateStatus = root.querySelector('#template-status');
+
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const filter = button.dataset.filter;
+
+        filterButtons.forEach((item) => item.classList.toggle('active', item === button));
+        templateCards.forEach((card) => {
+          const visible = filter === 'all' || card.dataset.category === filter;
+          card.hidden = !visible;
+        });
+
+        templateStatus.textContent = filter === 'all'
+          ? 'Showing all template patterns.'
+          : `Showing ${filter} templates.`;
+      });
+    });
+
+    root.querySelectorAll('.copy-template').forEach((button) => {
+      button.addEventListener('click', async () => {
+        await clip(button.dataset.copy || '', templateStatus, 'Template copied to clipboard.');
+      });
+    });
+
+    const replySource = root.querySelector('#reply-source');
+    const replyAngle = root.querySelector('#reply-angle');
+    const replyStyle = root.querySelector('#reply-style');
+    const replyGenerate = root.querySelector('#reply-generate');
+    const replyStatus = root.querySelector('#reply-status');
+    const replyResults = root.querySelector('#reply-results');
+
+    const renderReplies = (items) => {
+      replyResults.innerHTML = '';
+
+      items.forEach((reply, index) => {
+        const card = document.createElement('article');
+        card.className = 'reply-card';
+
+        const top = document.createElement('div');
+        top.className = 'output-item-head';
+
+        const title = document.createElement('strong');
+        title.textContent = `Reply ${index + 1}`;
+
+        const chars = document.createElement('span');
+        chars.className = 'output-count';
+        chars.textContent = `${reply.length} chars`;
+
+        top.append(title, chars);
+
+        const body = document.createElement('p');
+        body.textContent = reply;
+
+        const copy = document.createElement('button');
+        copy.type = 'button';
+        copy.className = 'button button-secondary';
+        copy.textContent = 'Copy reply';
+        copy.addEventListener('click', () => clip(reply, replyStatus, 'Reply copied to clipboard.'));
+
+        card.append(top, body, copy);
+        replyResults.append(card);
+      });
+    };
+
+    const buildReplies = () => {
+      const source = replySource.value.trim();
+      const angle = safeText(replyAngle.value || 'a creator workflow angle');
+      const style = replyStyle.value;
+
+      if (!source) {
+        replyStatus.textContent = 'Paste the post you want to reply to first.';
+        return;
+      }
+
+      const topic = summarizeTopic(source);
+      const styles = {
+        add_value: [
+          `Strong point. One layer I would add for creators is ${angle}. That is usually where the workflow either compounds or breaks.`,
+          `This resonates. The missing layer for most people is ${angle}, because that is what turns a good idea into a repeatable posting habit.`,
+          `Agreed. I would push one step further: make ${angle} visible in the post itself so readers can apply the idea fast.`,
+          `Useful framing. I think ${angle} is the practical bridge between hearing this advice and actually shipping posts with it.`,
+        ],
+        question: [
+          `Curious how you think about ${angle} when the audience is early-stage creators and not full-time operators.`,
+          `Good point. What changes in your view when ${topic.toLowerCase()} has to fit a solo-creator workflow with almost no extra time?`,
+          `I like this. How would you pressure-test it through the lens of ${angle} instead of pure reach?`,
+          `What would you keep manual here if the goal was better thinking, not just more output? That is where ${angle} gets interesting to me.`,
+        ],
+        agreement: [
+          `Yes. The part I would underline is ${angle}. That is usually the difference between content that sounds smart and content that gets used.`,
+          `Completely agree. ${angle} is what makes this practical for solo creators who need a workflow, not another theory.`,
+          `This is right. I would only add that ${angle} should show up before the CTA, otherwise the post stays abstract.`,
+          `Well said. The strongest extension is ${angle}, because that is where readers decide whether the advice is actionable.`,
+        ],
+        contrarian: [
+          `Mostly agree, but I think creators overweight scale and underweight ${angle}. Better drafts usually beat more automation early on.`,
+          `I would push back on one piece: ${topic.toLowerCase()} matters less than the consistency of ${angle} when you are still building signal.`,
+          `My only disagreement is that this sounds easier to automate than it is. ${angle} still needs human judgment if you want real replies.`,
+          `Good take overall. I just think the stronger lever for small creators is ${angle}, not adding more tooling around the edges.`,
+        ],
+      };
+
+      const replies = styles[style].map((reply) => fitPost('', reply).trim());
+      renderReplies(replies);
+      replyStatus.textContent = 'Reply options generated. Pick one and personalize it before posting.';
+    };
+
+    replyGenerate?.addEventListener('click', buildReplies);
+  })();
+</script>

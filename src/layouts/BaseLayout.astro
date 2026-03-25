@@ -1,0 +1,116 @@
+---
+import '../styles/global.css';
+
+interface NavLink {
+  href: string;
+  label: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  ogImage?: string;
+  schemaMarkup?: string;
+  navLinks?: NavLink[];
+}
+
+const {
+  title,
+  description,
+  canonicalPath = '/',
+  ogImage = '/og-image.svg',
+  schemaMarkup,
+  navLinks = [
+    { href: '/dev-tools/', label: 'Dev Tools' },
+    { href: '/media-tools/', label: 'Media Tools' },
+    { href: '/creator-tools/', label: 'Creator Tools' },
+    { href: '/document-tools/', label: 'Document Tools' },
+    { href: '/about/', label: 'About' },
+  ],
+} = Astro.props;
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://tools.example.com';
+const normalizedPath = canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath}`;
+const canonical = `${siteUrl}${normalizedPath === '/' ? '/' : `${normalizedPath.replace(/\/$/, '')}/`}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${siteUrl}${ogImage}`} />
+    <meta property="og:site_name" content="Browser Tools Hub" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
+    <meta name="robots" content="index,follow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    {schemaMarkup && <script type="application/ld+json" set:html={schemaMarkup} />}
+  </head>
+  <body class="min-h-screen">
+    <header class="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
+      <div class="section-shell flex h-16 items-center justify-between">
+        <a href="/" class="flex items-center gap-3 font-semibold text-slate-900 no-underline">
+          <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-brand-600 text-white shadow-sm">BT</span>
+          <span>
+            <span class="block text-base leading-none">Browser Tools Hub</span>
+            <span class="block text-xs font-normal text-slate-500">Dev and media tools that run in the browser</span>
+          </span>
+        </a>
+        <nav class="hidden items-center gap-5 text-sm font-medium md:flex">
+          {navLinks.map((link) => (
+            <a href={link.href} class="text-slate-600 no-underline transition-colors hover:text-brand-700">{link.label}</a>
+          ))}
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="mt-16 border-t border-slate-200 bg-white">
+      <div class="section-shell py-10">
+        <div class="grid gap-8 md:grid-cols-3">
+          <div>
+            <h2 class="text-base font-semibold text-slate-900">Browser Tools Hub</h2>
+            <p class="mt-3 text-sm leading-6 text-slate-600">
+              One shared domain for developer and media utilities, with each tool family kept under its own clean category route.
+            </p>
+          </div>
+          <div>
+            <h2 class="text-base font-semibold text-slate-900">Categories</h2>
+            <ul class="mt-3 space-y-2 text-sm text-slate-600">
+              <li><a href="/dev-tools/" class="hover:text-brand-700">Dev Tools</a></li>
+              <li><a href="/media-tools/" class="hover:text-brand-700">Media Tools</a></li>
+              <li><a href="/creator-tools/" class="hover:text-brand-700">Creator Tools</a></li>
+              <li><a href="/document-tools/" class="hover:text-brand-700">Document Tools</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2 class="text-base font-semibold text-slate-900">Trust</h2>
+            <ul class="mt-3 space-y-2 text-sm text-slate-600">
+              <li><a href="/about/" class="hover:text-brand-700">About Us</a></li>
+              <li><a href="/contact/" class="hover:text-brand-700">Contact Us</a></li>
+              <li><a href="/privacy/" class="hover:text-brand-700">Privacy Policy</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-8 border-t border-slate-100 pt-6 text-sm text-slate-500">
+          <p>Built for grouped-site testing inside the cc-longtail-workspace. Final production domain and support inbox still require maintainer input before launch.</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

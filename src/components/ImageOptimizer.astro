@@ -1,0 +1,494 @@
+---
+/* No server-side logic — all interactivity is client-side via <script> */
+---
+
+<section class="section" id="optimizer">
+  <div class="container">
+    <h2 class="visually-hidden">Image Optimizer Tool</h2>
+    <image-optimizer>
+      <!-- Upload area -->
+      <div class="opt-upload" id="opt-drop-zone" role="button" tabindex="0" aria-labelledby="opt-drop-label">
+        <div class="opt-upload__content">
+          <span class="opt-upload__icon" aria-hidden="true">&#128247;</span>
+          <p class="opt-upload__text" id="opt-drop-label"><strong>Drag and drop images here</strong></p>
+          <p class="text-sm text-gray">or click to browse. Accepts JPEG, PNG, WebP, GIF.</p>
+        </div>
+        <label for="opt-file-input" class="visually-hidden">Select image files to optimize</label>
+        <input type="file" id="opt-file-input" accept="image/jpeg,image/png,image/webp,image/gif" multiple class="visually-hidden" />
+      </div>
+
+      <!-- Settings panel (hidden until images are loaded) -->
+      <div class="opt-settings" id="opt-settings" hidden>
+        <div class="opt-settings__row">
+          <div class="opt-settings__field">
+            <label for="opt-format">Output Format</label>
+            <select id="opt-format">
+              <option value="image/webp">WebP</option>
+              <option value="image/jpeg">JPEG</option>
+              <option value="image/png">PNG</option>
+            </select>
+          </div>
+          <div class="opt-settings__field">
+            <label for="opt-quality">Quality: <span id="opt-quality-val">80</span>%</label>
+            <input type="range" id="opt-quality" min="1" max="100" value="80" />
+          </div>
+        </div>
+        <div class="opt-settings__row">
+          <div class="opt-settings__field">
+            <label for="opt-resize-mode">Resize</label>
+            <select id="opt-resize-mode">
+              <option value="none">No Resize</option>
+              <option value="percentage">By Percentage</option>
+              <option value="dimensions">By Dimensions</option>
+            </select>
+          </div>
+          <div class="opt-settings__field opt-resize-pct" id="opt-resize-pct-wrap" hidden>
+            <label for="opt-resize-pct">Scale: <span id="opt-pct-val">50</span>%</label>
+            <input type="range" id="opt-resize-pct" min="5" max="100" value="50" />
+          </div>
+          <div class="opt-settings__field opt-resize-dims" id="opt-resize-dims-wrap" hidden>
+            <span class="opt-settings__field-label" aria-hidden="true">Max Width &times; Height (px)</span>
+            <div class="opt-dims-inputs">
+              <label for="opt-max-w" class="visually-hidden">Max width in pixels</label>
+              <input type="number" id="opt-max-w" placeholder="Width" min="1" max="10000" aria-label="Max width in pixels" />
+              <span aria-hidden="true">&times;</span>
+              <label for="opt-max-h" class="visually-hidden">Max height in pixels</label>
+              <input type="number" id="opt-max-h" placeholder="Height" min="1" max="10000" aria-label="Max height in pixels" />
+            </div>
+          </div>
+        </div>
+        <div class="opt-settings__actions">
+          <button class="btn btn--primary" id="opt-process-btn" type="button">Optimize All</button>
+          <button class="btn btn--secondary" id="opt-clear-btn" type="button">Clear All</button>
+        </div>
+      </div>
+
+      <!-- Results list -->
+      <div id="opt-results" class="opt-results" hidden>
+        <div class="opt-results__header">
+          <h3>Results</h3>
+          <button class="btn btn--success btn--sm" id="opt-zip-btn" type="button">Download All as ZIP</button>
+        </div>
+        <ul id="opt-results-list" class="opt-results__list" role="list"></ul>
+        <p id="opt-summary" class="opt-summary text-center text-sm text-gray"></p>
+      </div>
+
+      <!-- Processing indicator -->
+      <p id="opt-status" class="text-center text-sm text-gray mt-2" aria-live="polite" hidden></p>
+    </image-optimizer>
+  </div>
+</section>
+
+<script>
+  class ImageOptimizerElement extends HTMLElement {
+    constructor() {
+      super();
+      this.files = [];
+      this.results = [];
+    }
+
+    connectedCallback() {
+      this.dropZone = this.querySelector('#opt-drop-zone');
+      this.fileInput = this.querySelector('#opt-file-input');
+      this.settingsPanel = this.querySelector('#opt-settings');
+      this.resultsPanel = this.querySelector('#opt-results');
+      this.resultsList = this.querySelector('#opt-results-list');
+      this.statusEl = this.querySelector('#opt-status');
+      this.summaryEl = this.querySelector('#opt-summary');
+      this.formatSelect = this.querySelector('#opt-format');
+      this.qualitySlider = this.querySelector('#opt-quality');
+      this.qualityVal = this.querySelector('#opt-quality-val');
+      this.resizeMode = this.querySelector('#opt-resize-mode');
+      this.pctWrap = this.querySelector('#opt-resize-pct-wrap');
+      this.dimsWrap = this.querySelector('#opt-resize-dims-wrap');
+      this.pctSlider = this.querySelector('#opt-resize-pct');
+      this.pctVal = this.querySelector('#opt-pct-val');
+      this.maxW = this.querySelector('#opt-max-w');
+      this.maxH = this.querySelector('#opt-max-h');
+      this.processBtn = this.querySelector('#opt-process-btn');
+      this.clearBtn = this.querySelector('#opt-clear-btn');
+      this.zipBtn = this.querySelector('#opt-zip-btn');
+
+      this.bindEvents();
+    }
+
+    bindEvents() {
+      // Drop zone
+      this.dropZone.addEventListener('click', () => this.fileInput.click());
+      this.dropZone.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.fileInput.click(); }
+      });
+      this.dropZone.addEventListener('dragover', (e) => { e.preventDefault(); this.dropZone.classList.add('opt-upload--active'); });
+      this.dropZone.addEventListener('dragleave', () => this.dropZone.classList.remove('opt-upload--active'));
+      this.dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        this.dropZone.classList.remove('opt-upload--active');
+        if (e.dataTransfer?.files) this.addFiles(e.dataTransfer.files);
+      });
+      this.fileInput.addEventListener('change', () => {
+        if (this.fileInput.files) this.addFiles(this.fileInput.files);
+      });
+
+      // Settings
+      this.qualitySlider.addEventListener('input', () => { this.qualityVal.textContent = this.qualitySlider.value; });
+      this.pctSlider.addEventListener('input', () => { this.pctVal.textContent = this.pctSlider.value; });
+      this.resizeMode.addEventListener('change', () => this.updateResizeUI());
+
+      // Actions
+      this.processBtn.addEventListener('click', () => this.processAll());
+      this.clearBtn.addEventListener('click', () => this.clearAll());
+      this.zipBtn.addEventListener('click', () => this.downloadZip());
+    }
+
+    addFiles(fileList) {
+      const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+      for (const f of fileList) {
+        if (validTypes.includes(f.type)) this.files.push(f);
+      }
+      if (this.files.length > 0) {
+        this.settingsPanel.hidden = false;
+        this.dropZone.querySelector('.opt-upload__text').innerHTML =
+          '<strong>' + this.files.length + ' image' + (this.files.length > 1 ? 's' : '') + ' selected</strong>';
+      this.dropZone.querySelector('.opt-upload__sub')?.remove();
+      }
+    }
+
+    updateResizeUI() {
+      const mode = this.resizeMode.value;
+      this.pctWrap.hidden = mode !== 'percentage';
+      this.dimsWrap.hidden = mode !== 'dimensions';
+    }
+
+    async processAll() {
+      if (this.files.length === 0) return;
+
+      this.processBtn.disabled = true;
+      this.statusEl.hidden = false;
+      this.statusEl.textContent = 'Processing images...';
+      this.results = [];
+      this.resultsList.innerHTML = '';
+      this.resultsPanel.hidden = true;
+
+      const format = this.formatSelect.value;
+      const quality = parseInt(this.qualitySlider.value, 10) / 100;
+      const resizeMode = this.resizeMode.value;
+      const pct = parseInt(this.pctSlider.value, 10) / 100;
+      const maxW = parseInt(this.maxW.value, 10) || 0;
+      const maxH = parseInt(this.maxH.value, 10) || 0;
+
+      for (let i = 0; i < this.files.length; i++) {
+        this.statusEl.textContent = 'Processing ' + (i + 1) + ' of ' + this.files.length + '...';
+        try {
+          const result = await this.processImage(this.files[i], format, quality, resizeMode, pct, maxW, maxH);
+          this.results.push(result);
+          this.renderResult(result);
+        } catch (err) {
+          console.error('Failed to process', this.files[i].name, err);
+        }
+      }
+
+      this.statusEl.hidden = true;
+      this.resultsPanel.hidden = false;
+      this.processBtn.disabled = false;
+
+      // Summary
+      const totalOrig = this.results.reduce((s, r) => s + r.originalSize, 0);
+      const totalNew = this.results.reduce((s, r) => s + r.newSize, 0);
+      const saved = totalOrig - totalNew;
+      const pctSaved = totalOrig > 0 ? Math.round((saved / totalOrig) * 100) : 0;
+      this.summaryEl.textContent =
+        'Total saved: ' + this.formatBytes(saved) + ' (' + pctSaved + '% reduction across ' + this.results.length + ' image' + (this.results.length > 1 ? 's' : '') + ')';
+    }
+
+    processImage(file, format, quality, resizeMode, pct, maxW, maxH) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        const url = URL.createObjectURL(file);
+        img.onload = () => {
+          URL.revokeObjectURL(url);
+          let w = img.naturalWidth;
+          let h = img.naturalHeight;
+
+          if (resizeMode === 'percentage') {
+            w = Math.round(w * pct);
+            h = Math.round(h * pct);
+          } else if (resizeMode === 'dimensions' && (maxW > 0 || maxH > 0)) {
+            const targetW = maxW > 0 ? maxW : Infinity;
+            const targetH = maxH > 0 ? maxH : Infinity;
+            const ratio = Math.min(targetW / w, targetH / h, 1);
+            w = Math.round(w * ratio);
+            h = Math.round(h * ratio);
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+
+          const useQuality = format === 'image/png' ? undefined : quality;
+          canvas.toBlob((blob) => {
+            if (!blob) { reject(new Error('toBlob failed')); return; }
+            const ext = format === 'image/jpeg' ? '.jpg' : format === 'image/png' ? '.png' : '.webp';
+            const baseName = file.name.replace(/\.[^.]+$/, '');
+            resolve({
+              originalName: file.name,
+              originalSize: file.size,
+              originalWidth: img.naturalWidth,
+              originalHeight: img.naturalHeight,
+              newSize: blob.size,
+              newWidth: w,
+              newHeight: h,
+              blob,
+              fileName: baseName + '-optimized' + ext,
+            });
+          }, format, useQuality);
+        };
+        img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Image load failed')); };
+        img.src = url;
+      });
+    }
+
+    renderResult(r) {
+      const li = document.createElement('li');
+      li.className = 'opt-result-item card';
+      const reduction = r.originalSize > 0 ? Math.round(((r.originalSize - r.newSize) / r.originalSize) * 100) : 0;
+      const sign = reduction >= 0 ? '' : '+';
+
+      li.innerHTML =
+        '<div class="opt-result-item__info">' +
+          '<p class="opt-result-item__name"><strong>' + this.escapeHtml(r.originalName) + '</strong></p>' +
+          '<p class="text-sm text-gray">' +
+            this.formatBytes(r.originalSize) + ' (' + r.originalWidth + '&times;' + r.originalHeight + ')' +
+            ' &rarr; ' +
+            this.formatBytes(r.newSize) + ' (' + r.newWidth + '&times;' + r.newHeight + ')' +
+          '</p>' +
+          '<p class="opt-result-item__savings text-sm"><strong>' + sign + reduction + '% smaller</strong></p>' +
+        '</div>' +
+        '<button class="btn btn--primary btn--sm opt-result-item__dl" type="button">Download</button>';
+
+      li.querySelector('.opt-result-item__dl').addEventListener('click', () => this.downloadBlob(r.blob, r.fileName));
+      this.resultsList.appendChild(li);
+    }
+
+    downloadBlob(blob, name) {
+      const a = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      a.href = url;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    async downloadZip() {
+      if (this.results.length === 0) return;
+      this.zipBtn.disabled = true;
+      this.zipBtn.textContent = 'Creating ZIP...';
+
+      try {
+        const JSZip = (await import('https://cdn.jsdelivr.net/npm/jszip@3/dist/jszip.min.js')).default
+          || (await this.loadJSZip());
+        const zip = new JSZip();
+        for (const r of this.results) {
+          zip.file(r.fileName, r.blob);
+        }
+        const content = await zip.generateAsync({ type: 'blob' });
+        this.downloadBlob(content, 'optimized-images.zip');
+      } catch {
+        // Fallback: try global JSZip loaded via script tag
+        try {
+          await this.ensureJSZipGlobal();
+          const zip = new window.JSZip();
+          for (const r of this.results) {
+            zip.file(r.fileName, r.blob);
+          }
+          const content = await zip.generateAsync({ type: 'blob' });
+          this.downloadBlob(content, 'optimized-images.zip');
+        } catch (err2) {
+          console.error('ZIP download failed', err2);
+          alert('ZIP download failed. Please download images individually.');
+        }
+      }
+
+      this.zipBtn.disabled = false;
+      this.zipBtn.textContent = 'Download All as ZIP';
+    }
+
+    ensureJSZipGlobal() {
+      if (window.JSZip) return Promise.resolve();
+      return new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/jszip@3/dist/jszip.min.js';
+        s.onload = resolve;
+        s.onerror = reject;
+        document.head.appendChild(s);
+      });
+    }
+
+    clearAll() {
+      this.files = [];
+      this.results = [];
+      this.resultsList.innerHTML = '';
+      this.settingsPanel.hidden = true;
+      this.resultsPanel.hidden = true;
+      this.statusEl.hidden = true;
+      this.summaryEl.textContent = '';
+      this.fileInput.value = '';
+      this.dropZone.querySelector('.opt-upload__text').innerHTML = '<strong>Drag and drop images here</strong>';
+    }
+
+    formatBytes(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / 1048576).toFixed(2) + ' MB';
+    }
+
+    escapeHtml(str) {
+      const d = document.createElement('div');
+      d.textContent = str;
+      return d.innerHTML;
+    }
+  }
+
+  customElements.define('image-optimizer', ImageOptimizerElement);
+</script>
+
+<style>
+  /* Upload zone */
+  .opt-upload {
+    border: 2px dashed var(--color-gray-300);
+    border-radius: var(--radius-lg);
+    padding: 3rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    background: var(--color-gray-50);
+  }
+
+  .opt-upload:hover,
+  .opt-upload--active {
+    border-color: var(--color-primary);
+    background: var(--color-primary-light);
+  }
+
+  .opt-upload__icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .opt-upload__text {
+    margin-bottom: 0.25rem;
+  }
+
+  /* Settings */
+  .opt-settings {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-lg);
+  }
+
+  .opt-settings__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .opt-settings__field {
+    flex: 1 1 200px;
+  }
+
+  .opt-settings__field label,
+  .opt-settings__field-label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.875rem;
+    margin-bottom: 0.375rem;
+    color: var(--color-gray-700);
+  }
+
+  .opt-settings__field select,
+  .opt-settings__field input[type="number"] {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9375rem;
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius);
+    background: var(--color-white);
+  }
+
+  .opt-settings__field input[type="range"] {
+    width: 100%;
+    margin-top: 0.25rem;
+  }
+
+  .opt-dims-inputs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .opt-dims-inputs input {
+    width: 100%;
+    flex: 1;
+  }
+
+  .opt-settings__actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  /* Results */
+  .opt-results {
+    margin-top: 2rem;
+  }
+
+  .opt-results__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .opt-results__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .opt-result-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .opt-result-item__info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .opt-result-item__name {
+    margin-bottom: 0.125rem;
+    word-break: break-all;
+  }
+
+  .opt-result-item__savings {
+    color: var(--color-success);
+    margin-bottom: 0;
+  }
+
+  .opt-summary {
+    margin-top: 1rem;
+  }
+</style>

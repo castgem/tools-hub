@@ -1,0 +1,159 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const tools = [
+  {
+    href: '/dev-tools/json-convertor/',
+    title: 'JSON Convertor',
+    description: 'Format, validate, generate TypeScript, convert curl commands, and inspect JWT payloads in one route.',
+    tag: 'API debugging',
+    cta: 'Open JSON Convertor',
+  },
+  {
+    href: '/dev-tools/text-formatter/',
+    title: 'Text Formatter',
+    description: 'Clean text, convert case, encode values, remove duplicates, and count words without switching tools.',
+    tag: 'Text operations',
+    cta: 'Open Text Formatter',
+  },
+  {
+    href: '/dev-tools/modern-devbox/',
+    title: 'Modern DevBox',
+    description: 'A CyberChef alternative with regex testing, Base64 encode/decode, cron building, and SQL formatting.',
+    tag: 'Micro dev tools',
+    cta: 'Open Modern DevBox',
+  },
+];
+
+const schemaMarkup = JSON.stringify([
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Dev Tools',
+    url: 'https://tools.example.com/dev-tools/',
+    description: 'Browser-based developer utilities for JSON editing, text formatting, regex testing, cron building, encoding, and SQL formatting.',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What kind of tools are included in the Dev Tools section?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The current dev-tools directory includes JSON Convertor, Text Formatter, and Modern DevBox. Together they cover JSON workflows, text cleanup, regex, Base64, cron, and SQL formatting.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Why group these developer tools under one domain?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Developers often need multiple quick browser utilities in the same session. Grouping them under one domain preserves trust, navigation, and internal linking while still keeping each child page focused on one main intent.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Do these tools upload data to a server?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No. The dev-tools section is designed around browser-based processing, so JSON, text, regex, SQL, and token data stay in your browser during launch.',
+        },
+      },
+    ],
+  },
+]);
+---
+
+<BaseLayout
+  title="Dev Tools — JSON, Text, Regex, Cron, and SQL Browser Utilities"
+  description="The developer-tools directory of Browser Tools Hub: JSON Convertor, Text Formatter, and Modern DevBox, all kept as separate high-intent routes."
+  canonicalPath="/dev-tools/"
+  schemaMarkup={schemaMarkup}
+>
+  <section class="overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-brand-900 text-white">
+    <div class="section-shell py-16 sm:py-24">
+      <div class="max-w-4xl">
+        <p class="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-sm font-medium text-brand-100">
+          Browser Tools Hub category
+        </p>
+        <h1 class="mt-6 text-4xl font-extrabold tracking-tight sm:text-6xl">
+          Developer utilities for JSON work, text cleanup, regex testing, and quick formatting jobs
+        </h1>
+        <p class="mt-5 max-w-2xl text-lg leading-8 text-slate-200">
+          This category groups the developer workflows that naturally belong together on one domain: API payload cleanup, general text transformation, and quick micro-tool jobs like regex, Base64, cron, and SQL formatting.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="#featured-tools" class="inline-flex items-center rounded-xl bg-white px-5 py-3 font-semibold text-slate-900 no-underline hover:bg-slate-100">
+            Explore tools
+          </a>
+          <a href="/" class="inline-flex items-center rounded-xl border border-white/20 px-5 py-3 font-semibold text-white no-underline hover:bg-white/10">
+            Back to all categories
+          </a>
+        </div>
+        <div class="mt-6 flex flex-wrap gap-3 text-sm text-slate-200">
+          <span class="rounded-full border border-white/15 px-3 py-1">No signup</span>
+          <span class="rounded-full border border-white/15 px-3 py-1">Browser-only processing</span>
+          <span class="rounded-full border border-white/15 px-3 py-1">Shared domain, clear child routes</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="featured-tools" class="py-16">
+    <div class="section-shell">
+      <div class="max-w-3xl">
+        <h2 class="text-3xl font-bold tracking-tight text-slate-900">Featured child tools</h2>
+        <p class="mt-3 text-lg text-slate-600">
+          The category page owns the grouped story. Each child route owns one high-intent job-to-be-done.
+        </p>
+      </div>
+      <div class="mt-10 grid gap-6 md:grid-cols-3">
+        {tools.map((tool) => (
+          <article class="card p-6">
+            <p class="text-sm font-medium text-brand-700">{tool.tag}</p>
+            <h3 class="mt-3 text-2xl font-semibold text-slate-900">{tool.title}</h3>
+            <p class="mt-3 text-slate-600">{tool.description}</p>
+            <a href={tool.href} class="mt-5 inline-flex items-center text-sm font-semibold text-brand-700 no-underline hover:text-brand-800">
+              {tool.cta}
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-slate-200 bg-white py-16">
+    <div class="section-shell">
+      <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+        <div class="prose-copy">
+          <h2 class="text-3xl font-bold tracking-tight text-slate-900">Why group these developer tools together?</h2>
+          <p>
+            JSON debugging, text cleanup, regex testing, cron building, and SQL formatting are not random features. They are the short browser tasks developers bounce between all day. Grouping them under one category reduces tab sprawl, but the site still keeps a clear route per intent.
+          </p>
+          <div class="mt-6 grid gap-4 sm:grid-cols-2">
+            <div class="card p-5">
+              <h3 class="text-lg font-semibold text-slate-900">Suite-level discoverability</h3>
+              <p class="mt-2 text-sm text-slate-600">The category page can rank for grouped dev-tool queries without forcing all feature terms onto one bloated page.</p>
+            </div>
+            <div class="card p-5">
+              <h3 class="text-lg font-semibold text-slate-900">Child-page clarity</h3>
+              <p class="mt-2 text-sm text-slate-600">Each child route still targets one dominant cluster such as JSON, text formatting, or regex/Cron/SQL.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-slate-950 p-6 text-slate-100">
+          <h2 class="text-xl font-semibold text-white">Launch taxonomy</h2>
+          <ul class="mt-4 space-y-3 text-sm">
+            <li><strong class="text-brand-200">Category page:</strong> Dev Tools</li>
+            <li><strong class="text-brand-200">Child page:</strong> JSON Convertor</li>
+            <li><strong class="text-brand-200">Child page:</strong> Text Formatter</li>
+            <li><strong class="text-brand-200">Child page:</strong> Modern DevBox</li>
+            <li><strong class="text-brand-200">Trust pages:</strong> Shared site-wide trust layer</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

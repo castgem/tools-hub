@@ -1,0 +1,767 @@
+---
+---
+<section id="tools" class="tools-section section">
+  <div class="container">
+    <div class="tool-tabs" role="tablist" aria-label="开发者工具">
+      <button role="tab" class="tab active" data-tab="regex" aria-selected="true" aria-controls="panel-regex">
+        <span class="tab-icon">.*</span> Regex
+      </button>
+      <button role="tab" class="tab" data-tab="base64" aria-selected="false" aria-controls="panel-base64">
+        <span class="tab-icon">B64</span> Base64
+      </button>
+      <button role="tab" class="tab" data-tab="cron" aria-selected="false" aria-controls="panel-cron">
+        <span class="tab-icon">⏱</span> Cron
+      </button>
+      <button role="tab" class="tab" data-tab="sql" aria-selected="false" aria-controls="panel-sql">
+        <span class="tab-icon">SQL</span> Formatter
+      </button>
+    </div>
+
+    <!-- Regex Panel -->
+    <div id="panel-regex" role="tabpanel" class="tool-panel active" data-panel="regex">
+      <div class="panel-grid">
+        <div class="panel-input">
+          <div class="input-row">
+            <label for="regex-pattern">正则表达式 / Pattern</label>
+            <div class="regex-input-wrap">
+              <span class="regex-delim">/</span>
+              <input id="regex-pattern" type="text" class="mono-input" placeholder="e.g. (\d{4})-(\d{2})-(\d{2})" />
+              <span class="regex-delim">/</span>
+              <div class="regex-flags">
+                <label class="flag-toggle"><input type="checkbox" id="flag-g" checked /><span>g</span></label>
+                <label class="flag-toggle"><input type="checkbox" id="flag-i" /><span>i</span></label>
+                <label class="flag-toggle"><input type="checkbox" id="flag-m" /><span>m</span></label>
+                <label class="flag-toggle"><input type="checkbox" id="flag-s" /><span>s</span></label>
+              </div>
+            </div>
+          </div>
+          <div class="input-row">
+            <label for="regex-input">测试文本 / Test String</label>
+            <textarea id="regex-input" class="mono-textarea" rows="6" placeholder="粘贴要测试的文本...&#10;例如: 2026-03-24 is today, 2025-12-31 was last year"></textarea>
+          </div>
+        </div>
+        <div class="panel-output">
+          <div class="output-header">
+            <span class="output-label">匹配结果 / Matches</span>
+            <span id="regex-count" class="match-count">0 matches</span>
+          </div>
+          <div id="regex-output" class="mono-output regex-result">输入正则表达式和测试文本以查看匹配结果</div>
+          <div id="regex-groups" class="groups-output" style="display:none">
+            <span class="output-label">捕获组 / Groups</span>
+            <pre id="regex-groups-content" class="mono-output small"></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Base64 Panel -->
+    <div id="panel-base64" role="tabpanel" class="tool-panel" data-panel="base64" style="display:none">
+      <div class="panel-grid">
+        <div class="panel-input">
+          <div class="input-row">
+            <label>模式 / Mode</label>
+            <div class="mode-toggle">
+              <button id="b64-encode-btn" class="mode-btn active" type="button">编码 Encode</button>
+              <button id="b64-decode-btn" class="mode-btn" type="button">解码 Decode</button>
+            </div>
+          </div>
+          <div class="input-row">
+            <label for="b64-input">输入 / Input</label>
+            <textarea id="b64-input" class="mono-textarea" rows="8" placeholder="输入要编码或解码的文本..."></textarea>
+          </div>
+        </div>
+        <div class="panel-output">
+          <div class="output-header">
+            <span class="output-label">输出 / Output</span>
+            <button id="b64-copy" class="copy-btn" type="button">📋 复制</button>
+          </div>
+          <textarea id="b64-output" class="mono-textarea output-textarea" rows="8" readonly aria-label="Base64 输出 / Output"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cron Panel -->
+    <div id="panel-cron" role="tabpanel" class="tool-panel" data-panel="cron" style="display:none">
+      <div class="cron-layout">
+        <div class="cron-builder">
+          <label for="cron-expression">Cron 表达式 / Expression</label>
+          <input id="cron-expression" type="text" class="mono-input cron-expr-input" value="* * * * *" placeholder="* * * * *" />
+          <div class="cron-presets">
+            <span class="preset-label">常用 / Presets:</span>
+            <button class="preset-btn" data-cron="* * * * *" type="button">每分钟</button>
+            <button class="preset-btn" data-cron="0 * * * *" type="button">每小时</button>
+            <button class="preset-btn" data-cron="0 9 * * *" type="button">每天 9am</button>
+            <button class="preset-btn" data-cron="0 9 * * 1-5" type="button">工作日 9am</button>
+            <button class="preset-btn" data-cron="0 0 * * 0" type="button">每周日</button>
+            <button class="preset-btn" data-cron="0 0 1 * *" type="button">每月1号</button>
+          </div>
+          <div class="cron-fields">
+            <div class="cron-field">
+              <label for="cron-min">分钟<br/><small>Minute (0-59)</small></label>
+              <input id="cron-min" type="text" class="mono-input cron-part" value="*" data-index="0" />
+            </div>
+            <div class="cron-field">
+              <label for="cron-hour">小时<br/><small>Hour (0-23)</small></label>
+              <input id="cron-hour" type="text" class="mono-input cron-part" value="*" data-index="1" />
+            </div>
+            <div class="cron-field">
+              <label for="cron-day">日<br/><small>Day (1-31)</small></label>
+              <input id="cron-day" type="text" class="mono-input cron-part" value="*" data-index="2" />
+            </div>
+            <div class="cron-field">
+              <label for="cron-month">月<br/><small>Month (1-12)</small></label>
+              <input id="cron-month" type="text" class="mono-input cron-part" value="*" data-index="3" />
+            </div>
+            <div class="cron-field">
+              <label for="cron-weekday">星期<br/><small>Weekday (0-7)</small></label>
+              <input id="cron-weekday" type="text" class="mono-input cron-part" value="*" data-index="4" />
+            </div>
+          </div>
+        </div>
+        <div class="cron-result">
+          <div class="output-header">
+            <span class="output-label">说明 / Description</span>
+            <button id="cron-copy" class="copy-btn" type="button">📋 复制</button>
+          </div>
+          <div id="cron-desc" class="mono-output cron-desc">Every minute</div>
+          <div class="output-header" style="margin-top:1rem">
+            <span class="output-label">接下来 5 次执行 / Next 5 Runs</span>
+          </div>
+          <ul id="cron-next" class="cron-next-list">
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SQL Panel -->
+    <div id="panel-sql" role="tabpanel" class="tool-panel" data-panel="sql" style="display:none">
+      <div class="panel-grid">
+        <div class="panel-input">
+          <div class="input-row sql-options">
+            <label>选项 / Options</label>
+            <div class="mode-toggle">
+              <button id="sql-format-btn" class="mode-btn active" type="button">格式化 Format</button>
+              <button id="sql-minify-btn" class="mode-btn" type="button">压缩 Minify</button>
+            </div>
+            <label class="flag-toggle sql-flag">
+              <input type="checkbox" id="sql-uppercase" checked /><span>大写关键字</span>
+            </label>
+          </div>
+          <div class="input-row">
+            <label for="sql-input">SQL 输入 / Input</label>
+            <textarea id="sql-input" class="mono-textarea" rows="8" placeholder="SELECT id, name, email FROM users WHERE active = 1 AND created_at > '2026-01-01' ORDER BY name ASC LIMIT 100"></textarea>
+          </div>
+        </div>
+        <div class="panel-output">
+          <div class="output-header">
+            <span class="output-label">输出 / Output</span>
+            <button id="sql-copy" class="copy-btn" type="button">📋 复制</button>
+          </div>
+          <pre id="sql-output" class="mono-output sql-result">输入 SQL 查询以查看格式化结果</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // ============ Tab Switching ============
+  function initTabs() {
+    const tabs = document.querySelectorAll<HTMLButtonElement>('.tab');
+    const panels = document.querySelectorAll<HTMLDivElement>('.tool-panel');
+
+    function switchTab(tabName: string) {
+      tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+      panels.forEach(p => { p.style.display = 'none'; p.classList.remove('active'); });
+      const activeTab = document.querySelector<HTMLButtonElement>(`.tab[data-tab="${tabName}"]`);
+      const activePanel = document.querySelector<HTMLDivElement>(`.tool-panel[data-panel="${tabName}"]`);
+      if (activeTab && activePanel) {
+        activeTab.classList.add('active');
+        activeTab.setAttribute('aria-selected', 'true');
+        activePanel.style.display = '';
+        activePanel.classList.add('active');
+      }
+      window.history.replaceState(null, '', `#${tabName}`);
+    }
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => switchTab(tab.dataset.tab || 'regex'));
+    });
+
+    // Handle hash on load
+    const hash = window.location.hash.replace('#', '');
+    if (['regex', 'base64', 'cron', 'sql'].includes(hash)) switchTab(hash);
+
+    window.addEventListener('hashchange', () => {
+      const h = window.location.hash.replace('#', '');
+      if (['regex', 'base64', 'cron', 'sql'].includes(h)) switchTab(h);
+    });
+
+    // Expose for command palette
+    (window as any).__switchTab = switchTab;
+  }
+
+  // ============ Regex Tester ============
+  function initRegex() {
+    const patternEl = document.getElementById('regex-pattern') as HTMLInputElement;
+    const inputEl = document.getElementById('regex-input') as HTMLTextAreaElement;
+    const outputEl = document.getElementById('regex-output') as HTMLDivElement;
+    const countEl = document.getElementById('regex-count') as HTMLSpanElement;
+    const groupsEl = document.getElementById('regex-groups') as HTMLDivElement;
+    const groupsContent = document.getElementById('regex-groups-content') as HTMLPreElement;
+
+    function run() {
+      const pattern = patternEl.value;
+      const text = inputEl.value;
+      if (!pattern || !text) {
+        outputEl.textContent = '输入正则表达式和测试文本以查看匹配结果';
+        countEl.textContent = '0 matches';
+        groupsEl.style.display = 'none';
+        return;
+      }
+
+      let flags = '';
+      if ((document.getElementById('flag-g') as HTMLInputElement).checked) flags += 'g';
+      if ((document.getElementById('flag-i') as HTMLInputElement).checked) flags += 'i';
+      if ((document.getElementById('flag-m') as HTMLInputElement).checked) flags += 'm';
+      if ((document.getElementById('flag-s') as HTMLInputElement).checked) flags += 's';
+
+      try {
+        const re = new RegExp(pattern, flags);
+        const matches = [...text.matchAll(new RegExp(pattern, flags.includes('g') ? flags : flags + 'g'))];
+        countEl.textContent = `${matches.length} match${matches.length !== 1 ? 'es' : ''}`;
+
+        // Highlight matches
+        let html = '';
+        let lastIndex = 0;
+        const allMatches = [...text.matchAll(new RegExp(pattern, flags.includes('g') ? flags : flags + 'g'))];
+        for (const m of allMatches) {
+          const start = m.index!;
+          const end = start + m[0].length;
+          html += escapeHtml(text.slice(lastIndex, start));
+          html += `<mark class="match-hl">${escapeHtml(m[0])}</mark>`;
+          lastIndex = end;
+        }
+        html += escapeHtml(text.slice(lastIndex));
+        outputEl.innerHTML = html || escapeHtml(text);
+
+        // Groups
+        if (matches.length > 0 && matches[0].length > 1) {
+          groupsEl.style.display = '';
+          let groupText = '';
+          matches.forEach((m, i) => {
+            groupText += `Match ${i + 1}: ${JSON.stringify(m[0])}\n`;
+            for (let g = 1; g < m.length; g++) {
+              groupText += `  Group ${g}: ${JSON.stringify(m[g])}\n`;
+            }
+          });
+          groupsContent.textContent = groupText;
+        } else {
+          groupsEl.style.display = 'none';
+        }
+      } catch (e: any) {
+        outputEl.textContent = `❌ 正则错误: ${e.message}`;
+        countEl.textContent = 'Error';
+        groupsEl.style.display = 'none';
+      }
+    }
+
+    patternEl.addEventListener('input', run);
+    inputEl.addEventListener('input', run);
+    document.querySelectorAll('.regex-flags input').forEach(el => el.addEventListener('change', run));
+  }
+
+  function escapeHtml(s: string): string {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ============ Base64 ============
+  function initBase64() {
+    const inputEl = document.getElementById('b64-input') as HTMLTextAreaElement;
+    const outputEl = document.getElementById('b64-output') as HTMLTextAreaElement;
+    const encodeBtn = document.getElementById('b64-encode-btn') as HTMLButtonElement;
+    const decodeBtn = document.getElementById('b64-decode-btn') as HTMLButtonElement;
+    const copyBtn = document.getElementById('b64-copy') as HTMLButtonElement;
+    let mode = 'encode';
+
+    function run() {
+      const text = inputEl.value;
+      if (!text) { outputEl.value = ''; return; }
+      try {
+        if (mode === 'encode') {
+          outputEl.value = btoa(unescape(encodeURIComponent(text)));
+        } else {
+          outputEl.value = decodeURIComponent(escape(atob(text)));
+        }
+      } catch {
+        outputEl.value = `❌ ${mode === 'encode' ? '编码' : '解码'}失败 — 请检查输入`;
+      }
+    }
+
+    encodeBtn.addEventListener('click', () => { mode = 'encode'; encodeBtn.classList.add('active'); decodeBtn.classList.remove('active'); run(); });
+    decodeBtn.addEventListener('click', () => { mode = 'decode'; decodeBtn.classList.add('active'); encodeBtn.classList.remove('active'); run(); });
+    inputEl.addEventListener('input', run);
+    copyBtn.addEventListener('click', () => copyText(outputEl.value, copyBtn));
+  }
+
+  // ============ Cron Builder ============
+  function initCron() {
+    const exprEl = document.getElementById('cron-expression') as HTMLInputElement;
+    const descEl = document.getElementById('cron-desc') as HTMLDivElement;
+    const nextEl = document.getElementById('cron-next') as HTMLUListElement;
+    const copyBtn = document.getElementById('cron-copy') as HTMLButtonElement;
+    const parts = document.querySelectorAll<HTMLInputElement>('.cron-part');
+    const presets = document.querySelectorAll<HTMLButtonElement>('.preset-btn');
+
+    function parseCron() {
+      const expr = exprEl.value.trim();
+      const fields = expr.split(/\s+/);
+      if (fields.length !== 5) { descEl.textContent = '❌ 需要 5 个字段 (分 时 日 月 周)'; nextEl.innerHTML = ''; return; }
+      parts.forEach((p, i) => { p.value = fields[i] || '*'; });
+      descEl.textContent = describeCron(fields);
+      renderNextRuns(fields);
+    }
+
+    function syncFromParts() {
+      const vals: string[] = [];
+      parts.forEach(p => vals.push(p.value || '*'));
+      exprEl.value = vals.join(' ');
+      const fields = vals;
+      descEl.textContent = describeCron(fields);
+      renderNextRuns(fields);
+    }
+
+    function describeCron(f: string[]): string {
+      const [min, hour, day, month, weekday] = f;
+      const parts: string[] = [];
+
+      if (min === '*' && hour === '*' && day === '*' && month === '*' && weekday === '*') return 'Every minute / 每分钟';
+      if (min === '0' && hour === '*' && day === '*' && month === '*' && weekday === '*') return 'Every hour at minute 0 / 每小时整点';
+      if (min === '0' && hour !== '*' && day === '*' && month === '*' && weekday === '*') return `Every day at ${hour}:00 / 每天 ${hour}:00`;
+      if (min === '0' && hour !== '*' && day === '*' && month === '*' && weekday === '1-5') return `Weekdays at ${hour}:00 / 工作日 ${hour}:00`;
+      if (min === '0' && hour === '0' && day === '*' && month === '*' && weekday === '0') return 'Every Sunday at midnight / 每周日午夜';
+      if (min === '0' && hour === '0' && day === '1' && month === '*' && weekday === '*') return 'First day of every month at midnight / 每月1号午夜';
+
+      if (min !== '*') parts.push(`minute ${min}`);
+      if (hour !== '*') parts.push(`hour ${hour}`);
+      if (day !== '*') parts.push(`day ${day}`);
+      if (month !== '*') parts.push(`month ${month}`);
+      if (weekday !== '*') parts.push(`weekday ${weekday}`);
+      return parts.join(', ') || 'Every minute';
+    }
+
+    function renderNextRuns(f: string[]) {
+      const runs: string[] = [];
+      const now = new Date();
+      let d = new Date(now);
+      for (let i = 0; i < 5000 && runs.length < 5; i++) {
+        d = new Date(d.getTime() + 60000);
+        if (matchesCron(f, d)) {
+          runs.push(d.toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', weekday: 'short' }));
+        }
+      }
+      nextEl.innerHTML = runs.map(r => `<li>${r}</li>`).join('');
+    }
+
+    function matchesCron(f: string[], d: Date): boolean {
+      const vals = [d.getMinutes(), d.getHours(), d.getDate(), d.getMonth() + 1, d.getDay()];
+      return f.every((field, i) => matchField(field, vals[i]));
+    }
+
+    function matchField(field: string, value: number): boolean {
+      if (field === '*') return true;
+      return field.split(',').some(part => {
+        if (part.includes('/')) {
+          const [range, step] = part.split('/');
+          const s = parseInt(step);
+          if (range === '*') return value % s === 0;
+          const start = parseInt(range);
+          return value >= start && (value - start) % s === 0;
+        }
+        if (part.includes('-')) {
+          const [a, b] = part.split('-').map(Number);
+          return value >= a && value <= b;
+        }
+        return parseInt(part) === value;
+      });
+    }
+
+    exprEl.addEventListener('input', parseCron);
+    parts.forEach(p => p.addEventListener('input', syncFromParts));
+    presets.forEach(btn => {
+      btn.addEventListener('click', () => {
+        exprEl.value = btn.dataset.cron || '* * * * *';
+        parseCron();
+      });
+    });
+    copyBtn.addEventListener('click', () => copyText(exprEl.value, copyBtn));
+    parseCron();
+  }
+
+  // ============ SQL Formatter ============
+  function initSQL() {
+    const inputEl = document.getElementById('sql-input') as HTMLTextAreaElement;
+    const outputEl = document.getElementById('sql-output') as HTMLPreElement;
+    const formatBtn = document.getElementById('sql-format-btn') as HTMLButtonElement;
+    const minifyBtn = document.getElementById('sql-minify-btn') as HTMLButtonElement;
+    const uppercaseEl = document.getElementById('sql-uppercase') as HTMLInputElement;
+    const copyBtn = document.getElementById('sql-copy') as HTMLButtonElement;
+    let mode = 'format';
+
+    const SQL_KEYWORDS = ['SELECT','FROM','WHERE','AND','OR','NOT','IN','ON','AS','JOIN','LEFT','RIGHT','INNER','OUTER','FULL','CROSS','NATURAL','GROUP BY','ORDER BY','HAVING','LIMIT','OFFSET','UNION','ALL','INSERT','INTO','VALUES','UPDATE','SET','DELETE','CREATE','TABLE','ALTER','DROP','INDEX','VIEW','CASE','WHEN','THEN','ELSE','END','DISTINCT','COUNT','SUM','AVG','MIN','MAX','BETWEEN','LIKE','IS','NULL','EXISTS','ASC','DESC','WITH','RECURSIVE'];
+
+    function formatSQL(sql: string): string {
+      if (!sql.trim()) return '输入 SQL 查询以查看格式化结果';
+      if (mode === 'minify') {
+        return sql.replace(/\s+/g, ' ').replace(/\s*([,()])\s*/g, '$1').trim();
+      }
+
+      let formatted = sql.replace(/\s+/g, ' ').trim();
+
+      // Add newlines before major keywords
+      const breakBefore = ['SELECT','FROM','WHERE','AND','OR','GROUP BY','ORDER BY','HAVING','LIMIT','OFFSET','UNION','JOIN','LEFT JOIN','RIGHT JOIN','INNER JOIN','FULL JOIN','CROSS JOIN','INSERT INTO','VALUES','UPDATE','SET','DELETE FROM','CREATE TABLE'];
+      for (const kw of breakBefore) {
+        const re = new RegExp(`\\b${kw}\\b`, 'gi');
+        formatted = formatted.replace(re, `\n${kw}`);
+      }
+
+      if (uppercaseEl.checked) {
+        for (const kw of SQL_KEYWORDS) {
+          const re = new RegExp(`\\b${kw}\\b`, 'gi');
+          formatted = formatted.replace(re, kw);
+        }
+      }
+
+      // Indent after SELECT, WHERE, etc.
+      const lines = formatted.split('\n').map(l => l.trim()).filter(Boolean);
+      const indented: string[] = [];
+      let indent = 0;
+      for (const line of lines) {
+        const upper = line.toUpperCase();
+        if (upper.startsWith('SELECT') || upper.startsWith('FROM') || upper.startsWith('WHERE') || upper.startsWith('GROUP BY') || upper.startsWith('ORDER BY') || upper.startsWith('HAVING') || upper.startsWith('LIMIT')) {
+          indent = 0;
+          indented.push(line);
+          indent = 1;
+        } else if (upper.startsWith('AND') || upper.startsWith('OR')) {
+          indented.push('  ' + line);
+        } else {
+          indented.push('  '.repeat(indent) + line);
+        }
+      }
+
+      return indented.join('\n');
+    }
+
+    function run() { outputEl.textContent = formatSQL(inputEl.value); }
+
+    formatBtn.addEventListener('click', () => { mode = 'format'; formatBtn.classList.add('active'); minifyBtn.classList.remove('active'); run(); });
+    minifyBtn.addEventListener('click', () => { mode = 'minify'; minifyBtn.classList.add('active'); formatBtn.classList.remove('active'); run(); });
+    inputEl.addEventListener('input', run);
+    uppercaseEl.addEventListener('change', run);
+    copyBtn.addEventListener('click', () => copyText(outputEl.textContent || '', copyBtn));
+  }
+
+  // ============ Command Palette ============
+  function initCommandPalette() {
+    const overlay = document.createElement('div');
+    overlay.id = 'cmd-palette';
+    overlay.className = 'cmd-overlay';
+    overlay.innerHTML = `
+      <div class="cmd-modal">
+        <input type="text" class="cmd-search" placeholder="搜索工具... / Search tools..." autofocus />
+        <ul class="cmd-list">
+          <li class="cmd-item" data-action="regex"><span class="cmd-icon">.*</span> Regex Tester <span class="cmd-hint">正则调试</span></li>
+          <li class="cmd-item" data-action="base64"><span class="cmd-icon">B64</span> Base64 Encoder <span class="cmd-hint">编解码</span></li>
+          <li class="cmd-item" data-action="cron"><span class="cmd-icon">⏱</span> Cron Builder <span class="cmd-hint">定时任务</span></li>
+          <li class="cmd-item" data-action="sql"><span class="cmd-icon">SQL</span> SQL Formatter <span class="cmd-hint">格式化</span></li>
+        </ul>
+      </div>
+    `;
+    overlay.style.display = 'none';
+    document.body.appendChild(overlay);
+
+    const searchInput = overlay.querySelector('.cmd-search') as HTMLInputElement;
+    const items = overlay.querySelectorAll<HTMLLIElement>('.cmd-item');
+    let activeIndex = 0;
+
+    function open() {
+      overlay.style.display = 'flex';
+      searchInput.value = '';
+      filterItems('');
+      activeIndex = 0;
+      highlightItem();
+      setTimeout(() => searchInput.focus(), 50);
+    }
+
+    function close() { overlay.style.display = 'none'; }
+
+    function filterItems(q: string) {
+      const query = q.toLowerCase();
+      items.forEach(item => {
+        const text = (item.textContent || '').toLowerCase();
+        item.style.display = text.includes(query) ? '' : 'none';
+      });
+      activeIndex = 0;
+      highlightItem();
+    }
+
+    function getVisibleItems(): HTMLLIElement[] {
+      return Array.from(items).filter(i => i.style.display !== 'none');
+    }
+
+    function highlightItem() {
+      const visible = getVisibleItems();
+      visible.forEach((item, i) => item.classList.toggle('active', i === activeIndex));
+    }
+
+    function selectItem() {
+      const visible = getVisibleItems();
+      if (visible[activeIndex]) {
+        const action = visible[activeIndex].dataset.action;
+        if (action && (window as any).__switchTab) {
+          (window as any).__switchTab(action);
+        }
+        close();
+      }
+    }
+
+    searchInput.addEventListener('input', () => filterItems(searchInput.value));
+    searchInput.addEventListener('keydown', (e) => {
+      const visible = getVisibleItems();
+      if (e.key === 'ArrowDown') { e.preventDefault(); activeIndex = Math.min(activeIndex + 1, visible.length - 1); highlightItem(); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); activeIndex = Math.max(activeIndex - 1, 0); highlightItem(); }
+      else if (e.key === 'Enter') { e.preventDefault(); selectItem(); }
+      else if (e.key === 'Escape') { close(); }
+    });
+
+    items.forEach(item => {
+      item.addEventListener('click', () => {
+        const action = item.dataset.action;
+        if (action && (window as any).__switchTab) (window as any).__switchTab(action);
+        close();
+      });
+    });
+
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        overlay.style.display === 'none' ? open() : close();
+      }
+    });
+
+    const trigger = document.getElementById('cmd-trigger');
+    if (trigger) trigger.addEventListener('click', open);
+  }
+
+  // ============ Helpers ============
+  async function copyText(text: string, btn: HTMLButtonElement) {
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    const orig = btn.textContent;
+    btn.textContent = '✅ 已复制!';
+    setTimeout(() => { btn.textContent = orig; }, 1500);
+  }
+
+  // ============ Init ============
+  function init() {
+    initTabs();
+    initRegex();
+    initBase64();
+    initCron();
+    initSQL();
+    initCommandPalette();
+  }
+
+  if (document.readyState !== 'loading') init();
+  else document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  .tools-section { padding-top: 1rem; }
+
+  /* Tabs */
+  .tool-tabs {
+    display: flex; gap: 0.25rem; margin-bottom: 1rem;
+    background: var(--color-surface); border-radius: var(--radius);
+    padding: 0.25rem; border: 1px solid var(--color-border);
+  }
+  .tab {
+    flex: 1; padding: 0.6rem 1rem; border: none; background: transparent;
+    color: var(--color-text-secondary); font-size: 0.88rem; font-weight: 600;
+    cursor: pointer; border-radius: var(--radius-sm); transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+  }
+  .tab:hover { color: var(--color-text); background: var(--color-surface-hover); }
+  .tab.active { background: var(--color-primary); color: #fff; }
+  .tab-icon { font-family: var(--font-mono); font-size: 0.75rem; opacity: 0.8; }
+
+  /* Panels */
+  .tool-panel {
+    background: var(--color-surface); border: 1px solid var(--color-border);
+    border-radius: var(--radius); padding: 1.25rem;
+  }
+  .panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .input-row { margin-bottom: 0.75rem; }
+  .input-row label { display: block; font-size: 0.82rem; color: var(--color-text-secondary); margin-bottom: 0.3rem; }
+
+  /* Mono inputs */
+  .mono-input, .mono-textarea {
+    width: 100%; background: var(--color-bg); border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm); color: var(--color-text);
+    font-family: var(--font-mono); font-size: 0.88rem; padding: 0.6rem 0.75rem;
+    resize: vertical; transition: border-color 0.2s; line-height: 1.5;
+  }
+  .mono-input:focus, .mono-textarea:focus {
+    outline: none; border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px var(--color-primary-light);
+  }
+  .mono-output {
+    background: var(--color-bg); border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm); padding: 0.75rem;
+    font-family: var(--font-mono); font-size: 0.85rem;
+    color: var(--color-text); white-space: pre-wrap; word-break: break-all;
+    line-height: 1.6; min-height: 80px; overflow-y: auto; max-height: 400px;
+  }
+  .mono-output.small { font-size: 0.78rem; min-height: 40px; }
+  .output-textarea { cursor: default; }
+
+  /* Regex */
+  .regex-input-wrap {
+    display: flex; align-items: center; gap: 0.25rem;
+    background: var(--color-bg); border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm); padding: 0.3rem 0.5rem;
+  }
+  .regex-input-wrap:focus-within { border-color: var(--color-primary); box-shadow: 0 0 0 2px var(--color-primary-light); }
+  .regex-delim { color: var(--color-primary); font-family: var(--font-mono); font-size: 1.1rem; }
+  .regex-input-wrap input {
+    flex: 1; background: none; border: none; color: var(--color-text);
+    font-family: var(--font-mono); font-size: 0.88rem; outline: none;
+    padding: 0.3rem 0;
+  }
+  .regex-flags { display: flex; gap: 0.2rem; margin-left: 0.25rem; }
+  .flag-toggle { cursor: pointer; }
+  .flag-toggle input { display: none; }
+  .flag-toggle span {
+    display: inline-block; padding: 0.15rem 0.35rem; border-radius: 4px;
+    font-family: var(--font-mono); font-size: 0.78rem;
+    color: var(--color-text-secondary); background: var(--color-surface);
+    border: 1px solid var(--color-border); transition: all 0.15s;
+  }
+  .flag-toggle input:checked + span {
+    background: var(--color-primary-light); color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+  .match-hl { background: var(--color-match); border-radius: 2px; padding: 0 1px; }
+  .match-count {
+    font-family: var(--font-mono); font-size: 0.78rem;
+    color: var(--color-accent); font-weight: 600;
+  }
+  .groups-output { margin-top: 0.75rem; }
+  .regex-result { min-height: 120px; }
+
+  /* Output header */
+  .output-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  .output-label { font-size: 0.82rem; color: var(--color-text-secondary); font-weight: 600; }
+  .copy-btn {
+    background: var(--color-surface-hover); border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm); padding: 0.25rem 0.6rem;
+    color: var(--color-text-secondary); cursor: pointer; font-size: 0.78rem;
+    transition: all 0.15s;
+  }
+  .copy-btn:hover { border-color: var(--color-primary); color: var(--color-text); }
+
+  /* Mode toggle */
+  .mode-toggle { display: flex; gap: 0.25rem; }
+  .mode-btn {
+    padding: 0.4rem 0.8rem; border: 1px solid var(--color-border);
+    background: transparent; color: var(--color-text-secondary);
+    border-radius: var(--radius-sm); cursor: pointer; font-size: 0.82rem;
+    transition: all 0.15s;
+  }
+  .mode-btn:hover { border-color: var(--color-text-secondary); }
+  .mode-btn.active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+
+  /* Cron */
+  .cron-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .cron-expr-input { font-size: 1.1rem; text-align: center; letter-spacing: 2px; margin-bottom: 0.75rem; }
+  .cron-presets { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 1rem; align-items: center; }
+  .preset-label { font-size: 0.78rem; color: var(--color-text-secondary); }
+  .preset-btn {
+    background: var(--color-primary-light); color: var(--color-primary);
+    border: 1px solid transparent; border-radius: 16px;
+    padding: 0.2rem 0.6rem; font-size: 0.75rem; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .preset-btn:hover { border-color: var(--color-primary); }
+  .cron-fields { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; }
+  .cron-field label { font-size: 0.72rem; color: var(--color-text-secondary); text-align: center; display: block; margin-bottom: 0.2rem; }
+  .cron-field small { opacity: 0.7; }
+  .cron-part { text-align: center; font-size: 0.9rem; }
+  .cron-desc { font-size: 0.95rem; color: var(--color-accent); }
+  .cron-next-list { list-style: none; padding: 0; }
+  .cron-next-list li {
+    padding: 0.35rem 0.5rem; font-family: var(--font-mono); font-size: 0.8rem;
+    color: var(--color-text-secondary); border-bottom: 1px solid var(--color-border);
+  }
+
+  /* SQL */
+  .sql-options { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .sql-flag span { font-size: 0.8rem; }
+  .sql-result { min-height: 160px; }
+
+  /* Command Palette */
+  :global(.cmd-overlay) {
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+    display: flex; align-items: flex-start; justify-content: center;
+    padding-top: 15vh;
+  }
+  :global(.cmd-modal) {
+    background: var(--color-surface); border: 1px solid var(--color-border);
+    border-radius: var(--radius); width: 100%; max-width: 500px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5); overflow: hidden;
+  }
+  :global(.cmd-search) {
+    width: 100%; background: transparent; border: none;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text); font-size: 1rem; padding: 1rem 1.25rem;
+    outline: none; font-family: var(--font-sans);
+  }
+  :global(.cmd-list) { list-style: none; padding: 0.5rem; }
+  :global(.cmd-item) {
+    padding: 0.6rem 0.75rem; border-radius: var(--radius-sm);
+    cursor: pointer; display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.9rem; color: var(--color-text-secondary); transition: all 0.1s;
+  }
+  :global(.cmd-item:hover), :global(.cmd-item.active) {
+    background: var(--color-primary-light); color: var(--color-text);
+  }
+  :global(.cmd-icon) {
+    font-family: var(--font-mono); font-size: 0.75rem;
+    background: var(--color-surface-hover); padding: 0.15rem 0.35rem;
+    border-radius: 4px; min-width: 28px; text-align: center;
+  }
+  :global(.cmd-hint) { margin-left: auto; font-size: 0.75rem; opacity: 0.5; }
+
+  @media (max-width: 768px) {
+    .panel-grid, .cron-layout { grid-template-columns: 1fr; }
+    .tool-tabs { flex-wrap: wrap; }
+    .tab { min-width: 0; font-size: 0.8rem; padding: 0.5rem 0.6rem; }
+    .cron-fields { grid-template-columns: repeat(3, 1fr); }
+    .regex-input-wrap { flex-wrap: wrap; }
+  }
+</style>

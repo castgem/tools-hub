@@ -1,0 +1,264 @@
+---
+---
+
+<section class="card p-6">
+  <div class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+    <div class="space-y-4">
+      <div class="flex flex-wrap gap-2" role="tablist" aria-label="JSON Convertor tools">
+        <button class="json-tab rounded-xl bg-brand-600 px-4 py-2 text-sm font-semibold text-white" data-tab="json" aria-selected="true" role="tab">JSON</button>
+        <button class="json-tab rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700" data-tab="curl" aria-selected="false" role="tab">Curl to Code</button>
+        <button class="json-tab rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700" data-tab="jwt" aria-selected="false" role="tab">JWT Decode</button>
+      </div>
+
+      <div class="json-panel space-y-3" data-panel="json" role="tabpanel">
+        <label class="block text-sm font-medium text-slate-700" for="json-input">Paste JSON</label>
+        <textarea id="json-input" class="min-h-72 w-full rounded-2xl border border-slate-200 bg-slate-950 p-4 font-mono text-sm text-slate-100" spellcheck="false" placeholder='{"user":{"id":1,"name":"Ada"}}'></textarea>
+        <div class="flex flex-wrap gap-2">
+          <button id="json-sample" class="btn btn--secondary btn--sm" type="button">Sample</button>
+          <button id="json-format" class="btn btn--primary btn--sm" type="button">Format</button>
+          <button id="json-minify" class="btn btn--secondary btn--sm" type="button">Minify</button>
+          <button id="json-typescript" class="btn btn--secondary btn--sm" type="button">TypeScript</button>
+        </div>
+        <p id="json-error" class="hidden rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700"></p>
+      </div>
+
+      <div class="json-panel hidden space-y-3" data-panel="curl" role="tabpanel">
+        <label class="block text-sm font-medium text-slate-700" for="curl-input">Paste curl command</label>
+        <textarea id="curl-input" class="min-h-72 w-full rounded-2xl border border-slate-200 bg-slate-950 p-4 font-mono text-sm text-slate-100" spellcheck="false" placeholder="curl -X POST https://api.example.com/users -H 'Content-Type: application/json' -d '{\"name\":\"Ada\"}'"></textarea>
+        <div class="flex flex-wrap gap-2">
+          <button id="curl-sample" class="btn btn--secondary btn--sm" type="button">Sample</button>
+          <button id="curl-fetch" class="btn btn--primary btn--sm" type="button">To Fetch</button>
+          <button id="curl-axios" class="btn btn--secondary btn--sm" type="button">To Axios</button>
+        </div>
+      </div>
+
+      <div class="json-panel hidden space-y-3" data-panel="jwt" role="tabpanel">
+        <label class="block text-sm font-medium text-slate-700" for="jwt-input">Paste JWT</label>
+        <textarea id="jwt-input" class="min-h-72 w-full rounded-2xl border border-slate-200 bg-slate-950 p-4 font-mono text-sm text-slate-100" spellcheck="false" placeholder="eyJhbGciOi..."></textarea>
+        <div class="flex flex-wrap gap-2">
+          <button id="jwt-sample" class="btn btn--secondary btn--sm" type="button">Sample</button>
+          <button id="jwt-decode" class="btn btn--primary btn--sm" type="button">Decode</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-lg font-semibold text-slate-900">Output</h2>
+        <button id="json-copy-output" class="btn btn--secondary btn--sm" type="button">Copy</button>
+      </div>
+      <pre id="json-output" class="min-h-96 overflow-auto rounded-2xl border border-slate-200 bg-white p-4 text-sm leading-6 text-slate-800"><code>Formatted output, generated code, or decoded payload will appear here.</code></pre>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  const tabs = [...document.querySelectorAll(".json-tab")];
+  const panels = [...document.querySelectorAll(".json-panel")];
+  const outputEl = document.getElementById("json-output");
+  const copyBtn = document.getElementById("json-copy-output");
+  const errorEl = document.getElementById("json-error");
+
+  function setOutput(value) {
+    outputEl.textContent = value;
+  }
+
+  function setError(message) {
+    if (!message) {
+      errorEl.classList.add("hidden");
+      errorEl.textContent = "";
+      return;
+    }
+    errorEl.classList.remove("hidden");
+    errorEl.textContent = message;
+  }
+
+  function activateTab(name) {
+    tabs.forEach((tab) => {
+      const active = tab.dataset.tab === name;
+      tab.setAttribute("aria-selected", active ? "true" : "false");
+      tab.classList.toggle("bg-brand-600", active);
+      tab.classList.toggle("text-white", active);
+      tab.classList.toggle("border", !active);
+      tab.classList.toggle("border-slate-200", !active);
+      tab.classList.toggle("text-slate-700", !active);
+    });
+    panels.forEach((panel) => panel.classList.toggle("hidden", panel.dataset.panel !== name));
+    setError("");
+  }
+
+  tabs.forEach((tab) => tab.addEventListener("click", () => activateTab(tab.dataset.tab)));
+  activateTab("json");
+
+  const sampleJson = {
+    user: { id: 1, name: "Ada Lovelace", admin: true },
+    roles: ["editor", "maintainer"],
+    metadata: { createdAt: "2026-03-25T12:00:00Z", score: 98.2 }
+  };
+
+  const sampleCurl = "curl -X POST https://api.example.com/users -H 'Content-Type: application/json' -H 'Authorization: Bearer TOKEN' -d '{\"name\":\"Ada\",\"role\":\"maintainer\"}'";
+  const sampleJwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTYiLCJuYW1lIjoiQWRhIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+
+  document.getElementById("json-sample").addEventListener("click", () => {
+    document.getElementById("json-input").value = JSON.stringify(sampleJson, null, 2);
+    setOutput(JSON.stringify(sampleJson, null, 2));
+  });
+
+  function inferType(value, name = "RootObject") {
+    const interfaces = [];
+
+    function walk(current, currentName) {
+      if (Array.isArray(current)) {
+        if (current.length === 0) return "unknown[]";
+        return `${walk(current[0], `${currentName}Item`)}[]`;
+      }
+      if (current === null) return "null";
+      if (typeof current === "object") {
+        const lines = Object.entries(current).map(([key, val]) => `  ${key}: ${walk(val, `${currentName}${key[0].toUpperCase()}${key.slice(1)}`)};`);
+        interfaces.push(`interface ${currentName} {\n${lines.join("\n")}\n}`);
+        return currentName;
+      }
+      if (typeof current === "string") return "string";
+      if (typeof current === "number") return "number";
+      if (typeof current === "boolean") return "boolean";
+      return "unknown";
+    }
+
+    walk(value, name);
+    return interfaces.reverse().join("\n\n");
+  }
+
+  function parseJsonInput() {
+    const raw = document.getElementById("json-input").value.trim();
+    if (!raw) {
+      setError("Paste JSON first.");
+      return null;
+    }
+    try {
+      setError("");
+      return JSON.parse(raw);
+    } catch (error) {
+      setError(error.message);
+      return null;
+    }
+  }
+
+  document.getElementById("json-format").addEventListener("click", () => {
+    const parsed = parseJsonInput();
+    if (!parsed) return;
+    setOutput(JSON.stringify(parsed, null, 2));
+  });
+
+  document.getElementById("json-minify").addEventListener("click", () => {
+    const parsed = parseJsonInput();
+    if (!parsed) return;
+    setOutput(JSON.stringify(parsed));
+  });
+
+  document.getElementById("json-typescript").addEventListener("click", () => {
+    const parsed = parseJsonInput();
+    if (!parsed) return;
+    setOutput(inferType(parsed));
+  });
+
+  function parseCurl(raw) {
+    const methodMatch = raw.match(/-X\s+(\w+)/i);
+    const urlMatch = raw.match(/curl\s+(?:-X\s+\w+\s+)?([^\s]+)/i);
+    const headerMatches = [...raw.matchAll(/-H\s+['"]([^'"]+)['"]/g)].map((m) => m[1]);
+    const dataMatch = raw.match(/-d\s+['"]([\s\S]*?)['"]/i);
+    return {
+      method: methodMatch ? methodMatch[1].toUpperCase() : "GET",
+      url: urlMatch ? urlMatch[1] : "https://api.example.com",
+      headers: Object.fromEntries(headerMatches.map((header) => {
+        const index = header.indexOf(":");
+        return [header.slice(0, index).trim(), header.slice(index + 1).trim()];
+      })),
+      data: dataMatch ? dataMatch[1] : "",
+    };
+  }
+
+  function toFetchCode(parsed) {
+    const headerLines = Object.keys(parsed.headers).length ? `headers: ${JSON.stringify(parsed.headers, null, 2)},\n  ` : "";
+    const bodyLine = parsed.data ? `body: ${JSON.stringify(parsed.data)},\n  ` : "";
+    return `fetch(${JSON.stringify(parsed.url)}, {\n  method: ${JSON.stringify(parsed.method)},\n  ${headerLines}${bodyLine}})\n  .then((response) => response.json())\n  .then((data) => console.log(data));`;
+  }
+
+  function toAxiosCode(parsed) {
+    const config = {
+      method: parsed.method.toLowerCase(),
+      url: parsed.url,
+      headers: parsed.headers,
+      data: parsed.data || undefined,
+    };
+    return `import axios from "axios";\n\naxios(${JSON.stringify(config, null, 2)})\n  .then((response) => console.log(response.data));`;
+  }
+
+  document.getElementById("curl-sample").addEventListener("click", () => {
+    document.getElementById("curl-input").value = sampleCurl;
+    setOutput(toFetchCode(parseCurl(sampleCurl)));
+  });
+
+  document.getElementById("curl-fetch").addEventListener("click", () => {
+    const raw = document.getElementById("curl-input").value.trim();
+    if (!raw) {
+      setError("Paste a curl command first.");
+      return;
+    }
+    setError("");
+    setOutput(toFetchCode(parseCurl(raw)));
+  });
+
+  document.getElementById("curl-axios").addEventListener("click", () => {
+    const raw = document.getElementById("curl-input").value.trim();
+    if (!raw) {
+      setError("Paste a curl command first.");
+      return;
+    }
+    setError("");
+    setOutput(toAxiosCode(parseCurl(raw)));
+  });
+
+  function decodeBase64Url(value) {
+    const normalized = value.replace(/-/g, "+").replace(/_/g, "/");
+    const padded = normalized.padEnd(normalized.length + (4 - normalized.length % 4) % 4, "=");
+    return decodeURIComponent(Array.from(atob(padded)).map((char) => `%${char.charCodeAt(0).toString(16).padStart(2, "0")}`).join(""));
+  }
+
+  document.getElementById("jwt-sample").addEventListener("click", () => {
+    document.getElementById("jwt-input").value = sampleJwt;
+    document.getElementById("jwt-decode").click();
+  });
+
+  document.getElementById("jwt-decode").addEventListener("click", () => {
+    const raw = document.getElementById("jwt-input").value.trim();
+    if (!raw) {
+      setError("Paste a JWT first.");
+      return;
+    }
+    const parts = raw.split(".");
+    if (parts.length !== 3) {
+      setError("JWT must have exactly 3 parts.");
+      return;
+    }
+    try {
+      const header = JSON.parse(decodeBase64Url(parts[0]));
+      const payload = JSON.parse(decodeBase64Url(parts[1]));
+      setError("");
+      setOutput(`Header\n${JSON.stringify(header, null, 2)}\n\nPayload\n${JSON.stringify(payload, null, 2)}\n\nSignature\n${parts[2]}`);
+    } catch (error) {
+      setError(`Failed to decode JWT: ${error.message}`);
+    }
+  });
+
+  copyBtn.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(outputEl.textContent || "");
+      copyBtn.textContent = "Copied";
+      setTimeout(() => {
+        copyBtn.textContent = "Copy";
+      }, 1200);
+    } catch {
+      copyBtn.textContent = "Copy failed";
+    }
+  });
+</script>

@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import LogoEditor from '../../../components/LogoEditor.tsx';
+
+const schemaMarkup = JSON.stringify([
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Logo Generator',
+    url: 'https://tools.example.com/media-tools/logo-generator/',
+    description: 'Create a simple logo in your browser and export PNG or SVG without signup or watermark.',
+    applicationCategory: 'DesignApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Is this logo generator free?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. The grouped launch includes a browser-based logo creator with free PNG and SVG export.' },
+      },
+      {
+        '@type': 'Question',
+        name: 'Does the logo generator add a watermark?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. The current browser-based generator does not add a watermark to your exported logo files.' },
+      },
+    ],
+  },
+]);
+---
+
+<BaseLayout
+  title="Free Logo Generator — Browser-Based PNG and SVG Exports"
+  description="Create a simple logo in your browser, choose colors and styles, and export your result as PNG or SVG without signup or watermark."
+  canonicalPath="/media-tools/logo-generator/"
+  schemaMarkup={schemaMarkup}
+>
+  <section class="bg-gradient-to-br from-amber-50 to-white py-16">
+    <div class="section-shell max-w-4xl">
+      <a href="/media-tools/" class="text-sm font-medium text-brand-700 no-underline hover:text-brand-800">← Back to Media Tools</a>
+      <h1 class="mt-4 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">Free Logo Generator</h1>
+      <p class="mt-4 text-lg text-slate-600">
+        Create a simple logo in your browser for a side project, campaign, or quick brand mockup. This child page owns the free logo generator intent while still fitting inside the grouped media-tools suite.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-12">
+    <div class="section-shell">
+      <LogoEditor client:visible />
+    </div>
+  </section>
+
+  <section class="py-12">
+    <div class="section-shell grid gap-6 lg:grid-cols-3">
+      <article class="card p-6">
+        <h2 class="text-xl font-semibold text-slate-900">Best for</h2>
+        <p class="mt-3 text-sm text-slate-600">Startup placeholders, indie project branding, creator avatars, and event-side graphics that need a fast first version.</p>
+      </article>
+      <article class="card p-6">
+        <h2 class="text-xl font-semibold text-slate-900">Why it belongs here</h2>
+        <p class="mt-3 text-sm text-slate-600">Logo creation is a media-asset workflow, so it naturally complements the conversion and optimization tools in the same suite.</p>
+      </article>
+      <article class="card p-6">
+        <h2 class="text-xl font-semibold text-slate-900">Related tools</h2>
+        <ul class="mt-3 space-y-2 text-sm text-slate-600">
+          <li><a href="/media-tools/image-optimizer/" class="text-brand-700">Image Optimizer</a></li>
+          <li><a href="/media-tools/webp-to-png/" class="text-brand-700">WebP to PNG</a></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="pb-16">
+    <div class="section-shell grid gap-6 lg:grid-cols-2">
+      <article class="card p-6">
+        <h2 class="text-2xl font-semibold text-slate-900">Why this page matters in the grouped suite</h2>
+        <p class="mt-3 text-slate-600">A logo generator is still a media workflow. People using this grouped site may optimize a hero image, convert an asset for compatibility, then build a quick brand mark for a landing page or side project. Keeping the page here creates a stronger cross-tool journey without weakening the logo-generator query target.</p>
+        <p class="mt-3 text-slate-600">The page is intentionally framed around fast browser-based creation, export clarity, and no-watermark trust cues instead of the heavier AI-logo-maker positioning used by many commercial competitors.</p>
+      </article>
+      <article class="card p-6">
+        <h2 class="text-2xl font-semibold text-slate-900">What users should understand before they start</h2>
+        <p class="mt-3 text-slate-600">This launch focuses on simple text, icon, palette, and layout composition. It is ideal for a fast first logo, a hackathon identity, a creator badge, or a placeholder brand mark. It is not trying to replace a full design suite or a custom designer workflow.</p>
+        <p class="mt-3 text-slate-600">That clarity helps the page convert for the right user and reduces the mismatch that often hurts generic "free logo maker" landing pages.</p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

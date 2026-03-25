@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import TextFormatter from '../../../components/TextFormatter.astro';
+
+const schemaMarkup = JSON.stringify([
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Text Formatter',
+    url: 'https://tools.example.com/dev-tools/text-formatter/',
+    applicationCategory: 'UtilityApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Free browser-based text formatter with case conversion, cleanup, line sorting, encoding, extraction, and word-count workflows.',
+  },
+]);
+---
+
+<BaseLayout
+  title="Text Formatter — Clean, Convert, Encode, and Count Text"
+  description="An all-in-one browser text formatter for case conversion, whitespace cleanup, encoding, line sorting, extraction, and word counting."
+  canonicalPath="/dev-tools/text-formatter/"
+  schemaMarkup={schemaMarkup}
+>
+  <section class="bg-white py-16">
+    <div class="section-shell">
+      <div class="max-w-4xl">
+        <p class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-700">General text utilities</p>
+        <h1 class="mt-4 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">Text Formatter</h1>
+        <p class="mt-4 text-lg leading-8 text-slate-600">
+          Clean up text, convert case, sort lines, encode values, extract emails and URLs, and count words in one browser-only route. This page owns the high-frequency text utility cluster inside the dev-tools directory.
+        </p>
+      </div>
+      <div class="mt-10">
+        <TextFormatter />
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-slate-200 bg-slate-50 py-16">
+    <div class="section-shell prose-copy">
+      <h2 class="text-3xl font-bold tracking-tight text-slate-900">What makes this page useful?</h2>
+      <p>
+        Many users do not want a dozen different text utilities open in separate tabs. They want one place to uppercase text, remove blank lines, deduplicate lists, encode URLs, and check counts. This page keeps those jobs together because the underlying intent is still “fix or transform text now.”
+      </p>
+      <p>
+        That is different from the JSON/API debugging cluster and from the regex/cron/SQL cluster. Grouping those all into one page would reduce clarity for both users and search engines.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-16">
+    <div class="section-shell">
+      <div class="grid gap-6 md:grid-cols-3">
+        <article class="card p-6">
+          <h2 class="text-xl font-semibold text-slate-900">Text cleanup</h2>
+          <p class="mt-3 text-slate-600">Remove whitespace noise, blank lines, duplicates, and inconsistent casing before you paste content elsewhere.</p>
+        </article>
+        <article class="card p-6">
+          <h2 class="text-xl font-semibold text-slate-900">Encoding and extraction</h2>
+          <p class="mt-3 text-slate-600">Use one route for URL and Base64 operations, email extraction, URL extraction, and light HTML cleanup.</p>
+        </article>
+        <article class="card p-6">
+          <h2 class="text-xl font-semibold text-slate-900">Live stats</h2>
+          <p class="mt-3 text-slate-600">Word counts, line counts, and reading-time estimates update immediately while you work.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  :global(.formatter) {
+    --color-primary: #4263eb;
+    --color-surface: #f8fafc;
+    --color-border: #e2e8f0;
+    --color-text: #0f172a;
+    --color-text-muted: #64748b;
+  }
+</style>

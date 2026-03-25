@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import VideoToGif from '../../../components/VideoToGif.tsx';
+
+const schemaMarkup = JSON.stringify([
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Video to GIF Converter',
+    url: 'https://tools.example.com/media-tools/video-to-gif/',
+    description: 'Create a GIF from a short video clip in your browser using FFmpeg.wasm.',
+    applicationCategory: 'MultimediaApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Media Tools', item: 'https://tools.example.com/media-tools/' },
+      { '@type': 'ListItem', position: 2, name: 'Video to GIF', item: 'https://tools.example.com/media-tools/video-to-gif/' },
+    ],
+  },
+]);
+---
+
+<BaseLayout
+  title="Video to GIF — Convert Clips to GIF in Your Browser"
+  description="Turn a short MP4 or WebM clip into a GIF with a browser-based workflow powered by FFmpeg.wasm. No upload wall, no watermarks."
+  canonicalPath="/media-tools/video-to-gif/"
+  schemaMarkup={schemaMarkup}
+>
+  <section class="bg-gradient-to-br from-violet-50 to-white py-16">
+    <div class="section-shell max-w-4xl">
+      <a href="/media-tools/" class="text-sm font-medium text-brand-700 no-underline hover:text-brand-800">← Back to Media Tools</a>
+      <h1 class="mt-4 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">Video to GIF</h1>
+      <p class="mt-4 text-lg text-slate-600">
+        Create short animated GIFs from video clips directly in your browser. This page carries one clear transactional intent: make a GIF fast, without bouncing through a general-purpose converter homepage.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-12">
+    <div class="section-shell">
+      <div class="card p-6">
+        <VideoToGif client:load />
+      </div>
+    </div>
+  </section>
+
+  <section class="py-12">
+    <div class="section-shell grid gap-6 lg:grid-cols-3">
+      <article class="card p-6">
+        <h2 class="text-xl font-semibold text-slate-900">Ideal use case</h2>
+        <p class="mt-3 text-sm text-slate-600">Perfect for short product demos, reaction clips, meme content, or social snippets that need to loop cleanly.</p>
+      </article>
+      <article class="card p-6">
+        <h2 class="text-xl font-semibold text-slate-900">Why browser-side FFmpeg matters</h2>
+        <p class="mt-3 text-sm text-slate-600">The conversion happens locally with FFmpeg.wasm, which helps avoid waiting on remote uploads for short clip workflows.</p>
+      </article>
+      <article class="card p-6">
+        <h2 class="text-xl font-semibold text-slate-900">Related tools</h2>
+        <ul class="mt-3 space-y-2 text-sm text-slate-600">
+          <li><a href="/media-tools/webp-to-png/" class="text-brand-700">WebP to PNG</a></li>
+          <li><a href="/media-tools/image-optimizer/" class="text-brand-700">Image Optimizer</a></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="pb-16">
+    <div class="section-shell grid gap-6 lg:grid-cols-2">
+      <article class="card p-6">
+        <h2 class="text-2xl font-semibold text-slate-900">Why creators use Video to GIF tools</h2>
+        <p class="mt-3 text-slate-600">The strongest demand here comes from creators clipping short reactions, demo moments, meme snippets, and tiny product loops. They are usually not searching for a full editing suite. They want a fast way to turn one clip into a GIF and download it.</p>
+        <p class="mt-3 text-slate-600">This page makes that workflow visible immediately instead of burying it in a broader video toolbox.</p>
+      </article>
+      <article class="card p-6">
+        <h2 class="text-2xl font-semibold text-slate-900">What FFmpeg.wasm changes</h2>
+        <p class="mt-3 text-slate-600">Using FFmpeg in the browser changes the trust story. It lets the page explain why people can do a conversion task without shipping video files to a third-party server first, which is one of the clearest differentiators against older upload-heavy tools.</p>
+        <p class="mt-3 text-slate-600">The grouped site can reuse that privacy angle across media pages while still keeping this route laser-focused on the video-to-GIF query family.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="pb-16">
+    <div class="section-shell">
+      <article class="card p-6">
+        <h2 class="text-2xl font-semibold text-slate-900">What makes this page useful</h2>
+        <p class="mt-3 text-slate-600">People looking for a GIF workflow usually care about speed, clip control, and whether the result is immediately shareable. They do not want to sort through a dozen unrelated video operations first. This child page keeps the job simple: pick the clip, choose the timing and size, and download the loop.</p>
+        <p class="mt-3 text-slate-600">That clearer message also strengthens the grouped site's SEO structure. The homepage explains the suite. This page explains one exact task and gives the user a direct path to completing it.</p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

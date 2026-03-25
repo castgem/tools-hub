@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import HumanizerTool from '../../../components/HumanizerTool.astro';
+
+const schemaMarkup = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Writetune',
+  url: 'https://tools.example.com/creator-tools/writetune/',
+  applicationCategory: 'UtilityApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  description: 'Humanize AI-generated text with tone controls and browser-side rewriting.',
+});
+---
+
+<BaseLayout
+  title="Writetune — Humanize AI Text in Your Browser"
+  description="Rewrite AI-generated text so it sounds more natural, human, and tone-appropriate without sending content to a server."
+  canonicalPath="/creator-tools/writetune/"
+  schemaMarkup={schemaMarkup}
+>
+  <section class="bg-gradient-to-br from-fuchsia-50 to-white py-16">
+    <div class="section-shell max-w-4xl">
+      <a href="/creator-tools/" class="text-sm font-medium text-brand-700 no-underline hover:text-brand-800">← Back to Creator Tools</a>
+      <h1 class="mt-4 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">Writetune</h1>
+      <p class="mt-4 text-lg text-slate-600">
+        Paste AI-written text, choose the tone you want, and get a more natural version back instantly. This route is for people who want a lighter, browser-first humanizer instead of a gated SaaS editor.
+      </p>
+    </div>
+  </section>
+
+  <HumanizerTool />
+
+  <section class="pb-16">
+    <div class="section-shell grid gap-6 md:grid-cols-3">
+      <article class="card p-6">
+        <h2 class="text-xl font-semibold text-slate-900">Academic tone</h2>
+        <p class="mt-3 text-slate-600">Useful for essays, research summaries, and structured writing that still needs to sound less robotic.</p>
+      </article>
+      <article class="card p-6">
+        <h2 class="text-xl font-semibold text-slate-900">Business tone</h2>
+        <p class="mt-3 text-slate-600">Useful for outreach emails, docs, and messaging that needs polish without artificial stiffness.</p>
+      </article>
+      <article class="card p-6">
+        <h2 class="text-xl font-semibold text-slate-900">Related tools</h2>
+        <p class="mt-3 text-slate-600"><a href="/creator-tools/prompt-refiner/" class="text-brand-700">Prompt Refiner</a> helps upstream when the problem is prompt quality rather than output tone.</p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

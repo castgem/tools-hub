@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import JsonWorkbench from '../../../components/JsonWorkbench.astro';
+
+const schemaMarkup = JSON.stringify([
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'JSON Convertor',
+    url: 'https://tools.example.com/dev-tools/json-convertor/',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Any',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    description: 'Format and validate JSON, generate TypeScript, convert curl to code, and decode JWTs in one browser-based page.',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What can JSON Convertor do?',
+        acceptedAnswer: { '@type': 'Answer', text: 'JSON Convertor formats and validates JSON, infers TypeScript interfaces, converts curl commands into code snippets, and decodes JWT payloads locally in the browser.' },
+      },
+      {
+        '@type': 'Question',
+        name: 'Does JSON Convertor upload my data?',
+        acceptedAnswer: { '@type': 'Answer', text: 'No. JSON, curl commands, and JWT tokens are processed locally in your browser in this grouped-site launch.' },
+      },
+    ],
+  },
+]);
+---
+
+<BaseLayout
+  title="JSON Convertor — JSON, Curl, JWT, and TypeScript Tools"
+  description="A browser-based JSON utility page for formatting, validation, TypeScript generation, curl-to-code conversion, and JWT decoding."
+  canonicalPath="/dev-tools/json-convertor/"
+  schemaMarkup={schemaMarkup}
+>
+  <section class="bg-white py-16">
+    <div class="section-shell">
+      <div class="max-w-4xl">
+        <p class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-700">API debugging workflow</p>
+        <h1 class="mt-4 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">JSON Convertor</h1>
+        <p class="mt-4 text-lg leading-8 text-slate-600">
+          Format JSON, validate payloads, infer TypeScript interfaces, convert curl snippets, and inspect JWT tokens in one browser-only page. This route owns the JSON and API-debugging cluster inside the dev-tools directory.
+        </p>
+      </div>
+      <div class="mt-10">
+        <JsonWorkbench />
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-slate-200 bg-slate-50 py-16">
+    <div class="section-shell prose-copy">
+      <h2 class="text-3xl font-bold tracking-tight text-slate-900">Why this page exists</h2>
+      <p>
+        Developers rarely need just one JSON action. They format payloads, check whether JSON is valid, convert sample responses into TypeScript, copy curl snippets out of docs, and inspect JWT payloads. Existing sites often split these into separate ad-heavy pages or provide an outdated UI.
+      </p>
+      <p>
+        This child route stays tightly scoped around API payload workflows. It does not try to absorb the broader text-cleanup jobs or regex/cron workflows that belong elsewhere in the grouped site.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-16">
+    <div class="section-shell">
+      <div class="grid gap-6 md:grid-cols-3">
+        <article class="card p-6">
+          <h2 class="text-xl font-semibold text-slate-900">JSON formatting</h2>
+          <p class="mt-3 text-slate-600">Paste raw API responses and immediately switch between prettified and minified output without leaving the browser.</p>
+        </article>
+        <article class="card p-6">
+          <h2 class="text-xl font-semibold text-slate-900">TypeScript generation</h2>
+          <p class="mt-3 text-slate-600">Turn sample payloads into starter interfaces quickly when you need a schema sketch for front-end work.</p>
+        </article>
+        <article class="card p-6">
+          <h2 class="text-xl font-semibold text-slate-900">Curl and JWT helpers</h2>
+          <p class="mt-3 text-slate-600">Convert documented curl commands into code and decode JWTs locally during auth debugging sessions.</p>
+        </article>
+      </div>
+      <div class="mt-10 card p-6">
+        <h2 class="text-2xl font-semibold text-slate-900">Related developer tools</h2>
+        <p class="mt-3 text-slate-600">Need broader text cleanup or regex-based manipulation around your payloads? Continue with <a href="/dev-tools/text-formatter/" class="font-semibold text-brand-700">Text Formatter</a> or open <a href="/dev-tools/modern-devbox/" class="font-semibold text-brand-700">Modern DevBox</a> for regex, Base64, cron, and SQL tasks.</p>
+      </div>
+      <div class="mt-10 prose-copy">
+        <h2 class="text-3xl font-bold tracking-tight text-slate-900">Common use cases</h2>
+        <p>Use this route when an API response is hard to read, when you need a rough TypeScript interface from a sample payload, or when documentation gives you a curl command that needs to become runnable front-end code. It is also useful during auth debugging when you want to inspect the header and payload of a JWT without sending the token anywhere else.</p>
+        <p>This child page deliberately groups only adjacent API debugging jobs. It does not try to absorb general text cleanup or the broader CyberChef-style micro-tool set, because those intents are already mapped to other child routes in the grouped site.</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

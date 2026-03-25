@@ -1,0 +1,10 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0F172A"/>
+  <rect x="48" y="48" width="1104" height="534" rx="28" fill="#111827"/>
+  <rect x="96" y="120" width="212" height="212" rx="28" fill="#4C6EF5"/>
+  <rect x="344" y="120" width="212" height="212" rx="28" fill="#0EA5E9"/>
+  <rect x="592" y="120" width="212" height="212" rx="28" fill="#8B5CF6"/>
+  <rect x="840" y="120" width="212" height="212" rx="28" fill="#F59E0B"/>
+  <text x="96" y="420" fill="white" font-family="Arial, sans-serif" font-size="68" font-weight="700">Browser Tools Hub</text>
+  <text x="96" y="490" fill="#CBD5E1" font-family="Arial, sans-serif" font-size="30">Shared-domain dev tools and media tools that run in the browser</text>
+</svg>

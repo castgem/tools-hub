@@ -1,0 +1,333 @@
+---
+---
+<div id="meta-preview-tool" class="space-y-8">
+  <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 md:p-8">
+    <h2 class="text-lg font-semibold text-gray-900 mb-6">Enter Your Meta Tags</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div>
+        <label for="input-title" class="block text-sm font-medium text-gray-700 mb-1">Page Title</label>
+        <input type="text" id="input-title" placeholder="My Awesome Page" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" />
+        <div class="flex justify-between mt-1">
+          <span class="text-xs text-gray-500">Recommended: 50–60 characters</span>
+          <span id="count-title" class="text-xs font-mono text-gray-500">0</span>
+        </div>
+      </div>
+      <div>
+        <label for="input-url" class="block text-sm font-medium text-gray-700 mb-1">Page URL</label>
+        <input type="url" id="input-url" placeholder="https://example.com/my-page" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" />
+      </div>
+      <div class="md:col-span-2">
+        <label for="input-description" class="block text-sm font-medium text-gray-700 mb-1">Meta Description</label>
+        <textarea id="input-description" rows="2" placeholder="A brief description of your page content..." class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition resize-none"></textarea>
+        <div class="flex justify-between mt-1">
+          <span class="text-xs text-gray-500">Recommended: 150–160 characters</span>
+          <span id="count-description" class="text-xs font-mono text-gray-500">0</span>
+        </div>
+      </div>
+      <div>
+        <label for="input-og-title" class="block text-sm font-medium text-gray-700 mb-1">og:title <span class="text-gray-500 font-normal">(falls back to title)</span></label>
+        <input type="text" id="input-og-title" placeholder="Override title for social sharing" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" />
+      </div>
+      <div>
+        <label for="input-og-description" class="block text-sm font-medium text-gray-700 mb-1">og:description <span class="text-gray-500 font-normal">(falls back to meta desc)</span></label>
+        <input type="text" id="input-og-description" placeholder="Override description for social sharing" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" />
+      </div>
+      <div>
+        <label for="input-og-image" class="block text-sm font-medium text-gray-700 mb-1">og:image URL</label>
+        <input type="url" id="input-og-image" placeholder="https://example.com/image.png" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" />
+        <span class="text-xs text-gray-500 mt-1 block">Recommended: 1200×630px</span>
+      </div>
+      <div>
+        <label for="input-og-sitename" class="block text-sm font-medium text-gray-700 mb-1">og:site_name</label>
+        <input type="text" id="input-og-sitename" placeholder="My Website" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" />
+      </div>
+      <div>
+        <label for="input-twitter-card" class="block text-sm font-medium text-gray-700 mb-1">twitter:card</label>
+        <select id="input-twitter-card" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition bg-white">
+          <option value="summary_large_image">summary_large_image</option>
+          <option value="summary">summary</option>
+        </select>
+      </div>
+      <div>
+        <label for="input-twitter-title" class="block text-sm font-medium text-gray-700 mb-1">twitter:title <span class="text-gray-500 font-normal">(falls back to og:title)</span></label>
+        <input type="text" id="input-twitter-title" placeholder="Override title for Twitter/X" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" />
+      </div>
+      <div>
+        <label for="input-twitter-description" class="block text-sm font-medium text-gray-700 mb-1">twitter:description</label>
+        <input type="text" id="input-twitter-description" placeholder="Override description for Twitter/X" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" />
+      </div>
+      <div>
+        <label for="input-twitter-image" class="block text-sm font-medium text-gray-700 mb-1">twitter:image <span class="text-gray-500 font-normal">(falls back to og:image)</span></label>
+        <input type="url" id="input-twitter-image" placeholder="https://example.com/twitter-image.png" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" />
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="flex gap-2 mb-6 border-b border-gray-200" id="platform-tabs" role="tablist">
+      <button role="tab" aria-selected="true" data-tab="google" class="tab-btn px-4 py-2.5 text-sm font-medium border-b-2 border-brand-600 text-brand-700 -mb-px transition-colors">Google</button>
+      <button role="tab" aria-selected="false" data-tab="twitter" class="tab-btn px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 -mb-px transition-colors">Twitter / X</button>
+      <button role="tab" aria-selected="false" data-tab="facebook" class="tab-btn px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 -mb-px transition-colors">Facebook</button>
+      <button role="tab" aria-selected="false" data-tab="linkedin" class="tab-btn px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 -mb-px transition-colors">LinkedIn</button>
+    </div>
+
+    <!-- Google SERP Preview -->
+    <div id="preview-google" class="tab-panel" role="tabpanel">
+      <div class="max-w-2xl bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+        <h3 class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-4">Google Search Preview</h3>
+        <div class="space-y-1">
+          <div id="google-url" class="text-sm text-gray-600 truncate">https://example.com</div>
+          <div id="google-title" class="text-xl text-blue-700 hover:underline cursor-pointer leading-snug">Your Page Title</div>
+          <div id="google-description" class="text-sm text-gray-600 leading-relaxed line-clamp-2">Your meta description will appear here. It should be between 150 and 160 characters for optimal display in search results.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Twitter Preview -->
+    <div id="preview-twitter" class="tab-panel hidden" role="tabpanel">
+      <div class="max-w-lg">
+        <h3 class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-4">Twitter / X Card Preview</h3>
+        <div class="rounded-2xl border border-gray-200 overflow-hidden shadow-sm bg-white">
+          <div id="twitter-image-container" class="bg-gray-100 h-64 flex items-center justify-center">
+            <img id="twitter-image" class="w-full h-full object-cover hidden" alt="Twitter card preview" />
+            <span id="twitter-image-placeholder" class="text-sm text-gray-500">No image set — add og:image URL above</span>
+          </div>
+          <div class="p-4 space-y-1">
+            <div id="twitter-domain" class="text-xs text-gray-500">example.com</div>
+            <div id="twitter-title" class="text-sm font-bold text-gray-900 leading-snug">Your Page Title</div>
+            <div id="twitter-description" class="text-sm text-gray-500 line-clamp-2">Your description will appear here</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Facebook Preview -->
+    <div id="preview-facebook" class="tab-panel hidden" role="tabpanel">
+      <div class="max-w-lg">
+        <h3 class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-4">Facebook Share Preview</h3>
+        <div class="rounded-lg border border-gray-300 overflow-hidden shadow-sm bg-gray-50">
+          <div id="fb-image-container" class="bg-gray-100 h-64 flex items-center justify-center">
+            <img id="fb-image" class="w-full h-full object-cover hidden" alt="Facebook share preview" />
+            <span id="fb-image-placeholder" class="text-sm text-gray-500">No image set — add og:image URL above</span>
+          </div>
+          <div class="p-3 space-y-1">
+            <div id="fb-domain" class="text-xs text-gray-500 uppercase tracking-wide">example.com</div>
+            <div id="fb-title" class="text-base font-semibold text-gray-900 leading-snug">Your Page Title</div>
+            <div id="fb-description" class="text-sm text-gray-500 line-clamp-1">Your description will appear here</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LinkedIn Preview -->
+    <div id="preview-linkedin" class="tab-panel hidden" role="tabpanel">
+      <div class="max-w-lg">
+        <h3 class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-4">LinkedIn Post Preview</h3>
+        <div class="rounded-lg border border-gray-200 overflow-hidden shadow-sm bg-white">
+          <div id="li-image-container" class="bg-gray-100 h-56 flex items-center justify-center">
+            <img id="li-image" class="w-full h-full object-cover hidden" alt="LinkedIn post preview" />
+            <span id="li-image-placeholder" class="text-sm text-gray-500">No image set — add og:image URL above</span>
+          </div>
+          <div class="p-3 space-y-1">
+            <div id="li-title" class="text-sm font-semibold text-gray-900 leading-snug">Your Page Title</div>
+            <div id="li-domain" class="text-xs text-gray-500">example.com</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Validation Panel -->
+  <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 md:p-8">
+    <h2 class="text-lg font-semibold text-gray-900 mb-4">Tag Validation</h2>
+    <div id="validation-results" class="space-y-3">
+      <p class="text-sm text-gray-500">Fill in the fields above to see validation results.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  function init() {
+    const $ = (id: string) => document.getElementById(id) as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null;
+    const el = (id: string) => document.getElementById(id);
+
+    const fields = {
+      title: $('input-title') as HTMLInputElement,
+      url: $('input-url') as HTMLInputElement,
+      description: $('input-description') as HTMLTextAreaElement,
+      ogTitle: $('input-og-title') as HTMLInputElement,
+      ogDescription: $('input-og-description') as HTMLInputElement,
+      ogImage: $('input-og-image') as HTMLInputElement,
+      ogSitename: $('input-og-sitename') as HTMLInputElement,
+      twitterCard: $('input-twitter-card') as HTMLSelectElement,
+      twitterTitle: $('input-twitter-title') as HTMLInputElement,
+      twitterDescription: $('input-twitter-description') as HTMLInputElement,
+      twitterImage: $('input-twitter-image') as HTMLInputElement,
+    };
+
+    function getVal(field: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null): string {
+      return field?.value?.trim() ?? '';
+    }
+
+    function getDomain(url: string): string {
+      try {
+        return new URL(url).hostname;
+      } catch {
+        return url || 'example.com';
+      }
+    }
+
+    function effectiveTitle(): string { return getVal(fields.ogTitle) || getVal(fields.title) || 'Your Page Title'; }
+    function effectiveDescription(): string { return getVal(fields.ogDescription) || getVal(fields.description) || 'Your description will appear here'; }
+    function effectiveImage(): string { return getVal(fields.ogImage) || ''; }
+    function effectiveTwitterTitle(): string { return getVal(fields.twitterTitle) || effectiveTitle(); }
+    function effectiveTwitterDescription(): string { return getVal(fields.twitterDescription) || effectiveDescription(); }
+    function effectiveTwitterImage(): string { return getVal(fields.twitterImage) || effectiveImage(); }
+
+    function updateCharCount(inputId: string, countId: string, min: number, max: number) {
+      const input = $(inputId);
+      const counter = el(countId);
+      if (!input || !counter) return;
+      const len = getVal(input).length;
+      counter.textContent = String(len);
+      if (len === 0) { counter.className = 'text-xs font-mono text-gray-500'; }
+      else if (len >= min && len <= max) { counter.className = 'text-xs font-mono text-green-600'; }
+      else if (len > max) { counter.className = 'text-xs font-mono text-red-500'; }
+      else { counter.className = 'text-xs font-mono text-yellow-600'; }
+    }
+
+    function updatePreviews() {
+      const url = getVal(fields.url) || 'https://example.com';
+      const domain = getDomain(url);
+
+      // Google
+      const gTitle = el('google-title');
+      const gDesc = el('google-description');
+      const gUrl = el('google-url');
+      if (gTitle) gTitle.textContent = getVal(fields.title) || 'Your Page Title';
+      if (gDesc) gDesc.textContent = getVal(fields.description) || 'Your meta description will appear here. It should be between 150 and 160 characters for optimal display in search results.';
+      if (gUrl) gUrl.textContent = url;
+
+      // Twitter
+      const tTitle = el('twitter-title');
+      const tDesc = el('twitter-description');
+      const tDomain = el('twitter-domain');
+      const tImg = el('twitter-image') as HTMLImageElement | null;
+      const tPlaceholder = el('twitter-image-placeholder');
+      if (tTitle) tTitle.textContent = effectiveTwitterTitle();
+      if (tDesc) tDesc.textContent = effectiveTwitterDescription();
+      if (tDomain) tDomain.textContent = domain;
+      const tImgSrc = effectiveTwitterImage();
+      if (tImg && tPlaceholder) {
+        if (tImgSrc) { tImg.src = tImgSrc; tImg.classList.remove('hidden'); tPlaceholder.classList.add('hidden'); }
+        else { tImg.classList.add('hidden'); tPlaceholder.classList.remove('hidden'); }
+      }
+
+      // Facebook
+      const fTitle = el('fb-title');
+      const fDesc = el('fb-description');
+      const fDomain = el('fb-domain');
+      const fImg = el('fb-image') as HTMLImageElement | null;
+      const fPlaceholder = el('fb-image-placeholder');
+      if (fTitle) fTitle.textContent = effectiveTitle();
+      if (fDesc) fDesc.textContent = effectiveDescription();
+      if (fDomain) fDomain.textContent = domain.toUpperCase();
+      const fImgSrc = effectiveImage();
+      if (fImg && fPlaceholder) {
+        if (fImgSrc) { fImg.src = fImgSrc; fImg.classList.remove('hidden'); fPlaceholder.classList.add('hidden'); }
+        else { fImg.classList.add('hidden'); fPlaceholder.classList.remove('hidden'); }
+      }
+
+      // LinkedIn
+      const lTitle = el('li-title');
+      const lDomain = el('li-domain');
+      const lImg = el('li-image') as HTMLImageElement | null;
+      const lPlaceholder = el('li-image-placeholder');
+      if (lTitle) lTitle.textContent = effectiveTitle();
+      if (lDomain) lDomain.textContent = domain;
+      const lImgSrc = effectiveImage();
+      if (lImg && lPlaceholder) {
+        if (lImgSrc) { lImg.src = lImgSrc; lImg.classList.remove('hidden'); lPlaceholder.classList.add('hidden'); }
+        else { lImg.classList.add('hidden'); lPlaceholder.classList.remove('hidden'); }
+      }
+
+      updateCharCount('input-title', 'count-title', 50, 60);
+      updateCharCount('input-description', 'count-description', 150, 160);
+      runValidation();
+    }
+
+    function runValidation() {
+      const results: { type: 'pass' | 'warn' | 'fail'; message: string; fix?: string }[] = [];
+      const title = getVal(fields.title);
+      const desc = getVal(fields.description);
+      const ogTitle = getVal(fields.ogTitle);
+      const ogDesc = getVal(fields.ogDescription);
+      const ogImage = getVal(fields.ogImage);
+      const url = getVal(fields.url);
+
+      if (!title) results.push({ type: 'fail', message: 'Page title is missing', fix: 'Add a <title> tag between 50–60 characters.' });
+      else if (title.length > 60) results.push({ type: 'warn', message: `Title is ${title.length} characters (recommended ≤60)`, fix: 'Shorten your title to avoid truncation in search results.' });
+      else if (title.length < 30) results.push({ type: 'warn', message: `Title is only ${title.length} characters`, fix: 'Consider a longer, more descriptive title (50–60 chars).' });
+      else results.push({ type: 'pass', message: `Title length is good (${title.length} chars)` });
+
+      if (!desc) results.push({ type: 'fail', message: 'Meta description is missing', fix: 'Add a <meta name="description"> tag between 150–160 characters.' });
+      else if (desc.length > 160) results.push({ type: 'warn', message: `Description is ${desc.length} characters (recommended ≤160)`, fix: 'Shorten to avoid truncation.' });
+      else if (desc.length < 120) results.push({ type: 'warn', message: `Description is only ${desc.length} characters`, fix: 'A longer description (150–160 chars) provides better context.' });
+      else results.push({ type: 'pass', message: `Description length is good (${desc.length} chars)` });
+
+      if (!ogImage) results.push({ type: 'fail', message: 'og:image is missing', fix: 'Add a <meta property="og:image"> tag with an absolute URL to a 1200×630px image.' });
+      else results.push({ type: 'pass', message: 'og:image is set' });
+
+      if (!url) results.push({ type: 'warn', message: 'Page URL not provided', fix: 'Enter the page URL to see accurate domain display in previews.' });
+      else results.push({ type: 'pass', message: 'Page URL is set' });
+
+      if (!ogTitle && !title) results.push({ type: 'fail', message: 'No og:title or title set', fix: 'Social platforms need at least a title. Add og:title or a page title.' });
+      else if (ogTitle) results.push({ type: 'pass', message: 'og:title is set (overrides page title for social)' });
+
+      if (!ogDesc && !desc) results.push({ type: 'warn', message: 'No og:description or meta description set', fix: 'Add og:description for better social sharing previews.' });
+
+      const container = el('validation-results');
+      if (!container) return;
+
+      container.innerHTML = results.map(r => {
+        const icon = r.type === 'pass' ? '✓' : r.type === 'warn' ? '⚠' : '✗';
+        const color = r.type === 'pass' ? 'text-green-600 bg-green-50 border-green-200' : r.type === 'warn' ? 'text-yellow-700 bg-yellow-50 border-yellow-200' : 'text-red-600 bg-red-50 border-red-200';
+        return `<div class="flex items-start gap-3 p-3 rounded-lg border ${color}">
+          <span class="font-bold text-lg leading-none mt-0.5">${icon}</span>
+          <div>
+            <p class="text-sm font-medium">${r.message}</p>
+            ${r.fix ? `<p class="text-xs mt-1 opacity-80">${r.fix}</p>` : ''}
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // Tab switching
+    const tabs = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.tab-panel');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = (tab as HTMLElement).dataset.tab;
+        tabs.forEach(t => { t.setAttribute('aria-selected', 'false'); t.classList.remove('border-brand-600', 'text-brand-700'); t.classList.add('border-transparent', 'text-gray-500'); });
+        tab.setAttribute('aria-selected', 'true'); tab.classList.add('border-brand-600', 'text-brand-700'); tab.classList.remove('border-transparent', 'text-gray-500');
+        panels.forEach(p => { (p as HTMLElement).classList.toggle('hidden', p.id !== `preview-${target}`); });
+      });
+    });
+
+    // Live updates
+    Object.values(fields).forEach(field => {
+      if (field) field.addEventListener('input', updatePreviews);
+    });
+
+    // Handle broken images
+    document.querySelectorAll('#meta-preview-tool img').forEach(img => {
+      img.addEventListener('error', () => {
+        (img as HTMLElement).classList.add('hidden');
+        const placeholder = (img as HTMLElement).nextElementSibling || (img as HTMLElement).parentElement?.querySelector('span');
+        if (placeholder) (placeholder as HTMLElement).classList.remove('hidden');
+      });
+    });
+  }
+
+  init();
+</script>
