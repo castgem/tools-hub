@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolPageHeader from '../../components/ToolPageHeader.astro';
 
 const schemaMarkup = JSON.stringify({
   '@context': 'https://schema.org',
@@ -15,25 +16,49 @@ const schemaMarkup = JSON.stringify({
   canonicalPath="/about/"
   schemaMarkup={schemaMarkup}
 >
-  <section class="py-12 lg:py-20">
-    <div class="section-shell">
-      <div class="max-w-3xl mx-auto">
-        <h1 class="text-4xl font-semibold tracking-tight text-zinc-900 sm:text-5xl">About UseToolEasy</h1>
-        
-        <div class="mt-8 rounded-2xl border border-zinc-200/80 bg-white p-6 sm:p-10 shadow-sm">
-          <div class="prose-copy text-zinc-600">
-            <p>This grouped site exists to keep multiple browser-based tool families on one domain without collapsing them into one vague utility page. Instead of deploying separate microsites for every cluster, UseToolEasy keeps the trust layer, deployment setup, and category navigation in one place.</p>
-            
-            <p>The first grouped launch combines four sections: <strong>Dev Tools</strong>, <strong>Media Tools</strong>, <strong>Creator Tools</strong>, and <strong>Document Tools</strong>. The dev side covers JSON workflows, text cleanup, regex testing, Base64 helpers, cron building, and SQL formatting. The media side covers image optimization, WebP conversion, Video to GIF workflows, and lightweight logo creation. The creator side covers metadata previews, X drafting, AI text cleanup, and prompt design. The document side starts with private, browser-first PDF workflows.</p>
-            
-            <p>All routes are static, browser-first, and designed to avoid the usual problems with older utility sites: cluttered layouts, thin trust pages, and upload-heavy workflows for jobs that are practical to handle locally.</p>
-            
-            <p>The information architecture is deliberate. The homepage explains the site-wide promise, each category page explains a tool family, and each child route owns one narrow search intent. That structure makes the site easier to deploy and easier to grow without turning the domain into a junk drawer.</p>
-            
-            <p>For launch, the site intentionally stays limited to the strongest routes. More child pages and supporting content can be added later if the category split proves useful and the existing pages perform well.</p>
-            
-            <h2 class="mt-10 text-2xl font-semibold tracking-tight text-zinc-900">What the launch includes</h2>
-            <p>The current grouped launch includes category pages for dev tools, media tools, creator tools, and document tools, plus dedicated child routes under each directory. Shared About, Contact, and Privacy pages give the whole domain a cleaner trust surface than a collection of disconnected microsites.</p>
+  <ToolPageHeader
+    title="About UseToolEasy"
+    description="Multiple browser-based tool families on one domain, with shared trust pages and focused child routes."
+  />
+
+  <section class="section-shell pb-16">
+    <div class="max-w-4xl space-y-8">
+      <div class="rounded-2xl border border-zinc-200/80 bg-white p-6 sm:p-8 shadow-sm">
+        <div class="prose-copy text-zinc-600">
+          <p>This grouped site exists to keep multiple browser-based tool families on one domain without collapsing them into one vague utility page. Instead of deploying separate microsites for every cluster, UseToolEasy keeps the trust layer, deployment setup, and category navigation in one place.</p>
+          
+          <p>The first grouped launch combines four sections: <strong>Dev Tools</strong>, <strong>Media Tools</strong>, <strong>Creator Tools</strong>, and <strong>Document Tools</strong>. The dev side covers JSON workflows, text cleanup, regex testing, Base64 helpers, cron building, and SQL formatting. The media side covers image optimization, WebP conversion, Video to GIF workflows, and lightweight logo creation. The creator side covers metadata previews, X drafting, AI text cleanup, and prompt design. The document side starts with private, browser-first PDF workflows.</p>
+          
+          <p>All routes are static, browser-first, and designed to avoid the usual problems with older utility sites: cluttered layouts, thin trust pages, and upload-heavy workflows for jobs that are practical to handle locally.</p>
+          
+          <p>The information architecture is deliberate. The homepage explains the site-wide promise, each category page explains a tool family, and each child route owns one narrow search intent. That structure makes the site easier to deploy and easier to grow without turning the domain into a junk drawer.</p>
+          
+          <p>For launch, the site intentionally stays limited to the strongest routes. More child pages and supporting content can be added later if the category split proves useful and the existing pages perform well.</p>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-zinc-200/80 bg-white p-6 sm:p-8 shadow-sm">
+        <h2 class="text-xl font-semibold tracking-tight text-zinc-900 mb-4">What the launch includes</h2>
+        <p class="text-zinc-600 leading-relaxed">The current grouped launch includes category pages for dev tools, media tools, creator tools, and document tools, plus dedicated child routes under each directory. Shared About, Contact, and Privacy pages give the whole domain a cleaner trust surface than a collection of disconnected microsites.</p>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-semibold tracking-tight text-zinc-900 mb-4">Why UseToolEasy?</h2>
+        <p class="text-base text-zinc-500 mb-6">
+          We built this because we were tired of tools that required signups, uploaded our data to unknown servers, or were buried in SEO spam.
+        </p>
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div class="rounded-xl border border-zinc-200/60 bg-white p-5 shadow-sm">
+            <h3 class="font-medium text-zinc-900">Task-focused design</h3>
+            <p class="mt-2 text-sm text-zinc-500 leading-relaxed">Each tool does exactly one thing well. No cluttered interfaces or confusing settings panels.</p>
+          </div>
+          <div class="rounded-xl border border-zinc-200/60 bg-white p-5 shadow-sm">
+            <h3 class="font-medium text-zinc-900">100% Client-side</h3>
+            <p class="mt-2 text-sm text-zinc-500 leading-relaxed">Files never leave your browser. All processing happens locally for maximum privacy and speed.</p>
+          </div>
+          <div class="rounded-xl border border-zinc-200/60 bg-white p-5 shadow-sm">
+            <h3 class="font-medium text-zinc-900">Instant access</h3>
+            <p class="mt-2 text-sm text-zinc-500 leading-relaxed">Jump directly to the tool you need without navigating through menus or creating an account.</p>
           </div>
         </div>
       </div>

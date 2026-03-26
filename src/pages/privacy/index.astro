@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolPageHeader from '../../components/ToolPageHeader.astro';
 ---
 
 <BaseLayout
@@ -7,32 +8,41 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   description="Privacy policy for UseToolEasy. The launch build is designed around browser-only processing for developer workflows and browser-side media workflows."
   canonicalPath="/privacy/"
 >
-  <section class="py-12 lg:py-20">
-    <div class="section-shell">
-      <div class="max-w-3xl mx-auto">
-        <h1 class="text-4xl font-semibold tracking-tight text-zinc-900 sm:text-5xl">Privacy Policy</h1>
-        
-        <div class="mt-8 rounded-2xl border border-zinc-200/80 bg-white p-6 sm:p-10 shadow-sm">
-          <div class="prose-copy text-zinc-600">
-            <p>UseToolEasy is built around browser-based processing for launch. JSON payloads, text input, regex samples, SQL snippets, cron expressions, JWT tokens, image assets, and short media clips are handled locally in the browser wherever practical.</p>
-            
-            <ul class="my-6 space-y-2">
-              <li>No account is required</li>
-              <li>No backend storage is part of the current launch</li>
-              <li>No analytics or tracking scripts are included by default in this local build</li>
-              <li>If third-party scripts or analytics are added later, this page must be updated</li>
-            </ul>
-            
-            <p>This grouped site is intended for utility workflows. Users should still review outputs before using them in production systems.</p>
-            
-            <h2 class="mt-10 text-2xl font-semibold tracking-tight text-zinc-900">Route-specific privacy expectations</h2>
-            <p>On the dev-tools routes, pasted payloads, curl snippets, JWT tokens, SQL, regex samples, and text input are processed locally for formatting, conversion, and decoding. On the media-tools routes, image conversion, image optimization, logo composition, and short clip-to-GIF workflows are designed to run client-side in the launch build.</p>
-            <p>If the site later adds analytics, third-party embeds, or remote APIs, this page must be updated to state exactly what changed. Until then, the privacy promise for the grouped launch is straightforward: keep the utility workflow in the browser whenever possible.</p>
-            
-            <h2 class="mt-10 text-2xl font-semibold tracking-tight text-zinc-900">What this policy does not promise</h2>
-            <p>This privacy page does not claim that every future feature will always remain fully local. It describes the current grouped-site launch. If a future route requires remote processing or if analytics are added after deployment, the privacy model must be revised and disclosed clearly before that new behavior ships.</p>
-            <p>For the current launch, the practical expectation is simple: the site should not force users to upload data for common JSON, text, regex, cron, SQL, token, image, and short media workflows that are realistic to handle in the browser. That boundary is part of both the product design and the trust model.</p>
-          </div>
+  <ToolPageHeader
+    title="Privacy Policy"
+    description="UseToolEasy is built around browser-based processing. Your data stays in your browser."
+  />
+
+  <section class="section-shell pb-16">
+    <div class="max-w-4xl space-y-8">
+      <div class="rounded-2xl border border-zinc-200/80 bg-white p-6 sm:p-8 shadow-sm">
+        <div class="prose-copy text-zinc-600">
+          <p>UseToolEasy is built around browser-based processing for launch. JSON payloads, text input, regex samples, SQL snippets, cron expressions, JWT tokens, image assets, and short media clips are handled locally in the browser wherever practical.</p>
+          
+          <ul class="my-6 space-y-2">
+            <li>No account is required</li>
+            <li>No backend storage is part of the current launch</li>
+            <li>No analytics or tracking scripts are included by default in this local build</li>
+            <li>If third-party scripts or analytics are added later, this page must be updated</li>
+          </ul>
+          
+          <p>This grouped site is intended for utility workflows. Users should still review outputs before using them in production systems.</p>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-zinc-200/80 bg-white p-6 sm:p-8 shadow-sm">
+        <h2 class="text-xl font-semibold tracking-tight text-zinc-900 mb-4">Route-specific privacy expectations</h2>
+        <div class="prose-copy text-zinc-600">
+          <p>On the dev-tools routes, pasted payloads, curl snippets, JWT tokens, SQL, regex samples, and text input are processed locally for formatting, conversion, and decoding. On the media-tools routes, image conversion, image optimization, logo composition, and short clip-to-GIF workflows are designed to run client-side in the launch build.</p>
+          <p>If the site later adds analytics, third-party embeds, or remote APIs, this page must be updated to state exactly what changed. Until then, the privacy promise for the grouped launch is straightforward: keep the utility workflow in the browser whenever possible.</p>
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-zinc-200/80 bg-white p-6 sm:p-8 shadow-sm">
+        <h2 class="text-xl font-semibold tracking-tight text-zinc-900 mb-4">What this policy does not promise</h2>
+        <div class="prose-copy text-zinc-600">
+          <p>This privacy page does not claim that every future feature will always remain fully local. It describes the current grouped-site launch. If a future route requires remote processing or if analytics are added after deployment, the privacy model must be revised and disclosed clearly before that new behavior ships.</p>
+          <p>For the current launch, the practical expectation is simple: the site should not force users to upload data for common JSON, text, regex, cron, SQL, token, image, and short media workflows that are realistic to handle in the browser. That boundary is part of both the product design and the trust model.</p>
         </div>
       </div>
     </div>
