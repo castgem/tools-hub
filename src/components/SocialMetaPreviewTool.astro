@@ -1,150 +1,210 @@
----
----
-<div id="meta-preview-tool" class="space-y-8">
-  <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 md:p-8">
-    <h2 class="text-lg font-semibold text-gray-900 mb-6">Enter Your Meta Tags</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-      <div>
-        <label for="input-title" class="block text-sm font-medium text-gray-700 mb-1">Page Title</label>
-        <input type="text" id="input-title" placeholder="My Awesome Page" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" />
-        <div class="flex justify-between mt-1">
-          <span class="text-xs text-gray-500">Recommended: 50–60 characters</span>
-          <span id="count-title" class="text-xs font-mono text-gray-500">0</span>
-        </div>
+<div id="meta-preview-tool" class="w-full max-w-7xl mx-auto space-y-6">
+  <div class="grid gap-6 lg:grid-cols-2 lg:items-start">
+    <div class="flex flex-col rounded-2xl border border-zinc-200/80 bg-white shadow-sm overflow-hidden flex-shrink-0">
+      <div class="border-b border-zinc-100 bg-zinc-50/50 p-4 sm:p-5">
+        <h2 class="text-base font-semibold tracking-tight text-zinc-900">Enter Meta Tags</h2>
       </div>
-      <div>
-        <label for="input-url" class="block text-sm font-medium text-gray-700 mb-1">Page URL</label>
-        <input type="url" id="input-url" placeholder="https://example.com/my-page" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" />
-      </div>
-      <div class="md:col-span-2">
-        <label for="input-description" class="block text-sm font-medium text-gray-700 mb-1">Meta Description</label>
-        <textarea id="input-description" rows="2" placeholder="A brief description of your page content..." class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition resize-none"></textarea>
-        <div class="flex justify-between mt-1">
-          <span class="text-xs text-gray-500">Recommended: 150–160 characters</span>
-          <span id="count-description" class="text-xs font-mono text-gray-500">0</span>
-        </div>
-      </div>
-      <div>
-        <label for="input-og-title" class="block text-sm font-medium text-gray-700 mb-1">og:title <span class="text-gray-500 font-normal">(falls back to title)</span></label>
-        <input type="text" id="input-og-title" placeholder="Override title for social sharing" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" />
-      </div>
-      <div>
-        <label for="input-og-description" class="block text-sm font-medium text-gray-700 mb-1">og:description <span class="text-gray-500 font-normal">(falls back to meta desc)</span></label>
-        <input type="text" id="input-og-description" placeholder="Override description for social sharing" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" />
-      </div>
-      <div>
-        <label for="input-og-image" class="block text-sm font-medium text-gray-700 mb-1">og:image URL</label>
-        <input type="url" id="input-og-image" placeholder="https://example.com/image.png" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" />
-        <span class="text-xs text-gray-500 mt-1 block">Recommended: 1200×630px</span>
-      </div>
-      <div>
-        <label for="input-og-sitename" class="block text-sm font-medium text-gray-700 mb-1">og:site_name</label>
-        <input type="text" id="input-og-sitename" placeholder="My Website" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" />
-      </div>
-      <div>
-        <label for="input-twitter-card" class="block text-sm font-medium text-gray-700 mb-1">twitter:card</label>
-        <select id="input-twitter-card" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition bg-white">
-          <option value="summary_large_image">summary_large_image</option>
-          <option value="summary">summary</option>
-        </select>
-      </div>
-      <div>
-        <label for="input-twitter-title" class="block text-sm font-medium text-gray-700 mb-1">twitter:title <span class="text-gray-500 font-normal">(falls back to og:title)</span></label>
-        <input type="text" id="input-twitter-title" placeholder="Override title for Twitter/X" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" />
-      </div>
-      <div>
-        <label for="input-twitter-description" class="block text-sm font-medium text-gray-700 mb-1">twitter:description</label>
-        <input type="text" id="input-twitter-description" placeholder="Override description for Twitter/X" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" />
-      </div>
-      <div>
-        <label for="input-twitter-image" class="block text-sm font-medium text-gray-700 mb-1">twitter:image <span class="text-gray-500 font-normal">(falls back to og:image)</span></label>
-        <input type="url" id="input-twitter-image" placeholder="https://example.com/twitter-image.png" class="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" />
-      </div>
-    </div>
-  </div>
-
-  <div>
-    <div class="flex gap-2 mb-6 border-b border-gray-200" id="platform-tabs" role="tablist">
-      <button role="tab" aria-selected="true" data-tab="google" class="tab-btn px-4 py-2.5 text-sm font-medium border-b-2 border-brand-600 text-brand-700 -mb-px transition-colors">Google</button>
-      <button role="tab" aria-selected="false" data-tab="twitter" class="tab-btn px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 -mb-px transition-colors">Twitter / X</button>
-      <button role="tab" aria-selected="false" data-tab="facebook" class="tab-btn px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 -mb-px transition-colors">Facebook</button>
-      <button role="tab" aria-selected="false" data-tab="linkedin" class="tab-btn px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 -mb-px transition-colors">LinkedIn</button>
-    </div>
-
-    <!-- Google SERP Preview -->
-    <div id="preview-google" class="tab-panel" role="tabpanel">
-      <div class="max-w-2xl bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-        <h3 class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-4">Google Search Preview</h3>
-        <div class="space-y-1">
-          <div id="google-url" class="text-sm text-gray-600 truncate">https://example.com</div>
-          <div id="google-title" class="text-xl text-blue-700 hover:underline cursor-pointer leading-snug">Your Page Title</div>
-          <div id="google-description" class="text-sm text-gray-600 leading-relaxed line-clamp-2">Your meta description will appear here. It should be between 150 and 160 characters for optimal display in search results.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Twitter Preview -->
-    <div id="preview-twitter" class="tab-panel hidden" role="tabpanel">
-      <div class="max-w-lg">
-        <h3 class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-4">Twitter / X Card Preview</h3>
-        <div class="rounded-2xl border border-gray-200 overflow-hidden shadow-sm bg-white">
-          <div id="twitter-image-container" class="bg-gray-100 h-64 flex items-center justify-center">
-            <img id="twitter-image" class="w-full h-full object-cover hidden" alt="Twitter card preview" />
-            <span id="twitter-image-placeholder" class="text-sm text-gray-500">No image set — add og:image URL above</span>
+      
+      <div class="p-4 sm:p-5 space-y-5">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="md:col-span-2">
+            <label for="input-url" class="form-label flex justify-between">
+              <span>Page URL</span>
+            </label>
+            <input type="url" id="input-url" placeholder="https://example.com/my-page" class="form-control font-mono text-[13px]" />
           </div>
-          <div class="p-4 space-y-1">
-            <div id="twitter-domain" class="text-xs text-gray-500">example.com</div>
-            <div id="twitter-title" class="text-sm font-bold text-gray-900 leading-snug">Your Page Title</div>
-            <div id="twitter-description" class="text-sm text-gray-500 line-clamp-2">Your description will appear here</div>
+
+          <div class="md:col-span-2">
+            <label for="input-title" class="form-label flex justify-between">
+              <span>Page Title</span>
+              <span id="count-title" class="text-xs text-zinc-500">0</span>
+            </label>
+            <input type="text" id="input-title" placeholder="My Awesome Page" class="form-control" />
+          </div>
+          
+          <div class="md:col-span-2">
+            <label for="input-description" class="form-label flex justify-between">
+              <span>Meta Description</span>
+              <span id="count-description" class="text-xs text-zinc-500">0</span>
+            </label>
+            <textarea id="input-description" rows="2" placeholder="A brief description of your page content..." class="form-textarea resize-none"></textarea>
+          </div>
+        </div>
+
+        <div class="pt-5 border-t border-zinc-100 grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="md:col-span-2">
+            <h3 class="text-sm font-semibold text-zinc-900 mb-4">Open Graph (og:)</h3>
+          </div>
+          
+          <div>
+            <label for="input-og-title" class="form-label">og:title <span class="text-zinc-400 font-normal ml-1">Optional</span></label>
+            <input type="text" id="input-og-title" placeholder="Override title" class="form-control" />
+          </div>
+          <div>
+            <label for="input-og-description" class="form-label">og:description <span class="text-zinc-400 font-normal ml-1">Optional</span></label>
+            <input type="text" id="input-og-description" placeholder="Override description" class="form-control" />
+          </div>
+          <div>
+            <label for="input-og-image" class="form-label">og:image URL</label>
+            <input type="url" id="input-og-image" placeholder="https://example.com/image.png" class="form-control font-mono text-[13px]" />
+          </div>
+          <div>
+            <label for="input-og-sitename" class="form-label">og:site_name</label>
+            <input type="text" id="input-og-sitename" placeholder="My Website" class="form-control" />
+          </div>
+        </div>
+
+        <div class="pt-5 border-t border-zinc-100 grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="md:col-span-2">
+            <h3 class="text-sm font-semibold text-zinc-900 mb-4">Twitter / X</h3>
+          </div>
+
+          <div>
+            <label for="input-twitter-card" class="form-label">twitter:card</label>
+            <select id="input-twitter-card" class="form-select">
+              <option value="summary_large_image">summary_large_image</option>
+              <option value="summary">summary</option>
+            </select>
+          </div>
+          <div>
+            <label for="input-twitter-title" class="form-label">twitter:title <span class="text-zinc-400 font-normal ml-1">Optional</span></label>
+            <input type="text" id="input-twitter-title" placeholder="Override title" class="form-control" />
+          </div>
+          <div>
+            <label for="input-twitter-description" class="form-label">twitter:description <span class="text-zinc-400 font-normal ml-1">Optional</span></label>
+            <input type="text" id="input-twitter-description" placeholder="Override description" class="form-control" />
+          </div>
+          <div>
+            <label for="input-twitter-image" class="form-label">twitter:image <span class="text-zinc-400 font-normal ml-1">Optional</span></label>
+            <input type="url" id="input-twitter-image" placeholder="https://example.com/image.png" class="form-control font-mono text-[13px]" />
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Facebook Preview -->
-    <div id="preview-facebook" class="tab-panel hidden" role="tabpanel">
-      <div class="max-w-lg">
-        <h3 class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-4">Facebook Share Preview</h3>
-        <div class="rounded-lg border border-gray-300 overflow-hidden shadow-sm bg-gray-50">
-          <div id="fb-image-container" class="bg-gray-100 h-64 flex items-center justify-center">
-            <img id="fb-image" class="w-full h-full object-cover hidden" alt="Facebook share preview" />
-            <span id="fb-image-placeholder" class="text-sm text-gray-500">No image set — add og:image URL above</span>
+    <div class="space-y-6">
+      <div class="flex flex-col rounded-2xl border border-zinc-200/80 bg-zinc-50 shadow-sm overflow-hidden min-h-[500px]">
+        <div class="flex overflow-x-auto border-b border-zinc-200/80 bg-white px-2 pt-2 scrollbar-hide" id="platform-tabs" role="tablist">
+          <button role="tab" aria-selected="true" data-tab="google" class="tab-btn relative px-4 py-2.5 text-sm font-medium text-zinc-900 active">Google</button>
+          <button role="tab" aria-selected="false" data-tab="twitter" class="tab-btn relative px-4 py-2.5 text-sm font-medium text-zinc-500 transition-colors hover:text-zinc-900">Twitter</button>
+          <button role="tab" aria-selected="false" data-tab="facebook" class="tab-btn relative px-4 py-2.5 text-sm font-medium text-zinc-500 transition-colors hover:text-zinc-900">Facebook</button>
+          <button role="tab" aria-selected="false" data-tab="linkedin" class="tab-btn relative px-4 py-2.5 text-sm font-medium text-zinc-500 transition-colors hover:text-zinc-900">LinkedIn</button>
+        </div>
+
+        <div class="p-6 flex-1 flex items-center justify-center">
+          <!-- Google SERP Preview -->
+          <div id="preview-google" class="tab-panel w-full max-w-[600px]" role="tabpanel">
+            <div class="bg-white rounded-xl border border-zinc-200 p-6 shadow-sm">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="flex h-7 w-7 items-center justify-center rounded-full bg-zinc-100 ring-1 ring-zinc-200/50">
+                  <svg class="h-4 w-4 text-zinc-500" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                  </svg>
+                </div>
+                <div class="flex flex-col">
+                  <span class="text-sm text-zinc-900" id="google-sitename">My Website</span>
+                  <span id="google-url" class="text-xs text-zinc-500 truncate">https://example.com</span>
+                </div>
+              </div>
+              <div id="google-title" class="text-xl text-[#1a0dab] hover:underline cursor-pointer leading-snug mb-1">Your Page Title</div>
+              <div id="google-description" class="text-[14px] text-[#4d5156] leading-[1.58] line-clamp-2">Your meta description will appear here. It should be between 150 and 160 characters for optimal display in search results.</div>
+            </div>
           </div>
-          <div class="p-3 space-y-1">
-            <div id="fb-domain" class="text-xs text-gray-500 uppercase tracking-wide">example.com</div>
-            <div id="fb-title" class="text-base font-semibold text-gray-900 leading-snug">Your Page Title</div>
-            <div id="fb-description" class="text-sm text-gray-500 line-clamp-1">Your description will appear here</div>
+
+          <!-- Twitter Preview -->
+          <div id="preview-twitter" class="tab-panel hidden w-full max-w-[500px]" role="tabpanel">
+            <div class="rounded-2xl border border-zinc-200 overflow-hidden shadow-sm bg-white">
+              <div id="twitter-image-container" class="bg-zinc-100 aspect-[1.91/1] flex items-center justify-center relative border-b border-zinc-100">
+                <img id="twitter-image" class="absolute inset-0 w-full h-full object-cover hidden" alt="Twitter card preview" />
+                <div id="twitter-image-placeholder" class="text-zinc-400 flex flex-col items-center gap-2">
+                  <svg xmlns="http://www.w0.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 opacity-50">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                  </svg>
+                  <span class="text-xs">No image specified</span>
+                </div>
+              </div>
+              <div class="p-3 bg-zinc-50/50">
+                <div id="twitter-domain" class="text-[13px] text-zinc-500 mb-0.5">example.com</div>
+                <div id="twitter-title" class="text-[15px] text-zinc-900 leading-snug truncate">Your Page Title</div>
+                <div id="twitter-description" class="text-[14px] text-zinc-500 mt-0.5 truncate">Your description will appear here</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Facebook Preview -->
+          <div id="preview-facebook" class="tab-panel hidden w-full max-w-[500px]" role="tabpanel">
+            <div class="rounded-none border border-zinc-300 overflow-hidden bg-[#f0f2f5]">
+              <div id="fb-image-container" class="bg-zinc-200 aspect-[1.91/1] flex items-center justify-center relative">
+                <img id="fb-image" class="absolute inset-0 w-full h-full object-cover hidden" alt="Facebook share preview" />
+                <div id="fb-image-placeholder" class="text-zinc-400">
+                  <svg xmlns="http://www.w0.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 opacity-50">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="p-3 bg-[#f0f2f5]">
+                <div id="fb-domain" class="text-[12px] text-[#65676B] uppercase tracking-wide mb-1">EXAMPLE.COM</div>
+                <div id="fb-title" class="text-[16px] font-semibold text-[#050505] leading-snug mb-1 truncate">Your Page Title</div>
+                <div id="fb-description" class="text-[14px] text-[#65676B] truncate">Your description will appear here</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- LinkedIn Preview -->
+          <div id="preview-linkedin" class="tab-panel hidden w-full max-w-[500px]" role="tabpanel">
+            <div class="rounded-none border border-zinc-300 bg-white">
+              <div id="li-image-container" class="bg-zinc-100 aspect-[1.91/1] flex items-center justify-center relative border-b border-zinc-200">
+                <img id="li-image" class="absolute inset-0 w-full h-full object-cover hidden" alt="LinkedIn post preview" />
+                <div id="li-image-placeholder" class="text-zinc-400">
+                  <svg xmlns="http://www.w0.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 opacity-50">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="p-3 bg-[#eef3f8]">
+                <div id="li-title" class="text-[14px] font-semibold text-zinc-900 leading-snug truncate mb-0.5">Your Page Title</div>
+                <div id="li-domain" class="text-[12px] text-zinc-500">example.com</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- LinkedIn Preview -->
-    <div id="preview-linkedin" class="tab-panel hidden" role="tabpanel">
-      <div class="max-w-lg">
-        <h3 class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-4">LinkedIn Post Preview</h3>
-        <div class="rounded-lg border border-gray-200 overflow-hidden shadow-sm bg-white">
-          <div id="li-image-container" class="bg-gray-100 h-56 flex items-center justify-center">
-            <img id="li-image" class="w-full h-full object-cover hidden" alt="LinkedIn post preview" />
-            <span id="li-image-placeholder" class="text-sm text-gray-500">No image set — add og:image URL above</span>
-          </div>
-          <div class="p-3 space-y-1">
-            <div id="li-title" class="text-sm font-semibold text-gray-900 leading-snug">Your Page Title</div>
-            <div id="li-domain" class="text-xs text-gray-500">example.com</div>
+      <!-- Validation Panel -->
+      <div class="rounded-2xl border border-zinc-200/80 bg-white shadow-sm overflow-hidden">
+        <div class="border-b border-zinc-100 bg-zinc-50/50 p-4">
+          <h2 class="text-sm font-semibold tracking-tight text-zinc-900">Tag Validation</h2>
+        </div>
+        <div class="p-4">
+          <div id="validation-results" class="space-y-2">
+            <p class="text-[13px] text-zinc-500">Fill in the fields above to see validation results.</p>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- Validation Panel -->
-  <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 md:p-8">
-    <h2 class="text-lg font-semibold text-gray-900 mb-4">Tag Validation</h2>
-    <div id="validation-results" class="space-y-3">
-      <p class="text-sm text-gray-500">Fill in the fields above to see validation results.</p>
     </div>
   </div>
 </div>
+
+<style>
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--color-zinc-900, #18181b);
+    border-radius: 2px 2px 0 0;
+  }
+</style>
 
 <script>
   function init() {
@@ -190,23 +250,26 @@
       if (!input || !counter) return;
       const len = getVal(input).length;
       counter.textContent = String(len);
-      if (len === 0) { counter.className = 'text-xs font-mono text-gray-500'; }
-      else if (len >= min && len <= max) { counter.className = 'text-xs font-mono text-green-600'; }
-      else if (len > max) { counter.className = 'text-xs font-mono text-red-500'; }
-      else { counter.className = 'text-xs font-mono text-yellow-600'; }
+      if (len === 0) { counter.className = 'text-xs text-zinc-500'; }
+      else if (len >= min && len <= max) { counter.className = 'text-xs font-medium text-emerald-600'; }
+      else if (len > max) { counter.className = 'text-xs font-medium text-red-600'; }
+      else { counter.className = 'text-xs font-medium text-amber-600'; }
     }
 
     function updatePreviews() {
       const url = getVal(fields.url) || 'https://example.com';
       const domain = getDomain(url);
+      const sitename = getVal(fields.ogSitename) || domain;
 
       // Google
       const gTitle = el('google-title');
       const gDesc = el('google-description');
       const gUrl = el('google-url');
+      const gSitename = el('google-sitename');
       if (gTitle) gTitle.textContent = getVal(fields.title) || 'Your Page Title';
       if (gDesc) gDesc.textContent = getVal(fields.description) || 'Your meta description will appear here. It should be between 150 and 160 characters for optimal display in search results.';
       if (gUrl) gUrl.textContent = url;
+      if (gSitename) gSitename.textContent = sitename;
 
       // Twitter
       const tTitle = el('twitter-title');
@@ -265,38 +328,52 @@
       const ogImage = getVal(fields.ogImage);
       const url = getVal(fields.url);
 
-      if (!title) results.push({ type: 'fail', message: 'Page title is missing', fix: 'Add a <title> tag between 50–60 characters.' });
-      else if (title.length > 60) results.push({ type: 'warn', message: `Title is ${title.length} characters (recommended ≤60)`, fix: 'Shorten your title to avoid truncation in search results.' });
-      else if (title.length < 30) results.push({ type: 'warn', message: `Title is only ${title.length} characters`, fix: 'Consider a longer, more descriptive title (50–60 chars).' });
-      else results.push({ type: 'pass', message: `Title length is good (${title.length} chars)` });
+      if (!title) results.push({ type: 'fail', message: 'Page title missing', fix: 'Add a title between 50–60 characters.' });
+      else if (title.length > 60) results.push({ type: 'warn', message: `Title is ${title.length} chars (>60)`, fix: 'Shorten to avoid truncation.' });
+      else if (title.length < 30) results.push({ type: 'warn', message: `Title is ${title.length} chars (<30)`, fix: 'Consider a longer, more descriptive title.' });
+      else results.push({ type: 'pass', message: `Title length good (${title.length} chars)` });
 
-      if (!desc) results.push({ type: 'fail', message: 'Meta description is missing', fix: 'Add a <meta name="description"> tag between 150–160 characters.' });
-      else if (desc.length > 160) results.push({ type: 'warn', message: `Description is ${desc.length} characters (recommended ≤160)`, fix: 'Shorten to avoid truncation.' });
-      else if (desc.length < 120) results.push({ type: 'warn', message: `Description is only ${desc.length} characters`, fix: 'A longer description (150–160 chars) provides better context.' });
-      else results.push({ type: 'pass', message: `Description length is good (${desc.length} chars)` });
+      if (!desc) results.push({ type: 'fail', message: 'Meta description missing', fix: 'Add a description between 150–160 chars.' });
+      else if (desc.length > 160) results.push({ type: 'warn', message: `Description is ${desc.length} chars (>160)`, fix: 'Shorten to avoid truncation.' });
+      else if (desc.length < 120) results.push({ type: 'warn', message: `Description is ${desc.length} chars (<120)`, fix: 'A longer description provides better context.' });
+      else results.push({ type: 'pass', message: `Description length good (${desc.length} chars)` });
 
-      if (!ogImage) results.push({ type: 'fail', message: 'og:image is missing', fix: 'Add a <meta property="og:image"> tag with an absolute URL to a 1200×630px image.' });
+      if (!ogImage) results.push({ type: 'fail', message: 'og:image missing', fix: 'Add absolute URL to a 1200×630px image.' });
       else results.push({ type: 'pass', message: 'og:image is set' });
 
-      if (!url) results.push({ type: 'warn', message: 'Page URL not provided', fix: 'Enter the page URL to see accurate domain display in previews.' });
-      else results.push({ type: 'pass', message: 'Page URL is set' });
+      if (!url) results.push({ type: 'warn', message: 'Page URL missing', fix: 'Enter URL to see accurate domain display.' });
 
-      if (!ogTitle && !title) results.push({ type: 'fail', message: 'No og:title or title set', fix: 'Social platforms need at least a title. Add og:title or a page title.' });
-      else if (ogTitle) results.push({ type: 'pass', message: 'og:title is set (overrides page title for social)' });
-
-      if (!ogDesc && !desc) results.push({ type: 'warn', message: 'No og:description or meta description set', fix: 'Add og:description for better social sharing previews.' });
+      if (!ogTitle && !title) results.push({ type: 'fail', message: 'No og:title or title', fix: 'Social platforms need at least a title.' });
+      else if (ogTitle) results.push({ type: 'pass', message: 'og:title set' });
 
       const container = el('validation-results');
       if (!container) return;
 
+      if (results.length === 0) {
+        container.innerHTML = '<p class="text-[13px] text-zinc-500">Fill in the fields above to see validation results.</p>';
+        return;
+      }
+
       container.innerHTML = results.map(r => {
-        const icon = r.type === 'pass' ? '✓' : r.type === 'warn' ? '⚠' : '✗';
-        const color = r.type === 'pass' ? 'text-green-600 bg-green-50 border-green-200' : r.type === 'warn' ? 'text-yellow-700 bg-yellow-50 border-yellow-200' : 'text-red-600 bg-red-50 border-red-200';
-        return `<div class="flex items-start gap-3 p-3 rounded-lg border ${color}">
-          <span class="font-bold text-lg leading-none mt-0.5">${icon}</span>
+        let iconHtml = '';
+        let colorCls = '';
+        
+        if (r.type === 'pass') {
+          iconHtml = '<svg class="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg>';
+          colorCls = 'bg-emerald-50/50 border-emerald-100';
+        } else if (r.type === 'warn') {
+          iconHtml = '<svg class="w-4 h-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3Z" /></svg>';
+          colorCls = 'bg-amber-50 border-amber-200/50';
+        } else {
+          iconHtml = '<svg class="w-4 h-4 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>';
+          colorCls = 'bg-red-50 border-red-200/50';
+        }
+
+        return `<div class="flex items-start gap-2.5 p-2.5 rounded-lg border ${colorCls}">
+          <div class="mt-0.5 flex-shrink-0">${iconHtml}</div>
           <div>
-            <p class="text-sm font-medium">${r.message}</p>
-            ${r.fix ? `<p class="text-xs mt-1 opacity-80">${r.fix}</p>` : ''}
+            <p class="text-[13px] font-medium text-zinc-900">${r.message}</p>
+            ${r.fix ? `<p class="text-[12px] mt-0.5 text-zinc-500">${r.fix}</p>` : ''}
           </div>
         </div>`;
       }).join('');
@@ -308,9 +385,17 @@
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
         const target = (tab as HTMLElement).dataset.tab;
-        tabs.forEach(t => { t.setAttribute('aria-selected', 'false'); t.classList.remove('border-brand-600', 'text-brand-700'); t.classList.add('border-transparent', 'text-gray-500'); });
-        tab.setAttribute('aria-selected', 'true'); tab.classList.add('border-brand-600', 'text-brand-700'); tab.classList.remove('border-transparent', 'text-gray-500');
-        panels.forEach(p => { (p as HTMLElement).classList.toggle('hidden', p.id !== `preview-${target}`); });
+        tabs.forEach(t => { 
+          t.setAttribute('aria-selected', 'false'); 
+          t.classList.remove('active', 'text-zinc-900'); 
+          t.classList.add('text-zinc-500'); 
+        });
+        tab.setAttribute('aria-selected', 'true'); 
+        tab.classList.add('active', 'text-zinc-900'); 
+        tab.classList.remove('text-zinc-500');
+        panels.forEach(p => { 
+          (p as HTMLElement).classList.toggle('hidden', p.id !== `preview-${target}`); 
+        });
       });
     });
 
@@ -323,7 +408,7 @@
     document.querySelectorAll('#meta-preview-tool img').forEach(img => {
       img.addEventListener('error', () => {
         (img as HTMLElement).classList.add('hidden');
-        const placeholder = (img as HTMLElement).nextElementSibling || (img as HTMLElement).parentElement?.querySelector('span');
+        const placeholder = (img as HTMLElement).nextElementSibling || (img as HTMLElement).parentElement?.querySelector('div');
         if (placeholder) (placeholder as HTMLElement).classList.remove('hidden');
       });
     });

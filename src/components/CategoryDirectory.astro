@@ -1,0 +1,158 @@
+---
+import { categories } from '../data/siteNavigation';
+
+interface ValueCard {
+  title: string;
+  description: string;
+}
+
+interface ScopeItem {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  categoryId: string;
+  title: string;
+  description: string;
+  introHeading: string;
+  introParagraphs: string[];
+  valueCards: ValueCard[];
+  useCasesHeading: string;
+  useCasesDescription: string;
+  useCases: ValueCard[];
+  scopeTitle: string;
+  scopeItems: ScopeItem[];
+}
+
+const {
+  categoryId,
+  title,
+  description,
+  introHeading,
+  introParagraphs,
+  valueCards,
+  useCasesHeading,
+  useCasesDescription,
+  useCases,
+  scopeTitle,
+  scopeItems,
+} = Astro.props;
+
+const category = categories.find((entry) => entry.id === categoryId);
+
+if (!category) {
+  throw new Error(`Unknown categoryId: ${categoryId}`);
+}
+---
+
+<section class="pb-16 pt-8">
+  <div class="section-shell">
+  <nav aria-label="Breadcrumb" class="mb-8">
+    <ol class="flex items-center gap-2 text-sm text-zinc-500">
+      <li>
+        <a href="/" class="flex items-center gap-1.5 transition-colors hover:text-zinc-900">
+          <svg xmlns="http://www.w0.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+          </svg>
+          <span class="sr-only">Home</span>
+        </a>
+      </li>
+      <li>
+        <svg xmlns="http://www.w0.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-3">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+        </svg>
+      </li>
+      <li class="font-medium text-zinc-900">{category.label}</li>
+    </ol>
+  </nav>
+
+  <div class="tool-page-lead">
+    <div class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-50 px-3 py-1 text-xs font-medium text-zinc-600 shadow-sm">
+      <span class="flex h-2 w-2 rounded-full bg-emerald-500"></span>
+      <span>{category.tools.length} local tools</span>
+    </div>
+    <h1 class="mt-6 text-4xl font-semibold tracking-tight text-zinc-900 sm:text-5xl">
+      {title}
+    </h1>
+    <p class="mt-4 text-lg leading-relaxed text-zinc-500">
+      {description}
+    </p>
+  </div>
+
+  <div class="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+    {category.tools.map((tool) => (
+      <a href={tool.href} class="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-zinc-300 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-zinc-900/10">
+        <div class="absolute inset-0 bg-gradient-to-br from-zinc-50/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+        
+        <div class="relative z-10 flex flex-col h-full">
+          <div class="mb-4">
+            <span class="inline-flex items-center rounded-md bg-zinc-100 px-2 py-0.5 text-[11px] font-medium uppercase tracking-wider text-zinc-600 ring-1 ring-inset ring-zinc-500/10">
+              {tool.tag}
+            </span>
+          </div>
+          
+          <h2 class="text-xl font-semibold text-zinc-900 group-hover:text-zinc-900">{tool.title}</h2>
+          <p class="mt-2 text-sm leading-relaxed text-zinc-500 flex-grow">{tool.description}</p>
+          
+          <div class="mt-6 flex items-center gap-1 text-sm font-medium text-zinc-900 transition-colors">
+            <span>{tool.cta}</span>
+            <svg xmlns="http://www.w0.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4 transition-transform duration-300 group-hover:translate-x-1">
+              <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd" />
+            </svg>
+          </div>
+        </div>
+      </a>
+    ))}
+  </div>
+</div>
+</section>
+
+<section class="border-t border-zinc-200/80 bg-zinc-50/50 py-16">
+  <div class="section-shell">
+  <div class="max-w-5xl">
+    <div class="rounded-3xl border border-zinc-200/80 bg-white p-8 shadow-sm sm:p-10">
+      <h2 class="text-2xl font-semibold tracking-tight text-zinc-900">{introHeading}</h2>
+      <div class="prose-copy text-zinc-600">
+        {introParagraphs.map((paragraph) => (
+          <p>{paragraph}</p>
+        ))}
+      </div>
+      <div class="mt-8 grid gap-4 sm:grid-cols-2">
+        {valueCards.map((item) => (
+          <div class="rounded-2xl border border-zinc-200/60 bg-zinc-50/50 p-6">
+            <h3 class="font-semibold text-zinc-900">{item.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-zinc-500">{item.description}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-12 border-t border-zinc-200/60 pt-10">
+        <h2 class="text-2xl font-semibold tracking-tight text-zinc-900">{useCasesHeading}</h2>
+        <p class="mt-3 text-base text-zinc-500">{useCasesDescription}</p>
+        <div class="mt-8 grid gap-4 sm:grid-cols-2">
+          {useCases.map((item) => (
+            <article class="rounded-2xl border border-zinc-200/60 bg-white p-6 shadow-sm">
+              <h3 class="font-semibold text-zinc-900">{item.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-zinc-500">{item.description}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div class="mt-12 border-t border-zinc-200/60 pt-10">
+        <h2 class="text-xl font-semibold tracking-tight text-zinc-900">{scopeTitle}</h2>
+        <div class="mt-6 grid gap-4 sm:grid-cols-2">
+          {scopeItems.map((item) => (
+            <div class="rounded-2xl border border-zinc-200/60 bg-white p-6 shadow-sm">
+              <span class="block text-sm font-semibold text-zinc-900">{item.label}</span>
+              <span class="mt-2 block text-sm leading-relaxed text-zinc-500">{item.value}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+

@@ -258,49 +258,52 @@ export default function LogoEditor() {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-6 lg:items-start">
       {/* Controls Panel */}
-      <div className="space-y-6 order-2 lg:order-1">
-        {/* Brand Name */}
-        <div>
-          <label htmlFor="brand-name" className="block text-sm font-semibold text-gray-700 mb-1.5">Brand Name</label>
-          <input
-            id="brand-name"
-            type="text"
-            value={brandName}
-            onChange={(e) => setBrandName(e.target.value)}
-            placeholder="Your Brand"
-            className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all text-gray-900"
-            maxLength={30}
-          />
-        </div>
+      <div className="flex flex-col gap-6 rounded-2xl border border-zinc-200/80 bg-white p-6 sm:p-8 shadow-sm order-2 lg:order-1">
+        
+        <div className="grid gap-6 sm:grid-cols-2">
+          {/* Brand Name */}
+          <div>
+            <label htmlFor="brand-name" className="block text-[13px] font-medium text-zinc-700 mb-1.5">Brand Name</label>
+            <input
+              id="brand-name"
+              type="text"
+              value={brandName}
+              onChange={(e) => setBrandName(e.target.value)}
+              placeholder="Your Brand"
+              className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-[14px] text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-400 focus:outline-none focus:ring-4 focus:ring-zinc-900/5 transition-all shadow-sm"
+              maxLength={30}
+            />
+          </div>
 
-        {/* Tagline */}
-        <div>
-          <label htmlFor="tagline" className="block text-sm font-semibold text-gray-700 mb-1.5">Tagline <span className="font-normal text-gray-500">(optional)</span></label>
-          <input
-            id="tagline"
-            type="text"
-            value={tagline}
-            onChange={(e) => setTagline(e.target.value)}
-            placeholder="Your tagline here"
-            className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all text-gray-900"
-            maxLength={50}
-          />
+          {/* Tagline */}
+          <div>
+            <label htmlFor="tagline" className="block text-[13px] font-medium text-zinc-700 mb-1.5">Tagline <span className="font-normal text-zinc-400 ml-1">Optional</span></label>
+            <input
+              id="tagline"
+              type="text"
+              value={tagline}
+              onChange={(e) => setTagline(e.target.value)}
+              placeholder="Your tagline here"
+              className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-[14px] text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-400 focus:outline-none focus:ring-4 focus:ring-zinc-900/5 transition-all shadow-sm"
+              maxLength={50}
+            />
+          </div>
         </div>
 
         {/* Style Presets */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Style</label>
+          <label className="block text-[13px] font-medium text-zinc-700 mb-2">Style</label>
           <div className="grid grid-cols-3 gap-2">
             {STYLE_PRESETS.map((s) => (
               <button
                 key={s.id}
                 onClick={() => { setStyle(s); setFont(s.fontFamily); }}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all border ${
+                className={`px-3 py-2 rounded-lg text-[13px] font-medium transition-all border shadow-sm ${
                   style.id === s.id
-                    ? 'bg-blue-50 border-blue-500 text-blue-700'
-                    : 'bg-white border-gray-200 text-gray-600 hover:border-gray-300'
+                    ? 'bg-zinc-900 border-transparent text-white'
+                    : 'bg-white border-zinc-200 text-zinc-600 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900 active:scale-[0.98]'
                 }`}
               >
                 {s.name}
@@ -311,14 +314,14 @@ export default function LogoEditor() {
 
         {/* Color Palette */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Color Palette</label>
+          <label className="block text-[13px] font-medium text-zinc-700 mb-2">Color Palette</label>
           <div className="grid grid-cols-5 gap-2">
             {COLOR_PALETTES.map((p) => (
               <button
                 key={p.id}
                 onClick={() => setPalette(p)}
-                className={`group relative h-10 rounded-lg border-2 transition-all ${
-                  palette.id === p.id ? 'border-blue-500 ring-2 ring-blue-200' : 'border-transparent hover:border-gray-300'
+                className={`group relative h-10 rounded-lg border-2 transition-all shadow-sm ${
+                  palette.id === p.id ? 'border-zinc-900 ring-2 ring-zinc-900/10' : 'border-transparent hover:border-zinc-300 hover:scale-105'
                 }`}
                 style={{ background: `linear-gradient(135deg, ${p.primary} 50%, ${p.accent} 50%)` }}
                 title={p.name}
@@ -330,12 +333,12 @@ export default function LogoEditor() {
 
         {/* Font */}
         <div>
-          <label htmlFor="font-select" className="block text-sm font-semibold text-gray-700 mb-1.5">Font</label>
+          <label htmlFor="font-select" className="block text-[13px] font-medium text-zinc-700 mb-1.5">Font Family</label>
           <select
             id="font-select"
             value={font}
             onChange={(e) => setFont(e.target.value)}
-            className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all bg-white text-gray-900"
+            className="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-[14px] text-zinc-900 focus:border-zinc-400 focus:outline-none focus:ring-4 focus:ring-zinc-900/5 transition-all shadow-sm"
           >
             {FONTS.map((f) => (
               <option key={f} value={f} style={{ fontFamily: f }}>{f}</option>
@@ -345,24 +348,24 @@ export default function LogoEditor() {
 
         {/* Icon */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Icon</label>
-          <div className="grid grid-cols-5 sm:grid-cols-7 gap-1.5 max-h-48 overflow-y-auto p-1">
+          <label className="block text-[13px] font-medium text-zinc-700 mb-2">Icon</label>
+          <div className="grid grid-cols-5 sm:grid-cols-7 gap-2 max-h-48 overflow-y-auto p-1 scrollbar-hide">
             {Object.entries(ICONS).map(([key, ico]) => (
               <button
                 key={key}
                 onClick={() => setIcon(key)}
-                className={`flex items-center justify-center h-10 w-full rounded-lg border transition-all ${
+                className={`flex items-center justify-center h-10 w-full rounded-lg border transition-all shadow-sm ${
                   icon === key
-                    ? 'bg-blue-50 border-blue-500 text-blue-600'
-                    : 'bg-white border-gray-200 text-gray-500 hover:border-gray-300'
+                    ? 'bg-zinc-900 border-transparent text-white'
+                    : 'bg-white border-zinc-200 text-zinc-500 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900 active:scale-[0.98]'
                 }`}
                 title={ico.name}
                 aria-label={key === 'none' ? 'No icon' : `Select ${ico.name} icon`}
               >
                 {key === 'none' ? (
-                  <span className="text-xs" aria-hidden="true">None</span>
+                  <span className="text-[11px] font-medium" aria-hidden="true">None</span>
                 ) : (
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d={ico.path} />
                   </svg>
                 )}
@@ -373,16 +376,16 @@ export default function LogoEditor() {
 
         {/* Layout */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Layout</label>
+          <label className="block text-[13px] font-medium text-zinc-700 mb-2">Layout</label>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {LAYOUTS.map((l) => (
               <button
                 key={l.id}
                 onClick={() => setLayout(l.id)}
-                className={`px-3 py-2 rounded-lg text-xs font-medium transition-all border ${
+                className={`px-3 py-2 rounded-lg text-[13px] font-medium transition-all border shadow-sm ${
                   layout === l.id
-                    ? 'bg-blue-50 border-blue-500 text-blue-700'
-                    : 'bg-white border-gray-200 text-gray-600 hover:border-gray-300'
+                    ? 'bg-zinc-900 border-transparent text-white'
+                    : 'bg-white border-zinc-200 text-zinc-600 hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-900 active:scale-[0.98]'
                 }`}
               >
                 {l.name}
@@ -392,59 +395,58 @@ export default function LogoEditor() {
         </div>
 
         {/* Transparent BG */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 pt-2 border-t border-zinc-100">
           <input
             type="checkbox"
             id="transparent-bg"
             checked={transparentBg}
             onChange={(e) => setTransparentBg(e.target.checked)}
-            className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+            className="h-4 w-4 rounded border-zinc-300 text-zinc-900 focus:ring-zinc-900 cursor-pointer"
           />
-          <label htmlFor="transparent-bg" className="text-sm text-gray-700">Transparent background</label>
+          <label htmlFor="transparent-bg" className="text-[13px] text-zinc-700 cursor-pointer select-none">Export with transparent background</label>
         </div>
       </div>
 
       {/* Preview + Download Panel */}
-      <div className="order-1 lg:order-2">
-        <div className="sticky top-24">
-          <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Preview</span>
-            </div>
-            <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 aspect-square flex items-center justify-center">
-              <canvas
-                ref={canvasRef}
-                width={400}
-                height={400}
-                className="w-full h-full"
-                style={{ imageRendering: 'auto' }}
-              />
-            </div>
+      <div className="flex flex-col gap-4 order-1 lg:order-2 lg:sticky lg:top-24">
+        <div className="rounded-2xl border border-zinc-200/80 bg-zinc-50 shadow-sm p-4 sm:p-6 flex flex-col items-center">
+          <div className="w-full flex items-center justify-between mb-4">
+            <span className="text-[11px] font-semibold text-zinc-500 uppercase tracking-wider">Preview</span>
           </div>
-
-          {/* Download Buttons */}
-          <div className="mt-4 grid grid-cols-2 gap-3">
-            <button
-              onClick={downloadPNG}
-              className="flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-sm"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />
-              </svg>
-              PNG
-            </button>
-            <button
-              onClick={downloadSVG}
-              className="flex items-center justify-center gap-2 px-4 py-3 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition-colors shadow-sm"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />
-              </svg>
-              SVG
-            </button>
+          <div className="w-full max-w-[400px] bg-white rounded-xl overflow-hidden shadow-sm border border-zinc-200/80 aspect-square flex items-center justify-center relative">
+            <div className="absolute inset-0 bg-[linear-gradient(45deg,#f4f4f5_25%,transparent_25%),linear-gradient(-45deg,#f4f4f5_25%,transparent_25%),linear-gradient(45deg,transparent_75%,#f4f4f5_75%),linear-gradient(-45deg,transparent_75%,#f4f4f5_75%)] bg-[length:20px_20px] bg-[position:0_0,0_10px,10px_-10px,-10px_0px] opacity-30 z-0"></div>
+            <canvas
+              ref={canvasRef}
+              width={400}
+              height={400}
+              className="w-full h-full relative z-10"
+              style={{ imageRendering: 'auto' }}
+            />
           </div>
-          <p className="text-center text-xs text-gray-500 mt-3">1024×1024px · No watermark · Free forever</p>
         </div>
+
+        {/* Download Buttons */}
+        <div className="grid grid-cols-2 gap-3">
+          <button
+            onClick={downloadPNG}
+            className="flex items-center justify-center gap-2 px-4 py-2.5 bg-white text-zinc-900 border border-zinc-200 rounded-xl text-[14px] font-semibold hover:bg-zinc-50 hover:border-zinc-300 transition-all shadow-sm active:scale-[0.98]"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />
+            </svg>
+            Download PNG
+          </button>
+          <button
+            onClick={downloadSVG}
+            className="flex items-center justify-center gap-2 px-4 py-2.5 bg-zinc-900 text-white rounded-xl text-[14px] font-semibold hover:bg-zinc-800 transition-all shadow-sm active:scale-[0.98]"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />
+            </svg>
+            Download SVG
+          </button>
+        </div>
+        <p className="text-center text-xs text-zinc-500">1024×1024px · No watermark · Local processing</p>
       </div>
     </div>
   );

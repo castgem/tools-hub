@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ToolPageHeader from '../../../components/ToolPageHeader.astro';
 import ImageOptimizer from '../../../components/ImageOptimizer.astro';
 
 const schemaMarkup = JSON.stringify([
@@ -7,7 +8,7 @@ const schemaMarkup = JSON.stringify([
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
     name: 'Image Optimizer',
-    url: 'https://tools.example.com/media-tools/image-optimizer/',
+    url: 'https://usetooleasy.com/media-tools/image-optimizer/',
     description: 'Compress, resize, and convert images in your browser without uploads.',
     applicationCategory: 'MultimediaApplication',
     operatingSystem: 'Any',
@@ -17,8 +18,8 @@ const schemaMarkup = JSON.stringify([
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Media Tools', item: 'https://tools.example.com/media-tools/' },
-      { '@type': 'ListItem', position: 2, name: 'Image Optimizer', item: 'https://tools.example.com/media-tools/image-optimizer/' },
+      { '@type': 'ListItem', position: 1, name: 'Media Tools', item: 'https://usetooleasy.com/media-tools/' },
+      { '@type': 'ListItem', position: 2, name: 'Image Optimizer', item: 'https://usetooleasy.com/media-tools/image-optimizer/' },
     ],
   },
 ]);
@@ -30,27 +31,22 @@ const schemaMarkup = JSON.stringify([
   canonicalPath="/media-tools/image-optimizer/"
   schemaMarkup={schemaMarkup}
 >
-  <section class="bg-gradient-to-br from-emerald-50 to-white py-16">
-    <div class="section-shell">
-      <div class="max-w-3xl">
-        <a href="/media-tools/" class="text-sm font-medium text-brand-700 no-underline hover:text-brand-800">← Back to Media Tools</a>
-        <h1 class="mt-4 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">Image Optimizer</h1>
-        <p class="mt-4 text-lg text-slate-600">
-          Compress, resize, and export images directly in your browser. This page is designed for the people searching for a fast image optimizer, not a generic converter landing page.
-        </p>
-      </div>
-    </div>
-  </section>
+  <ToolPageHeader
+    title="Image Optimizer"
+    description="Compress, resize, and export images directly in your browser. This page is designed for the people searching for a fast image optimizer, not a generic converter landing page."
+    backLabel="Back to Media Tools"
+    backHref="/media-tools/"
+  />
 
-  <section class="py-12">
+  <section class="py-16">
     <ImageOptimizer />
   </section>
 
-  <section class="py-12">
+  <section class="border-y border-slate-200 bg-slate-50 py-16">
     <div class="section-shell grid gap-6 lg:grid-cols-3">
       <article class="card p-6">
-        <h2 class="text-xl font-semibold text-slate-900">Why this page exists</h2>
-        <p class="mt-3 text-sm text-slate-600">The main suite page should not absorb image-optimization intent. This child page owns the compress-images-in-browser workflow directly.</p>
+        <h2 class="text-xl font-semibold text-slate-900">Best for</h2>
+        <p class="mt-3 text-sm text-slate-600">Compressing, resizing, and exporting lighter web images without leaving the browser.</p>
       </article>
       <article class="card p-6">
         <h2 class="text-xl font-semibold text-slate-900">Who it is for</h2>
@@ -59,24 +55,9 @@ const schemaMarkup = JSON.stringify([
       <article class="card p-6">
         <h2 class="text-xl font-semibold text-slate-900">Related tools</h2>
         <ul class="mt-3 space-y-2 text-sm text-slate-600">
-          <li><a href="/media-tools/webp-to-png/" class="text-brand-700">WebP to PNG</a></li>
-          <li><a href="/media-tools/logo-generator/" class="text-brand-700">Logo Generator</a></li>
+          <li><a href="/media-tools/webp-to-png/" class="cta-link--inline">WebP to PNG</a></li>
+          <li><a href="/media-tools/logo-generator/" class="cta-link--inline">Logo Generator</a></li>
         </ul>
-      </article>
-    </div>
-  </section>
-
-  <section class="pb-16">
-    <div class="section-shell grid gap-6 lg:grid-cols-2">
-      <article class="card p-6">
-        <h2 class="text-2xl font-semibold text-slate-900">How this image optimizer helps</h2>
-        <p class="mt-3 text-slate-600">This page is meant for fast publishing workflows. If you are trying to reduce image size before a blog post, landing page, product gallery, or social upload, you should not need a server round-trip or a paid desktop app.</p>
-        <p class="mt-3 text-slate-600">The tool handles the practical adjustments people need most often: smaller file size, lower dimensions, and cleaner output formats for the web.</p>
-      </article>
-      <article class="card p-6">
-        <h2 class="text-2xl font-semibold text-slate-900">Why this page lives inside the hub</h2>
-        <p class="mt-3 text-slate-600">Image optimization overlaps with other media workflows. Designers often optimize an image, convert a WebP asset, then move into a logo or GIF task. Grouping these tools strengthens shared navigation without flattening the page's main intent.</p>
-        <p class="mt-3 text-slate-600">The page still stays focused on the image optimizer keyword cluster, while the rest of the suite appears only as helpful next-step links.</p>
       </article>
     </div>
   </section>

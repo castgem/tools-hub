@@ -1,55 +1,88 @@
 ---
 ---
-<section id="tool" class="tool-section section">
-  <div class="container">
-    <h2 class="section-title">开始优化你的提示词</h2>
-    <p class="section-subtitle">输入一句简单的想法，一键生成结构化 System Prompt</p>
-
-    <div class="tool-wrapper">
-      <div class="tool-input-area">
-        <label for="prompt-input" class="input-label">你的想法 / Your idea</label>
+<section id="tool" class="w-full max-w-5xl mx-auto space-y-6">
+  <div class="tool-wrapper flex flex-col gap-6">
+    <div class="tool-input-area rounded-2xl border border-zinc-200/80 bg-white shadow-sm p-6 sm:p-8">
+      <label for="prompt-input" class="block text-sm font-semibold text-zinc-900 mb-3">Your Idea</label>
+      <div class="relative">
         <textarea
           id="prompt-input"
-          class="prompt-textarea"
+          class="w-full min-h-[140px] rounded-xl border border-zinc-200 bg-zinc-50 p-4 text-[14px] leading-relaxed text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-400 focus:outline-none focus:ring-4 focus:ring-zinc-900/5 transition-all resize-y"
           placeholder="例如：帮我写一个翻译助手，能把中文翻译成地道的英文&#10;&#10;Example: Help me create a translation assistant that translates Chinese to natural English"
-          rows="5"
         ></textarea>
-        <div class="tool-actions">
-          <button id="refine-btn" class="btn-primary" type="button">
-            ⚡ 优化提示词 / Refine Prompt
-          </button>
-          <button id="clear-btn" class="btn-secondary" type="button">
-            清除 / Clear
-          </button>
-        </div>
-        <div class="example-prompts">
-          <span class="example-label">试试这些例子：</span>
-          <button class="example-btn" data-example="帮我做一个代码审查助手，能找出代码中的bug和改进建议" type="button">代码审查助手</button>
-          <button class="example-btn" data-example="我需要一个英语口语教练，能纠正我的语法错误并给出更自然的表达" type="button">口语教练</button>
-          <button class="example-btn" data-example="帮我创建一个周报生成器，把零散的工作内容整理成专业的周报" type="button">周报生成器</button>
-          <button class="example-btn" data-example="I want an AI that helps me brainstorm startup ideas based on my skills and interests" type="button">Startup Ideas</button>
-          <button class="example-btn" data-example="帮我写一个面试模拟器，能根据职位描述生成面试问题并给出反馈" type="button">面试模拟器</button>
-        </div>
+      </div>
+      
+      <div class="mt-4 flex flex-wrap gap-3">
+        <button id="refine-btn" class="btn btn--primary" type="button">
+          <svg xmlns="http://www.w0.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
+            <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0 1 12 2v5h4a1 1 0 0 1 .82 1.573l-7 10A1 1 0 0 1 8 18v-5H4a1 1 0 0 1-.82-1.573l7-10a1 1 0 0 1 1.12-.381Z" clip-rule="evenodd" />
+          </svg>
+          Refine Prompt
+        </button>
+        <button id="clear-btn" class="btn btn--secondary" type="button">
+          Clear
+        </button>
       </div>
 
-      <div id="output-area" class="tool-output-area" style="display: none;">
-        <div class="output-header">
-          <h3>生成的 System Prompt</h3>
-          <div class="output-actions">
-            <button id="copy-btn" class="btn-copy" type="button">
-              📋 复制 / Copy
-            </button>
-            <button id="retry-btn" class="btn-secondary btn-sm" type="button">
-              🔄 重新生成
-            </button>
+      <div class="mt-6 pt-6 border-t border-zinc-100 flex flex-wrap items-center gap-2">
+        <span class="text-[13px] text-zinc-500 mr-2">Try examples:</span>
+        <button class="example-btn rounded-md border border-zinc-200 bg-white px-2.5 py-1 text-xs font-medium text-zinc-600 transition-colors hover:bg-zinc-50 hover:text-zinc-900" data-example="帮我做一个代码审查助手，能找出代码中的bug和改进建议" type="button">Code Reviewer</button>
+        <button class="example-btn rounded-md border border-zinc-200 bg-white px-2.5 py-1 text-xs font-medium text-zinc-600 transition-colors hover:bg-zinc-50 hover:text-zinc-900" data-example="我需要一个英语口语教练，能纠正我的语法错误并给出更自然的表达" type="button">English Coach</button>
+        <button class="example-btn rounded-md border border-zinc-200 bg-white px-2.5 py-1 text-xs font-medium text-zinc-600 transition-colors hover:bg-zinc-50 hover:text-zinc-900" data-example="帮我创建一个周报生成器，把零散的工作内容整理成专业的周报" type="button">Weekly Report</button>
+      </div>
+    </div>
+
+    <div id="output-area" class="hidden rounded-2xl border border-zinc-200/80 bg-zinc-900 shadow-sm overflow-hidden flex-col">
+      <div class="flex items-center justify-between border-b border-zinc-800 bg-zinc-900/50 p-4 sm:px-6">
+        <div class="flex items-center gap-2.5">
+          <div class="flex gap-1.5">
+            <div class="h-2.5 w-2.5 rounded-full bg-red-500/80"></div>
+            <div class="h-2.5 w-2.5 rounded-full bg-amber-500/80"></div>
+            <div class="h-2.5 w-2.5 rounded-full bg-emerald-500/80"></div>
           </div>
+          <h3 class="text-sm font-semibold text-zinc-100 ml-2">Generated System Prompt</h3>
         </div>
-        <pre id="prompt-output" class="prompt-output"><code></code></pre>
-        <p class="output-tip">💡 将此 System Prompt 粘贴到 ChatGPT、Claude、GPT-4 或任何 AI 对话的系统设置中即可使用。</p>
+        <div class="flex gap-2">
+          <button id="retry-btn" class="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-zinc-100" type="button">
+            <svg xmlns="http://www.w0.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-3.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+            </svg>
+            Retry
+          </button>
+          <button id="copy-btn" class="inline-flex items-center gap-1.5 rounded-md bg-white/10 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-white/20 btn-copy" type="button">
+            <svg xmlns="http://www.w0.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-3.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+            </svg>
+            <span class="copy-text">Copy</span>
+          </button>
+        </div>
+      </div>
+      <div class="relative bg-zinc-950 p-4 sm:p-6 max-h-[500px] overflow-y-auto">
+        <pre id="prompt-output" class="font-mono text-[13px] leading-relaxed text-zinc-300 whitespace-pre-wrap break-words"><code></code></pre>
+      </div>
+      <div class="border-t border-zinc-800 bg-zinc-900 p-4 sm:px-6">
+        <div class="flex items-start gap-2.5 rounded-lg bg-indigo-500/10 border border-indigo-500/20 p-3">
+          <svg xmlns="http://www.w0.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4 text-indigo-400 mt-0.5 shrink-0">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z" clip-rule="evenodd" />
+          </svg>
+          <p class="text-[13px] text-indigo-200/80">Copy this System Prompt into the custom instructions or system message of ChatGPT, Claude, or any AI platform.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  .shake {
+    animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  }
+  @keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+  }
+</style>
 
 <script>
   function detectLanguage(text: string): 'zh' | 'en' | 'mixed' {
@@ -170,37 +203,45 @@ Friendly yet professional, like an experienced ${role} colleague having a conver
       if (!input) {
         inputEl.focus();
         inputEl.classList.add('shake');
-        setTimeout(() => inputEl.classList.remove('shake'), 500);
+        setTimeout(() => inputEl.classList.remove('shake'), 400);
         return;
       }
       const result = generateSystemPrompt(input);
       outputEl.textContent = result;
-      outputArea.style.display = 'block';
-      outputArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      outputArea.classList.remove('hidden');
+      outputArea.classList.add('flex');
+      outputArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
 
     clearBtn.addEventListener('click', () => {
       inputEl.value = '';
-      outputArea.style.display = 'none';
+      outputArea.classList.add('hidden');
+      outputArea.classList.remove('flex');
       outputEl.textContent = '';
       inputEl.focus();
     });
 
     copyBtn.addEventListener('click', async () => {
       const text = outputEl.textContent || '';
+      const span = copyBtn.querySelector('.copy-text');
+      if (!span) return;
+      
       try {
         await navigator.clipboard.writeText(text);
-        copyBtn.textContent = '✅ 已复制!';
-        setTimeout(() => { copyBtn.textContent = '📋 复制 / Copy'; }, 2000);
+        span.textContent = 'Copied!';
+        copyBtn.classList.add('text-emerald-400');
+        setTimeout(() => { 
+          span.textContent = 'Copy';
+          copyBtn.classList.remove('text-emerald-400');
+        }, 2000);
       } catch {
         const ta = document.createElement('textarea');
         ta.value = text;
         document.body.appendChild(ta);
         ta.select();
-        document.execCommand('copy');
+        span.textContent = 'Failed';
+        setTimeout(() => { span.textContent = 'Copy'; }, 2000);
         document.body.removeChild(ta);
-        copyBtn.textContent = '✅ 已复制!';
-        setTimeout(() => { copyBtn.textContent = '📋 复制 / Copy'; }, 2000);
       }
     });
 
@@ -227,225 +268,3 @@ Friendly yet professional, like an experienced ${role} colleague having a conver
     document.addEventListener('DOMContentLoaded', init);
   }
 </script>
-
-<style>
-  .tool-section {
-    padding-top: 2rem;
-  }
-
-  .tool-wrapper {
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .tool-input-area {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .input-label {
-    display: block;
-    font-size: 0.9rem;
-    color: var(--color-text-secondary);
-    margin-bottom: 0.5rem;
-  }
-
-  .prompt-textarea {
-    width: 100%;
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    color: var(--color-text);
-    font-family: var(--font-sans);
-    font-size: 0.95rem;
-    padding: 1rem;
-    resize: vertical;
-    line-height: 1.6;
-    transition: border-color 0.2s;
-  }
-
-  .prompt-textarea:focus {
-    outline: none;
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px var(--color-primary-light);
-  }
-
-  .prompt-textarea.shake {
-    animation: shake 0.4s ease-in-out;
-  }
-
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-6px); }
-    75% { transform: translateX(6px); }
-  }
-
-  .tool-actions {
-    display: flex;
-    gap: 0.75rem;
-    margin-top: 1rem;
-  }
-
-  .btn-primary {
-    background: var(--color-primary);
-    color: #fff;
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-  }
-
-  .btn-primary:hover {
-    background: var(--color-primary-hover);
-    transform: translateY(-1px);
-  }
-
-  .btn-primary:active {
-    transform: translateY(0);
-  }
-
-  .btn-secondary {
-    background: transparent;
-    color: var(--color-text-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    padding: 0.75rem 1.25rem;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: border-color 0.2s, color 0.2s;
-  }
-
-  .btn-secondary:hover {
-    border-color: var(--color-text-secondary);
-    color: var(--color-text);
-  }
-
-  .btn-sm {
-    padding: 0.5rem 1rem;
-    font-size: 0.85rem;
-  }
-
-  .example-prompts {
-    margin-top: 1rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    align-items: center;
-  }
-
-  .example-label {
-    font-size: 0.8rem;
-    color: var(--color-text-secondary);
-  }
-
-  .example-btn {
-    background: var(--color-primary-light);
-    color: var(--color-primary);
-    border: 1px solid transparent;
-    border-radius: 20px;
-    padding: 0.3rem 0.8rem;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: background 0.2s, border-color 0.2s;
-  }
-
-  .example-btn:hover {
-    border-color: var(--color-primary);
-    background: rgba(108, 92, 231, 0.2);
-  }
-
-  .tool-output-area {
-    background: var(--color-surface);
-    border: 1px solid var(--color-accent);
-    border-radius: var(--radius);
-    padding: 1.5rem;
-    animation: fadeIn 0.3s ease;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .output-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .output-header h3 {
-    color: var(--color-accent);
-    font-size: 1rem;
-  }
-
-  .output-actions {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  .btn-copy {
-    background: var(--color-accent-light);
-    color: var(--color-accent);
-    border: 1px solid transparent;
-    border-radius: var(--radius-sm);
-    padding: 0.5rem 1rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s, border-color 0.2s;
-  }
-
-  .btn-copy:hover {
-    border-color: var(--color-accent);
-  }
-
-  .prompt-output {
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    padding: 1.25rem;
-    overflow-x: auto;
-    font-size: 0.88rem;
-    line-height: 1.7;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    font-family: var(--font-mono);
-    color: var(--color-text);
-    max-height: 500px;
-    overflow-y: auto;
-  }
-
-  .output-tip {
-    margin-top: 1rem;
-    font-size: 0.8rem;
-    color: var(--color-text-secondary);
-    padding: 0.75rem;
-    background: var(--color-primary-light);
-    border-radius: var(--radius-sm);
-  }
-
-  @media (max-width: 768px) {
-    .tool-actions {
-      flex-direction: column;
-    }
-
-    .btn-primary, .btn-secondary {
-      width: 100%;
-      text-align: center;
-    }
-
-    .output-header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  }
-</style>

@@ -1,10 +1,6 @@
 ---
 import '../styles/global.css';
-
-interface NavLink {
-  href: string;
-  label: string;
-}
+import { categories, trustLinks } from '../data/siteNavigation';
 
 interface Props {
   title: string;
@@ -12,7 +8,6 @@ interface Props {
   canonicalPath?: string;
   ogImage?: string;
   schemaMarkup?: string;
-  navLinks?: NavLink[];
 }
 
 const {
@@ -21,25 +16,74 @@ const {
   canonicalPath = '/',
   ogImage = '/og-image.svg',
   schemaMarkup,
-  navLinks = [
-    { href: '/dev-tools/', label: 'Dev Tools' },
-    { href: '/media-tools/', label: 'Media Tools' },
-    { href: '/creator-tools/', label: 'Creator Tools' },
-    { href: '/document-tools/', label: 'Document Tools' },
-    { href: '/about/', label: 'About' },
-  ],
 } = Astro.props;
 
-const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://tools.example.com';
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://usetooleasy.com';
 const normalizedPath = canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath}`;
 const canonical = `${siteUrl}${normalizedPath === '/' ? '/' : `${normalizedPath.replace(/\/$/, '')}/`}`;
+const currentPath = Astro.url.pathname === '/' ? '/' : `${Astro.url.pathname.replace(/\/$/, '')}/`;
+
+const normalizeHref = (href: string) => {
+  const [path] = href.split('#');
+
+  if (!path || path === '/') {
+    return '/';
+  }
+
+  return `${path.replace(/\/$/, '')}/`;
+};
+
+const activeCategory = categories.find((category) =>
+  currentPath === category.href || (category.href !== '/' && currentPath.startsWith(category.href)),
+);
+const activeTool = activeCategory?.tools.find((tool) => currentPath === normalizeHref(tool.href));
+const isTrustPage = trustLinks.some((link) => currentPath === normalizeHref(link.href));
+const usesWideLayout = currentPath === '/' || isTrustPage || Boolean(activeCategory);
+const currentCategoryTools = activeCategory?.tools ?? [];
+const isToolDetailPage = Boolean(activeTool);
+
+// Lucide SVG icon paths for sidebar (24x24 viewBox, stroke-based)
+const categoryIcons: Record<string, string> = {
+  'dev-tools': '<path d="M16 18l6-6-6-6" /><path d="M8 6l-6 6 6 6" />', // Code
+  'media-tools': '<rect width="18" height="18" x="3" y="3" rx="2" ry="2" /><circle cx="9" cy="9" r="2" /><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />', // Image
+  'creator-tools': '<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" /><path d="M20 3v4" /><path d="M22 5h-4" />', // Sparkles
+  'document-tools': '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M10 9H8" /><path d="M16 13H8" /><path d="M16 17H8" />', // FileText
+};
+const trustIcons: Record<string, string> = {
+  'About': '<circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" />', // Info
+  'Privacy': '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />', // Shield
+  'Contact': '<rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />', // Mail
+};
+
+const googleAnalyticsId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID?.trim();
+const plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN?.trim();
+const plausibleScriptSrc = import.meta.env.PUBLIC_PLAUSIBLE_SCRIPT_SRC?.trim() || 'https://plausible.io/js/script.js';
+const cloudflareWebAnalyticsToken = import.meta.env.PUBLIC_CLOUDFLARE_WEB_ANALYTICS_TOKEN?.trim();
+const buyMeACoffeeUrl = import.meta.env.PUBLIC_BUYMEACOFFEE_URL?.trim();
+
+const googleAnalyticsScript = googleAnalyticsId
+  ? `window.dataLayer = window.dataLayer || []; function gtag(){window.dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', ${JSON.stringify(googleAnalyticsId)});`
+  : undefined;
+const cloudflareBeaconConfig = cloudflareWebAnalyticsToken
+  ? JSON.stringify({ token: cloudflareWebAnalyticsToken })
+  : undefined;
+
+const isLinkActive = (href: string) => {
+  const normalizedHref = normalizeHref(href);
+
+  if (normalizedHref === '/') {
+    return currentPath === '/';
+  }
+
+  return currentPath === normalizedHref;
+};
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -48,7 +92,7 @@ const canonical = `${siteUrl}${normalizedPath === '/' ? '/' : `${normalizedPath.
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={`${siteUrl}${ogImage}`} />
-    <meta property="og:site_name" content="Browser Tools Hub" />
+    <meta property="og:site_name" content="UseToolEasy" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
@@ -56,61 +100,381 @@ const canonical = `${siteUrl}${normalizedPath === '/' ? '/' : `${normalizedPath.
     <meta name="robots" content="index,follow" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    {schemaMarkup && <script type="application/ld+json" set:html={schemaMarkup} />}
+    {googleAnalyticsId && <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}></script>}
+    {googleAnalyticsScript && <script is:inline set:html={googleAnalyticsScript} />}
+    {plausibleDomain && <script is:inline defer data-domain={plausibleDomain} src={plausibleScriptSrc}></script>}
+    {schemaMarkup && <script is:inline type="application/ld+json" set:html={schemaMarkup} />}
+    <script is:inline>
+      // Load sidebar state immediately to prevent layout shift
+      if (localStorage.getItem('sidebar-collapsed') === 'true') {
+        document.documentElement.classList.add('sidebar-collapsed');
+      }
+    </script>
   </head>
-  <body class="min-h-screen">
-    <header class="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
-      <div class="section-shell flex h-16 items-center justify-between">
-        <a href="/" class="flex items-center gap-3 font-semibold text-slate-900 no-underline">
-          <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-brand-600 text-white shadow-sm">BT</span>
-          <span>
-            <span class="block text-base leading-none">Browser Tools Hub</span>
-            <span class="block text-xs font-normal text-slate-500">Dev and media tools that run in the browser</span>
-          </span>
+  <body class="min-h-screen bg-zinc-50 text-zinc-900 selection:bg-zinc-200 selection:text-zinc-900 flex flex-col overflow-x-hidden">
+    <!-- Mobile Drawer Overlay -->
+    <div id="mobile-drawer-overlay" class="fixed inset-0 z-[60] bg-zinc-900/40 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden"></div>
+
+    <!-- Mobile Drawer -->
+    <aside id="mobile-drawer" class="fixed inset-y-0 left-0 z-[70] w-[280px] -translate-x-full transform bg-white shadow-2xl transition-transform duration-300 lg:hidden flex flex-col">
+      <div class="flex items-center justify-between p-4 border-b border-zinc-100">
+        <a href="/" class="flex items-center gap-2.5 font-semibold text-zinc-900 no-underline">
+          <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-zinc-900 text-xs text-white shadow-sm">
+            <svg xmlns="http://www.w0.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4">
+              <path fill-rule="evenodd" d="M11.097 1.515a.75.75 0 0 1 .589.882L10.666 7.5h4.47l1.079-5.397a.75.75 0 1 1 1.47.294L16.665 7.5h3.585a.75.75 0 0 1 0 1.5h-3.885l-1.2 6h3.585a.75.75 0 0 1 0 1.5h-3.885l-1.08 5.397a.75.75 0 1 1-1.47-.294l1.02-5.103h-4.47l-1.08 5.397a.75.75 0 0 1-1.47-.294l1.02-5.103H3.75a.75.75 0 1 1 0-1.5h3.885l1.2-6H5.25a.75.75 0 0 1 0-1.5h3.885l1.08-5.397a.75.75 0 0 1 .882-.588ZM10.365 9l-1.2 6h4.47l1.2-6h-4.47Z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <span class="block truncate text-[15px] tracking-tight">UseToolEasy</span>
         </a>
-        <nav class="hidden items-center gap-5 text-sm font-medium md:flex">
-          {navLinks.map((link) => (
-            <a href={link.href} class="text-slate-600 no-underline transition-colors hover:text-brand-700">{link.label}</a>
-          ))}
-        </nav>
+        <button id="close-drawer-btn" class="p-2 -mr-2 text-zinc-400 hover:text-zinc-600 transition-colors" aria-label="Close menu">
+          <svg xmlns="http://www.w0.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-4 space-y-6">
+        <section>
+          <p class="nav-group-label">Categories</p>
+          <nav class="space-y-0.5" aria-label="Mobile tool categories">
+            {categories.map((category) => {
+              const categoryActive = activeCategory?.id === category.id;
+              return (
+                <div>
+                  <a href={category.href} class:list={['nav-link', categoryActive && 'nav-link--active']}>
+                    <span class="truncate">{category.label}</span>
+                    {category.tools && <span class="text-[10px] font-medium text-zinc-400 bg-zinc-100 px-1.5 py-0.5 rounded">{category.tools.length}</span>}
+                  </a>
+                  {categoryActive && currentCategoryTools.length > 0 && (
+                    <div class="mt-1 space-y-0.5 pl-3 border-l border-zinc-100 ml-3">
+                      {currentCategoryTools.map((tool) => (
+                        <a href={tool.href} class:list={['nav-sub-link', currentPath === normalizeHref(tool.href) && 'nav-sub-link--active']}>
+                          {tool.title}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </nav>
+        </section>
+
+        <section>
+          <p class="nav-group-label">Links</p>
+          <div class="space-y-0.5">
+            {trustLinks.map((link) => (
+              <a href={link.href} class:list={['nav-link', isLinkActive(link.href) && 'nav-link--active']}>
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </section>
+      </div>
+    </aside>
+
+    <header class:list={['sticky top-0 z-50 glass-nav transition-all duration-300', usesWideLayout ? '' : '']}>
+      <div class:list={['section-shell flex items-center justify-between gap-3 sm:gap-4 py-3', usesWideLayout ? 'min-h-[52px]' : 'min-h-[56px]']}>
+        <div class="flex items-center gap-3 sm:gap-6">
+          <button id="open-drawer-btn" class="lg:hidden p-1.5 -ml-1.5 text-zinc-500 hover:text-zinc-900 transition-colors" aria-label="Open menu">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </button>
+
+          <a href="/" class:list={['flex min-w-0 items-center gap-2.5 font-semibold text-zinc-900 no-underline transition-opacity hover:opacity-80', usesWideLayout && 'gap-2']}>
+            <div class:list={['flex shrink-0 items-center justify-center bg-zinc-900 text-white shadow-sm ring-1 ring-zinc-900/5', usesWideLayout ? 'h-7 w-7 rounded-[10px] text-[11px]' : 'h-8 w-8 rounded-xl text-xs']}>
+              <svg xmlns="http://www.w0.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4">
+                <path fill-rule="evenodd" d="M11.097 1.515a.75.75 0 0 1 .589.882L10.666 7.5h4.47l1.079-5.397a.75.75 0 1 1 1.47.294L16.665 7.5h3.585a.75.75 0 0 1 0 1.5h-3.885l-1.2 6h3.585a.75.75 0 0 1 0 1.5h-3.885l-1.08 5.397a.75.75 0 1 1-1.47-.294l1.02-5.103h-4.47l-1.08 5.397a.75.75 0 0 1-1.47-.294l1.02-5.103H3.75a.75.75 0 1 1 0-1.5h3.885l1.2-6H5.25a.75.75 0 0 1 0-1.5h3.885l1.08-5.397a.75.75 0 0 1 .882-.588ZM10.365 9l-1.2 6h4.47l1.2-6h-4.47Z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <span class="block truncate text-[14px] sm:text-[15px] tracking-tight">UseToolEasy</span>
+          </a>
+          
+          {activeCategory && (
+            <div class="hidden items-center gap-2 lg:flex">
+              <svg xmlns="http://www.w0.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-3.5 text-zinc-300">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+              </svg>
+              <span class="inline-flex items-center rounded-md bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600 ring-1 ring-inset ring-zinc-500/10">
+                {activeCategory.label}
+              </span>
+            </div>
+          )}
+        </div>
+
+        <div class="flex items-center gap-2 sm:gap-3">
+          <button type="button" class="group flex items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50/50 p-1.5 sm:px-3 sm:py-1.5 text-sm text-zinc-500 transition-colors hover:border-zinc-300 hover:bg-zinc-100 hover:text-zinc-700" aria-label="Search tools">
+            <svg xmlns="http://www.w0.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4 sm:opacity-70">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
+            <span class="hidden sm:inline-block">Search...</span>
+            <div class="hidden items-center gap-0.5 md:flex ml-2">
+              <kbd class="kbd-shortcut">⌘</kbd>
+              <kbd class="kbd-shortcut">K</kbd>
+            </div>
+          </button>
+        </div>
       </div>
     </header>
 
-    <main>
-      <slot />
-    </main>
+    <div class:list={['section-shell py-4 sm:py-6 flex-grow flex flex-col', usesWideLayout && 'max-w-[1600px]']}>
+      <div class="desktop-layout-grid flex-grow grid gap-6 lg:gap-8">
+        <aside class="desktop-sidebar hidden lg:block lg:sticky lg:self-start lg:top-24">
+          <div class="desktop-sidebar-inner">
+            <div class="sidebar-toggle-row flex items-center justify-end mb-2 px-1">
+              <button id="toggle-sidebar-btn" class="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 transition-colors" aria-label="Toggle sidebar" title="Toggle sidebar (⌘B)">
+                <svg class="sidebar-icon-collapse size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="18" height="18" x="3" y="3" rx="2" /><path d="M9 3v18" /><path d="m16 15-3-3 3-3" />
+                </svg>
+                <svg class="sidebar-icon-expand size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="18" height="18" x="3" y="3" rx="2" /><path d="M9 3v18" /><path d="m14 9 3 3-3 3" />
+                </svg>
+              </button>
+            </div>
+            <section class="mb-4">
+              <p class="nav-group-label sidebar-label">Categories</p>
+              <nav class="space-y-0.5" aria-label="Tool categories">
+                {categories.map((category) => {
+                  const categoryActive = activeCategory?.id === category.id;
+                  const iconPath = categoryIcons[category.id] || '';
 
-    <footer class="mt-16 border-t border-slate-200 bg-white">
-      <div class="section-shell py-10">
-        <div class="grid gap-8 md:grid-cols-3">
-          <div>
-            <h2 class="text-base font-semibold text-slate-900">Browser Tools Hub</h2>
-            <p class="mt-3 text-sm leading-6 text-slate-600">
-              One shared domain for developer and media utilities, with each tool family kept under its own clean category route.
-            </p>
+                  return (
+                    <div>
+                      <a href={category.href} class:list={['sidebar-nav-link', categoryActive && 'sidebar-nav-link--active']} title={category.label}>
+                        <span class="sidebar-icon">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={iconPath} />
+                        </span>
+                        <span class="sidebar-text">{category.label}</span>
+                      </a>
+                      {categoryActive && currentCategoryTools.length > 0 && (
+                        <div class="sidebar-sub-nav">
+                          {currentCategoryTools.map((tool) => (
+                            <a href={tool.href} class:list={['sidebar-sub-link', currentPath === normalizeHref(tool.href) && 'sidebar-sub-link--active']}>
+                              <span class="sidebar-sub-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4" /></svg>
+                              </span>
+                              <span class="sidebar-text">{tool.title}</span>
+                            </a>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </nav>
+            </section>
+
+            <section>
+              <p class="nav-group-label sidebar-label">Links</p>
+              <div class="space-y-0.5">
+                {trustLinks.map((link) => {
+                  const iconPath = trustIcons[link.label] || '';
+                  return (
+                    <a href={link.href} class:list={['sidebar-nav-link', isLinkActive(link.href) && 'sidebar-nav-link--active']} title={link.label}>
+                      <span class="sidebar-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={iconPath} />
+                      </span>
+                      <span class="sidebar-text">{link.label}</span>
+                    </a>
+                  );
+                })}
+              </div>
+            </section>
           </div>
-          <div>
-            <h2 class="text-base font-semibold text-slate-900">Categories</h2>
-            <ul class="mt-3 space-y-2 text-sm text-slate-600">
-              <li><a href="/dev-tools/" class="hover:text-brand-700">Dev Tools</a></li>
-              <li><a href="/media-tools/" class="hover:text-brand-700">Media Tools</a></li>
-              <li><a href="/creator-tools/" class="hover:text-brand-700">Creator Tools</a></li>
-              <li><a href="/document-tools/" class="hover:text-brand-700">Document Tools</a></li>
-            </ul>
-          </div>
-          <div>
-            <h2 class="text-base font-semibold text-slate-900">Trust</h2>
-            <ul class="mt-3 space-y-2 text-sm text-slate-600">
-              <li><a href="/about/" class="hover:text-brand-700">About Us</a></li>
-              <li><a href="/contact/" class="hover:text-brand-700">Contact Us</a></li>
-              <li><a href="/privacy/" class="hover:text-brand-700">Privacy Policy</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="mt-8 border-t border-slate-100 pt-6 text-sm text-slate-500">
-          <p>Built for grouped-site testing inside the cc-longtail-workspace. Final production domain and support inbox still require maintainer input before launch.</p>
+        </aside>
+
+        <div class="desktop-main-content min-w-0 flex flex-col gap-6 sm:gap-8 flex-grow">
+          <main class:list={[!usesWideLayout && 'app-surface sm:p-2 lg:p-4', usesWideLayout && 'flex-grow']}>
+            <slot />
+          </main>
+
+          {isToolDetailPage && buyMeACoffeeUrl && (
+            <section class="app-surface p-5 sm:p-6 lg:p-8">
+              <div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-xs">☕</span>
+                    <p class="text-xs sm:text-sm font-semibold text-orange-600">Support development</p>
+                  </div>
+                  <h2 class="mt-2 text-base sm:text-lg font-semibold tracking-tight text-zinc-900">Find this tool useful?</h2>
+                  <p class="mt-1 text-sm text-zinc-500">Help keep these browser-first tools free, focused, and fast.</p>
+                </div>
+                <a href={buyMeACoffeeUrl} class="btn btn--primary whitespace-nowrap group sm:w-auto w-full" target="_blank" rel="noreferrer">
+                  <span>Buy me a coffee</span>
+                  <svg xmlns="http://www.w0.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4 transition-transform group-hover:translate-x-0.5">
+                    <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd" />
+                  </svg>
+                </a>
+              </div>
+            </section>
+          )}
+
+          <footer class="mt-auto border-t border-zinc-200/60 pt-6 pb-8 lg:pt-8 lg:pb-12">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between text-xs sm:text-sm text-zinc-500">
+              <div class="flex items-center gap-2">
+                <div class="h-5 w-5 rounded bg-zinc-200 flex items-center justify-center text-[9px] font-bold text-zinc-600">BT</div>
+                <span>&copy; {new Date().getFullYear()} UseToolEasy</span>
+              </div>
+              <div class="flex flex-wrap gap-4">
+                {trustLinks.map(link => (
+                  <a href={link.href} class="hover:text-zinc-900 transition-colors">{link.label}</a>
+                ))}
+              </div>
+            </div>
+          </footer>
         </div>
       </div>
-    </footer>
+    </div>
+    {cloudflareBeaconConfig && (
+      <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={cloudflareBeaconConfig}></script>
+    )}
+    
+    <script is:inline>
+      // Navigation interactions (Drawer and Sidebar collapse)
+      document.addEventListener('DOMContentLoaded', () => {
+        // Mobile Drawer
+        const openBtn = document.getElementById('open-drawer-btn');
+        const closeBtn = document.getElementById('close-drawer-btn');
+        const overlay = document.getElementById('mobile-drawer-overlay');
+        const drawer = document.getElementById('mobile-drawer');
+        
+        function openDrawer() {
+          if (!overlay || !drawer) return;
+          overlay.classList.remove('opacity-0', 'pointer-events-none');
+          drawer.classList.remove('-translate-x-full');
+          document.body.style.overflow = 'hidden';
+        }
+        
+        function closeDrawer() {
+          if (!overlay || !drawer) return;
+          overlay.classList.add('opacity-0', 'pointer-events-none');
+          drawer.classList.add('-translate-x-full');
+          document.body.style.overflow = '';
+        }
+        
+        openBtn?.addEventListener('click', openDrawer);
+        closeBtn?.addEventListener('click', closeDrawer);
+        overlay?.addEventListener('click', closeDrawer);
+
+        // Desktop Sidebar Collapse
+        const toggleBtn = document.getElementById('toggle-sidebar-btn');
+        const html = document.documentElement;
+        
+        function toggleSidebar() {
+          const isCollapsed = html.classList.toggle('sidebar-collapsed');
+          localStorage.setItem('sidebar-collapsed', isCollapsed ? 'true' : 'false');
+        }
+
+        toggleBtn?.addEventListener('click', toggleSidebar);
+
+        // Add keyboard shortcut (Cmd+B / Ctrl+B)
+        document.addEventListener('keydown', (e) => {
+          if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'b') {
+            e.preventDefault();
+            toggleSidebar();
+          }
+        });
+      });
+    </script>
+    <style is:global>
+      /* Grid layout */
+      .desktop-layout-grid {
+        grid-template-columns: 1fr;
+      }
+      @media (min-width: 1024px) {
+        .desktop-layout-grid {
+          grid-template-columns: 240px minmax(0, 1fr);
+          transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .desktop-sidebar-inner {
+          width: 240px;
+          overflow: hidden;
+          transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Collapsed / compact mode */
+        .sidebar-collapsed .desktop-layout-grid {
+          grid-template-columns: 52px minmax(0, 1fr);
+        }
+        .sidebar-collapsed .desktop-sidebar-inner {
+          width: 52px;
+        }
+        .sidebar-collapsed .sidebar-text {
+          opacity: 0;
+          pointer-events: none;
+          position: absolute;
+          transition: opacity 0.15s ease;
+        }
+        .sidebar-collapsed .sidebar-badge {
+          opacity: 0;
+          pointer-events: none;
+          position: absolute;
+          transition: opacity 0.15s ease;
+        }
+        .sidebar-collapsed .sidebar-label {
+          opacity: 0;
+          height: 0;
+          margin: 0;
+          overflow: hidden;
+          transition: opacity 0.15s ease;
+        }
+        .sidebar-collapsed .sidebar-sub-nav {
+          opacity: 0;
+          max-height: 0;
+          margin: 0;
+          padding: 0;
+          border: 0;
+          pointer-events: none;
+          transition: opacity 0.15s ease, max-height 0.2s ease;
+        }
+        .sidebar-collapsed .sidebar-nav-link {
+          justify-content: center;
+          gap: 0;
+          padding-left: 0;
+          padding-right: 0;
+        }
+        .sidebar-collapsed .sidebar-toggle-row {
+          justify-content: center;
+        }
+
+        /* Toggle button icon swap */
+        .sidebar-icon-collapse { display: block; }
+        .sidebar-icon-expand { display: none; }
+        .sidebar-collapsed .sidebar-icon-collapse { display: none; }
+        .sidebar-collapsed .sidebar-icon-expand { display: block; }
+
+        /* Transition defaults for expanded state */
+        .sidebar-text {
+          opacity: 1;
+          transition: opacity 0.2s ease 0.1s;
+        }
+        .sidebar-badge {
+          transition: opacity 0.2s ease 0.1s;
+        }
+        .sidebar-label {
+          transition: opacity 0.2s ease 0.1s;
+        }
+        .sidebar-sub-nav {
+          max-height: 500px;
+          overflow: hidden;
+          transition: opacity 0.2s ease 0.1s, max-height 0.3s ease;
+        }
+      }
+      @media (min-width: 1280px) {
+        .desktop-layout-grid {
+          grid-template-columns: 260px minmax(0, 1fr);
+        }
+        .desktop-sidebar-inner {
+          width: 260px;
+        }
+        .sidebar-collapsed .desktop-layout-grid {
+          grid-template-columns: 52px minmax(0, 1fr);
+        }
+        .sidebar-collapsed .desktop-sidebar-inner {
+          width: 52px;
+        }
+      }
+    </style>
   </body>
 </html>

@@ -66,93 +66,98 @@ const templates = [
 ];
 ---
 
-<section id="workbench" class="section workbench" data-workbench>
-  <div class="container">
-    <div class="section-head">
-      <p class="eyebrow">Interactive workbench</p>
-      <h2>XHunter Workbench</h2>
-      <p class="section-copy">
-        All three workflows run in your browser. Paste source text, shape the output, and copy the result into X when it is ready.
-      </p>
+<section id="workbench" class="w-full max-w-7xl mx-auto space-y-6" data-workbench>
+  <div class="rounded-2xl border border-zinc-200/80 bg-white shadow-sm overflow-hidden flex flex-col">
+    <div class="border-b border-zinc-100 bg-zinc-50/50 p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold tracking-tight text-zinc-900">X Growth Workbench</h2>
+        <p class="mt-1 text-[13px] text-zinc-500">Draft threads, browse templates, and generate value-add replies.</p>
+      </div>
+      
+      <div class="flex p-1 rounded-lg bg-zinc-100/80 ring-1 ring-zinc-900/5" role="tablist" aria-label="XHunter tools">
+        <button class="tab-button active flex-1 sm:flex-none" type="button" role="tab" aria-selected="true" data-tab="thread">Thread Maker</button>
+        <button class="tab-button flex-1 sm:flex-none" type="button" role="tab" aria-selected="false" data-tab="templates">Templates</button>
+        <button class="tab-button flex-1 sm:flex-none" type="button" role="tab" aria-selected="false" data-tab="reply">Reply</button>
+      </div>
     </div>
 
-    <div class="workbench-shell">
-      <div class="workbench-tabs" role="tablist" aria-label="XHunter tools">
-        <button class="tab-button active" type="button" role="tab" aria-selected="true" data-tab="thread">Thread Maker</button>
-        <button class="tab-button" type="button" role="tab" aria-selected="false" data-tab="templates">Template Library</button>
-        <button class="tab-button" type="button" role="tab" aria-selected="false" data-tab="reply">Reply Assistant</button>
-      </div>
-
+    <div class="p-5 sm:p-6 lg:p-8 bg-zinc-50/30">
       <section class="tab-panel active" data-panel="thread" role="tabpanel" aria-label="Thread Maker">
-        <div class="tool-grid">
-          <div class="tool-card">
-            <div class="tool-card-head">
-              <p class="tool-kicker">01</p>
-              <h3>Turn a long-form idea into an X thread</h3>
+        <div class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+          <div class="flex flex-col rounded-2xl border border-zinc-200/80 bg-white shadow-sm p-5 sm:p-6">
+            <div class="mb-5 pb-5 border-b border-zinc-100">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="flex h-5 w-5 items-center justify-center rounded-md bg-zinc-100 text-[11px] font-semibold text-zinc-500">01</span>
+                <h3 class="text-sm font-semibold text-zinc-900">Turn an idea into a thread</h3>
+              </div>
+              <p class="text-[13px] text-zinc-500 leading-relaxed">
+                Paste a blog excerpt, notes, or a rough idea. Reshape it into a structured thread draft.
+              </p>
             </div>
-            <p class="tool-note">
-              Paste a blog excerpt, notes, or a rough idea. XHunter reshapes it into a structured thread draft using transparent browser-side heuristics.
-            </p>
-            <label class="field">
-              <span>Source text</span>
-              <textarea id="thread-source" rows="10" placeholder="Paste a blog paragraph, notes, or a rough creator insight."></textarea>
-            </label>
-            <div class="field-row">
-              <label class="field">
-                <span>Goal</span>
-                <input id="thread-goal" type="text" placeholder="Example: get more saves from creator-operators" />
-              </label>
-              <label class="field">
-                <span>Tone</span>
-                <select id="thread-tone">
-                  <option value="sharp">Sharp</option>
-                  <option value="analytical">Analytical</option>
-                  <option value="warm">Warm</option>
-                  <option value="contrarian">Contrarian</option>
-                </select>
-              </label>
-              <label class="field field-small">
-                <span>Posts</span>
-                <select id="thread-count">
-                  <option value="6">6</option>
-                  <option value="7" selected>7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                </select>
-              </label>
+            
+            <div class="space-y-4">
+              <div>
+                <label class="block text-[13px] font-medium text-zinc-700 mb-1.5">Source text</label>
+                <textarea id="thread-source" class="w-full h-40 rounded-xl border border-zinc-200 bg-zinc-50 p-3.5 text-[13px] leading-relaxed text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-400 focus:outline-none focus:ring-4 focus:ring-zinc-900/5 transition-all resize-y" placeholder="Paste a blog paragraph, notes, or a rough creator insight."></textarea>
+              </div>
+              
+              <div class="grid gap-4 sm:grid-cols-2">
+                <div class="sm:col-span-2">
+                  <label class="block text-[13px] font-medium text-zinc-700 mb-1.5">Goal <span class="text-zinc-400 font-normal ml-1">Optional</span></label>
+                  <input id="thread-goal" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-[13px] text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-400 focus:outline-none focus:ring-4 focus:ring-zinc-900/5 transition-all" type="text" placeholder="Example: get more saves from creator-operators" />
+                </div>
+                <div>
+                  <label class="block text-[13px] font-medium text-zinc-700 mb-1.5">Tone</label>
+                  <select id="thread-tone" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-[13px] text-zinc-900 focus:border-zinc-400 focus:outline-none focus:ring-4 focus:ring-zinc-900/5 transition-all">
+                    <option value="sharp">Sharp</option>
+                    <option value="analytical">Analytical</option>
+                    <option value="warm">Warm</option>
+                    <option value="contrarian">Contrarian</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-[13px] font-medium text-zinc-700 mb-1.5">Posts count</label>
+                  <select id="thread-count" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-[13px] text-zinc-900 focus:border-zinc-400 focus:outline-none focus:ring-4 focus:ring-zinc-900/5 transition-all">
+                    <option value="6">6 posts</option>
+                    <option value="7" selected>7 posts</option>
+                    <option value="8">8 posts</option>
+                    <option value="9">9 posts</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="pt-2">
+                <button id="thread-generate" class="w-full sm:w-auto btn btn--primary" type="button">Build thread draft</button>
+              </div>
             </div>
-            <div class="tool-actions">
-              <button id="thread-generate" class="button button-primary" type="button">Build thread</button>
-              <button id="thread-copy" class="button button-secondary" type="button">Copy all</button>
-            </div>
-            <p class="status-line" id="thread-status" aria-live="polite">Nothing generated yet.</p>
           </div>
 
-          <div class="tool-card tool-output-card">
-            <div class="tool-card-head">
-              <p class="tool-kicker">Output</p>
-              <h3>Thread draft</h3>
+          <div class="flex flex-col h-full min-h-[500px] rounded-2xl border border-zinc-200/80 bg-zinc-50 shadow-sm overflow-hidden">
+            <div class="flex items-center justify-between border-b border-zinc-200/80 bg-white p-4">
+              <h3 class="text-sm font-semibold text-zinc-900">Output Draft</h3>
+              <button id="thread-copy" class="text-[13px] font-medium text-indigo-600 hover:text-indigo-700 transition-colors hidden flex items-center gap-1" type="button">
+                <svg xmlns="http://www.w0.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3.5">
+                  <path fill-rule="evenodd" d="M15.988 3.012A2.25 2.25 0 0 1 18 5.25v6.5A2.25 2.25 0 0 1 15.75 14H13.5V7A2.5 2.5 0 0 0 11 4.5H8.128a2.252 2.252 0 0 1 1.884-1.488A2.25 2.25 0 0 1 12.25 1h1.5a2.25 2.25 0 0 1 2.238 2.012ZM11.5 3.25a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v.25h-3v-.25Z" clip-rule="evenodd" />
+                  <path fill-rule="evenodd" d="M2 7a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7Zm2 3.25a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75Zm0 3.5a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+                </svg>
+                Copy all
+              </button>
             </div>
-            <p class="tool-note">Each post stays compact so you can tighten, personalize, and publish faster.</p>
-            <ol id="thread-results" class="output-list">
-              <li class="placeholder-item">Your numbered thread draft will appear here.</li>
-            </ol>
+            <div class="flex-1 p-4 sm:p-5 overflow-y-auto">
+              <ol id="thread-results" class="space-y-4">
+                <li class="flex items-center justify-center h-full min-h-[300px]">
+                  <p id="thread-status" class="text-[13px] text-zinc-500 text-center" aria-live="polite">Configure your settings and build to see the thread here.</p>
+                </li>
+              </ol>
+            </div>
           </div>
         </div>
       </section>
 
-      <section class="tab-panel" data-panel="templates" role="tabpanel" aria-label="Template Library">
-        <div class="tool-card">
-          <div class="tool-card-head">
-            <p class="tool-kicker">02</p>
-            <h3>Browse proven post structures</h3>
-          </div>
-          <p class="tool-note">
-            These are reusable creator patterns, not magic formulas. Filter by goal, then copy the structure and adapt it to your point of view.
-          </p>
-
-          <div class="template-filters" role="toolbar" aria-label="Template filters">
-            <button class="filter-button active" type="button" data-filter="all">All</button>
+      <section class="tab-panel hidden" data-panel="templates" role="tabpanel" aria-label="Template Library">
+        <div class="flex flex-col space-y-6">
+          <div class="flex flex-wrap items-center gap-2" role="toolbar" aria-label="Template filters">
+            <button class="filter-button active" type="button" data-filter="all">All Templates</button>
             <button class="filter-button" type="button" data-filter="launch">Launch</button>
             <button class="filter-button" type="button" data-filter="authority">Authority</button>
             <button class="filter-button" type="button" data-filter="story">Story</button>
@@ -160,70 +165,93 @@ const templates = [
             <button class="filter-button" type="button" data-filter="education">Education</button>
           </div>
 
-          <div class="template-grid">
+          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {templates.map((template) => (
-              <article class="template-card" data-category={template.category}>
-                <p class="template-category">{template.category}</p>
-                <h4>{template.name}</h4>
-                <p><strong>Use it when:</strong> {template.when}</p>
-                <p><strong>Structure:</strong> {template.structure}</p>
-                <p><strong>Example:</strong> {template.example}</p>
+              <article class="template-card flex flex-col rounded-2xl border border-zinc-200/80 bg-white p-5 shadow-sm transition-all duration-300 hover:border-zinc-300 hover:shadow-md" data-category={template.category}>
+                <div class="mb-3">
+                  <span class="inline-flex items-center rounded-md bg-zinc-100 px-2 py-0.5 text-[11px] font-medium uppercase tracking-wider text-zinc-600 ring-1 ring-inset ring-zinc-500/10">
+                    {template.category}
+                  </span>
+                </div>
+                <h4 class="text-[15px] font-semibold text-zinc-900 mb-2">{template.name}</h4>
+                <div class="space-y-3 flex-1 mb-5">
+                  <p class="text-[13px] leading-relaxed text-zinc-600"><strong class="text-zinc-900 font-medium">Use when:</strong> {template.when}</p>
+                  <p class="text-[13px] leading-relaxed text-zinc-600"><strong class="text-zinc-900 font-medium">Structure:</strong> {template.structure}</p>
+                  <div class="rounded-lg bg-zinc-50 p-3 border border-zinc-100">
+                    <p class="text-[12px] leading-relaxed text-zinc-500 italic">"{template.example}"</p>
+                  </div>
+                </div>
                 <button
-                  class="button button-secondary copy-template"
+                  class="btn btn--secondary w-full copy-template group"
                   type="button"
                   data-copy={`${template.name}\n\nUse it when: ${template.when}\nStructure: ${template.structure}\nExample: ${template.example}`}
                 >
-                  Copy template
+                  <span>Copy Template</span>
+                  <svg xmlns="http://www.w0.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-3.5 opacity-50 group-hover:opacity-100 transition-opacity">
+                    <path fill-rule="evenodd" d="M15.988 3.012A2.25 2.25 0 0 1 18 5.25v6.5A2.25 2.25 0 0 1 15.75 14H13.5V7A2.5 2.5 0 0 0 11 4.5H8.128a2.252 2.252 0 0 1 1.884-1.488A2.25 2.25 0 0 1 12.25 1h1.5a2.25 2.25 0 0 1 2.238 2.012ZM11.5 3.25a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v.25h-3v-.25Z" clip-rule="evenodd" />
+                    <path fill-rule="evenodd" d="M2 7a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7Zm2 3.25a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75Zm0 3.5a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+                  </svg>
                 </button>
               </article>
             ))}
           </div>
-          <p class="status-line" id="template-status" aria-live="polite">Select a category or copy a template.</p>
+          <div class="flex justify-center">
+            <p class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-600 ring-1 ring-inset ring-emerald-500/20 opacity-0 transition-opacity" id="template-status" aria-live="polite">Template copied to clipboard</p>
+          </div>
         </div>
       </section>
 
-      <section class="tab-panel" data-panel="reply" role="tabpanel" aria-label="Reply Assistant">
-        <div class="tool-grid">
-          <div class="tool-card">
-            <div class="tool-card-head">
-              <p class="tool-kicker">03</p>
-              <h3>Draft stronger engagement replies</h3>
+      <section class="tab-panel hidden" data-panel="reply" role="tabpanel" aria-label="Reply Assistant">
+        <div class="grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-start">
+          <div class="flex flex-col rounded-2xl border border-zinc-200/80 bg-white shadow-sm p-5 sm:p-6">
+            <div class="mb-5 pb-5 border-b border-zinc-100">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="flex h-5 w-5 items-center justify-center rounded-md bg-zinc-100 text-[11px] font-semibold text-zinc-500">03</span>
+                <h3 class="text-sm font-semibold text-zinc-900">Draft stronger replies</h3>
+              </div>
+              <p class="text-[13px] text-zinc-500 leading-relaxed">
+                Paste a post. XHunter suggests multiple value-add reply angles.
+              </p>
             </div>
-            <p class="tool-note">
-              Paste the post you want to respond to. XHunter will suggest multiple reply angles so you can add value instead of writing generic agreement.
-            </p>
-            <label class="field">
-              <span>Target post</span>
-              <textarea id="reply-source" rows="9" placeholder="Paste the post or the main point you want to reply to."></textarea>
-            </label>
-            <div class="field-row">
-              <label class="field">
-                <span>Your angle</span>
-                <input id="reply-angle" type="text" placeholder="Example: solo creator workflows, founder lessons, audience research" />
-              </label>
-              <label class="field">
-                <span>Style</span>
-                <select id="reply-style">
-                  <option value="add_value">Add value</option>
-                  <option value="question">Ask a smart question</option>
-                  <option value="agreement">Agree and extend</option>
-                  <option value="contrarian">Respectful pushback</option>
-                </select>
-              </label>
+            
+            <div class="space-y-4">
+              <div>
+                <label class="block text-[13px] font-medium text-zinc-700 mb-1.5">Target post</label>
+                <textarea id="reply-source" class="w-full h-32 rounded-xl border border-zinc-200 bg-zinc-50 p-3.5 text-[13px] leading-relaxed text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-400 focus:outline-none focus:ring-4 focus:ring-zinc-900/5 transition-all resize-y" placeholder="Paste the post or the main point you want to reply to."></textarea>
+              </div>
+              
+              <div class="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label class="block text-[13px] font-medium text-zinc-700 mb-1.5">Your angle</label>
+                  <input id="reply-angle" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-[13px] text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-400 focus:outline-none focus:ring-4 focus:ring-zinc-900/5 transition-all" type="text" placeholder="e.g. solo creator workflows" />
+                </div>
+                <div>
+                  <label class="block text-[13px] font-medium text-zinc-700 mb-1.5">Style</label>
+                  <select id="reply-style" class="w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-[13px] text-zinc-900 focus:border-zinc-400 focus:outline-none focus:ring-4 focus:ring-zinc-900/5 transition-all">
+                    <option value="add_value">Add value</option>
+                    <option value="question">Ask a smart question</option>
+                    <option value="agreement">Agree and extend</option>
+                    <option value="contrarian">Respectful pushback</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="pt-2">
+                <button id="reply-generate" class="w-full sm:w-auto btn btn--primary" type="button">Draft replies</button>
+              </div>
             </div>
-            <div class="tool-actions">
-              <button id="reply-generate" class="button button-primary" type="button">Draft replies</button>
-            </div>
-            <p class="status-line" id="reply-status" aria-live="polite">No replies generated yet.</p>
           </div>
 
-          <div class="tool-card tool-output-card">
-            <div class="tool-card-head">
-              <p class="tool-kicker">Output</p>
-              <h3>Reply angles</h3>
+          <div class="flex flex-col h-full min-h-[400px] rounded-2xl border border-zinc-200/80 bg-zinc-50 shadow-sm overflow-hidden">
+            <div class="flex items-center justify-between border-b border-zinc-200/80 bg-white p-4">
+              <h3 class="text-sm font-semibold text-zinc-900">Reply Angles</h3>
             </div>
-            <div id="reply-results" class="reply-results">
-              <p class="placeholder-item">Your reply options will appear here.</p>
+            <div class="flex-1 p-4 sm:p-5 overflow-y-auto">
+              <div id="reply-results" class="space-y-4">
+                <div class="flex items-center justify-center h-full min-h-[200px]">
+                  <p id="reply-status" class="text-[13px] text-zinc-500 text-center" aria-live="polite">Your generated reply options will appear here.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -232,15 +260,46 @@ const templates = [
   </div>
 </section>
 
+<style>
+  @reference "../styles/global.css";
+
+  .tab-button {
+    @apply px-4 py-2 text-[13px] font-medium text-zinc-500 rounded-md transition-all duration-200;
+  }
+  .tab-button:hover {
+    @apply text-zinc-900;
+  }
+  .tab-button.active {
+    @apply bg-white text-zinc-900 shadow-sm ring-1 ring-zinc-900/5;
+  }
+  
+  .filter-button {
+    @apply px-3 py-1.5 text-xs font-medium rounded-full border border-zinc-200 bg-white text-zinc-600 transition-colors hover:bg-zinc-50 hover:text-zinc-900;
+  }
+  .filter-button.active {
+    @apply border-transparent bg-zinc-900 text-white;
+  }
+
+  .output-item {
+    @apply rounded-xl border border-zinc-200/80 bg-white p-4 shadow-sm;
+  }
+</style>
+
 <script>
   (() => {
-    const root = document.querySelector('[data-workbench]');
+    const root = document.querySelector<HTMLElement>('[data-workbench]');
     if (!root) return;
 
-    const tabs = [...root.querySelectorAll('[data-tab]')];
-    const panels = [...root.querySelectorAll('[data-panel]')];
+    type ThreadTone = 'sharp' | 'analytical' | 'warm' | 'contrarian';
+    type ReplyStyle = 'add_value' | 'question' | 'agreement' | 'contrarian';
 
-    const setTab = (name) => {
+    const query = <T extends Element>(selector: string) => root.querySelector<T>(selector);
+    const queryAll = <T extends Element>(selector: string) => Array.from(root.querySelectorAll<T>(selector));
+
+    const tabs = queryAll<HTMLButtonElement>('[data-tab]');
+    const panels = queryAll<HTMLElement>('[data-panel]');
+
+    const setTab = (name: string) => {
       tabs.forEach((tab) => {
         const active = tab.dataset.tab === name;
         tab.classList.toggle('active', active);
@@ -248,17 +307,24 @@ const templates = [
       });
 
       panels.forEach((panel) => {
-        panel.classList.toggle('active', panel.dataset.panel === name);
+        if (panel.dataset.panel === name) {
+          panel.classList.remove('hidden');
+        } else {
+          panel.classList.add('hidden');
+        }
       });
     };
 
     tabs.forEach((tab) => {
-      tab.addEventListener('click', () => setTab(tab.dataset.tab));
+      tab.addEventListener('click', () => {
+        const tabName = tab.dataset.tab;
+        if (tabName) setTab(tabName);
+      });
     });
 
-    const safeText = (value) => value.replace(/\s+/g, ' ').trim();
+    const safeText = (value: string) => value.replace(/\s+/g, ' ').trim();
 
-    const clip = async (text, statusNode, successMessage) => {
+    const clip = async (text: string, statusNode: HTMLElement | null, successMessage: string) => {
       if (!text) {
         if (statusNode) statusNode.textContent = 'Nothing to copy yet.';
         return;
@@ -266,13 +332,17 @@ const templates = [
 
       try {
         await navigator.clipboard.writeText(text);
-        if (statusNode) statusNode.textContent = successMessage;
+        if (statusNode) {
+          statusNode.textContent = successMessage;
+          statusNode.classList.remove('opacity-0');
+          setTimeout(() => statusNode.classList.add('opacity-0'), 2000);
+        }
       } catch {
         if (statusNode) statusNode.textContent = 'Copy failed. Select the text manually.';
       }
     };
 
-    const fitPost = (prefix, body) => {
+    const fitPost = (prefix: string, body: string) => {
       const limit = 278 - prefix.length;
       const clean = safeText(body);
       if (clean.length <= limit) return clean;
@@ -282,50 +352,58 @@ const templates = [
       return `${(cut > 80 ? trimmed.slice(0, cut) : trimmed).trim()}…`;
     };
 
-    const splitSource = (text) =>
+    const splitSource = (text: string): string[] =>
       text
         .split(/\n+/)
-        .flatMap((line) => line.split(/(?<=[.!?。！？])\s+/))
-        .map((line) => safeText(line.replace(/^[-*]\s*/, '')))
+        .flatMap((line: string) => line.split(/(?<=[.!?。！？])\s+/))
+        .map((line: string) => safeText(line.replace(/^[-*]\s*/, '')))
         .filter(Boolean);
 
-    const summarizeTopic = (text) => {
+    const summarizeTopic = (text: string) => {
       const clean = safeText(text);
       if (!clean) return 'your idea';
       const compact = clean.replace(/[.?!。！？].*$/, '');
       return compact.slice(0, 72).trim();
     };
 
-    const threadSource = root.querySelector('#thread-source');
-    const threadGoal = root.querySelector('#thread-goal');
-    const threadTone = root.querySelector('#thread-tone');
-    const threadCount = root.querySelector('#thread-count');
-    const threadGenerate = root.querySelector('#thread-generate');
-    const threadCopy = root.querySelector('#thread-copy');
-    const threadStatus = root.querySelector('#thread-status');
-    const threadResults = root.querySelector('#thread-results');
+    const threadSource = query<HTMLTextAreaElement>('#thread-source');
+    const threadGoal = query<HTMLInputElement>('#thread-goal');
+    const threadTone = query<HTMLSelectElement>('#thread-tone');
+    const threadCount = query<HTMLSelectElement>('#thread-count');
+    const threadGenerate = query<HTMLButtonElement>('#thread-generate');
+    const threadCopy = query<HTMLButtonElement>('#thread-copy');
+    const threadStatus = query<HTMLElement>('#thread-status');
+    const threadResults = query<HTMLOListElement>('#thread-results');
+
+    if (!threadSource || !threadGoal || !threadTone || !threadCount || !threadGenerate || !threadCopy || !threadStatus || !threadResults) {
+      return;
+    }
+
     let lastThread = '';
 
-    const renderThread = (posts) => {
+    const renderThread = (posts: string[]) => {
       threadResults.innerHTML = '';
+      threadCopy.classList.remove('hidden');
 
-      posts.forEach((post, index) => {
+      posts.forEach((post: string, index: number) => {
         const li = document.createElement('li');
         li.className = 'output-item';
 
         const head = document.createElement('div');
-        head.className = 'output-item-head';
+        head.className = 'flex items-center justify-between mb-2 pb-2 border-b border-zinc-100';
 
         const label = document.createElement('strong');
+        label.className = 'text-[11px] font-semibold uppercase tracking-wider text-zinc-400';
         label.textContent = `Post ${index + 1}`;
 
         const chars = document.createElement('span');
-        chars.className = 'output-count';
+        chars.className = 'text-[11px] font-medium text-zinc-400 bg-zinc-50 px-1.5 py-0.5 rounded';
         chars.textContent = `${post.length} chars`;
 
         head.append(label, chars);
 
         const body = document.createElement('p');
+        body.className = 'text-[13px] leading-relaxed text-zinc-900 whitespace-pre-wrap';
         body.textContent = post;
 
         li.append(head, body);
@@ -336,39 +414,40 @@ const templates = [
     const buildThread = () => {
       const source = threadSource.value.trim();
       const goal = threadGoal.value.trim();
-      const tone = threadTone.value;
       const count = Number(threadCount.value) || 7;
 
       if (!source) {
-        threadStatus.textContent = 'Paste source text first.';
+        threadSource.focus();
         return;
       }
 
       const chunks = splitSource(source);
       const topic = summarizeTopic(goal || chunks[0] || source);
 
-      const hooks = {
+      const hooks: Record<ThreadTone, string> = {
         sharp: `If you want better X posts without more busywork, use this ${count}-post draft on ${topic}.`,
         analytical: `Here is a ${count}-post X thread structure you can use to turn ${topic} into a clearer argument.`,
         warm: `If ${topic} matters to your audience, here is a simple ${count}-post thread you can build from it.`,
         contrarian: `Most creators overcomplicate threads. Here is the cleaner ${count}-post version for ${topic}.`,
       };
 
-      const toneLine = {
+      const toneLine: Record<ThreadTone, string> = {
         sharp: 'Lead with the payoff before your context.',
         analytical: 'Break the idea into one promise, a few proof points, and one clear takeaway.',
         warm: 'Keep the thread useful and conversational, not performative.',
         contrarian: 'Challenge the default advice, then explain what works better.',
       };
 
-      const posts = [
+      const tone = (threadTone.value in hooks ? threadTone.value : 'sharp') as ThreadTone;
+
+      const posts: string[] = [
         hooks[tone],
         `Core angle: ${goal || `help creators understand ${topic}`}. ${toneLine[tone]}`,
       ];
 
       const sourceBullets = chunks.slice(0, Math.max(2, count - 3));
 
-      sourceBullets.forEach((chunk, index) => {
+      sourceBullets.forEach((chunk: string, index: number) => {
         const cleaned = safeText(chunk);
         if (!cleaned) return;
 
@@ -397,74 +476,91 @@ const templates = [
 
       lastThread = numberedPosts.join('\n\n');
       renderThread(numberedPosts);
-      threadStatus.textContent = 'Thread draft generated. Review and tighten before publishing.';
     };
 
-    threadGenerate?.addEventListener('click', buildThread);
-    threadCopy?.addEventListener('click', () => clip(lastThread, threadStatus, 'Thread copied to clipboard.'));
+    threadGenerate.addEventListener('click', buildThread);
+    threadCopy.addEventListener('click', () => clip(lastThread, null, ''));
 
-    const filterButtons = [...root.querySelectorAll('[data-filter]')];
-    const templateCards = [...root.querySelectorAll('.template-card')];
-    const templateStatus = root.querySelector('#template-status');
+    const filterButtons = queryAll<HTMLButtonElement>('[data-filter]');
+    const templateCards = queryAll<HTMLElement>('.template-card');
+    const templateStatus = query<HTMLElement>('#template-status');
 
     filterButtons.forEach((button) => {
       button.addEventListener('click', () => {
-        const filter = button.dataset.filter;
+        const filter = button.dataset.filter ?? 'all';
 
         filterButtons.forEach((item) => item.classList.toggle('active', item === button));
         templateCards.forEach((card) => {
           const visible = filter === 'all' || card.dataset.category === filter;
-          card.hidden = !visible;
+          card.classList.toggle('hidden', !visible);
+          card.classList.toggle('flex', visible);
         });
-
-        templateStatus.textContent = filter === 'all'
-          ? 'Showing all template patterns.'
-          : `Showing ${filter} templates.`;
       });
     });
 
-    root.querySelectorAll('.copy-template').forEach((button) => {
+    queryAll<HTMLButtonElement>('.copy-template').forEach((button) => {
       button.addEventListener('click', async () => {
-        await clip(button.dataset.copy || '', templateStatus, 'Template copied to clipboard.');
+        const originalText = button.innerHTML;
+        await clip(button.dataset.copy || '', templateStatus, 'Template copied!');
+        button.innerHTML = '<span class="text-emerald-600">Copied!</span>';
+        setTimeout(() => { button.innerHTML = originalText; }, 1500);
       });
     });
 
-    const replySource = root.querySelector('#reply-source');
-    const replyAngle = root.querySelector('#reply-angle');
-    const replyStyle = root.querySelector('#reply-style');
-    const replyGenerate = root.querySelector('#reply-generate');
-    const replyStatus = root.querySelector('#reply-status');
-    const replyResults = root.querySelector('#reply-results');
+    const replySource = query<HTMLTextAreaElement>('#reply-source');
+    const replyAngle = query<HTMLInputElement>('#reply-angle');
+    const replyStyle = query<HTMLSelectElement>('#reply-style');
+    const replyGenerate = query<HTMLButtonElement>('#reply-generate');
+    const replyResults = query<HTMLElement>('#reply-results');
 
-    const renderReplies = (items) => {
+    if (!replySource || !replyAngle || !replyStyle || !replyGenerate || !replyResults) {
+      return;
+    }
+
+    const renderReplies = (items: string[]) => {
       replyResults.innerHTML = '';
 
-      items.forEach((reply, index) => {
+      items.forEach((reply: string, index: number) => {
         const card = document.createElement('article');
-        card.className = 'reply-card';
+        card.className = 'output-item relative group';
 
         const top = document.createElement('div');
-        top.className = 'output-item-head';
+        top.className = 'flex items-center justify-between mb-2 pb-2 border-b border-zinc-100';
 
         const title = document.createElement('strong');
-        title.textContent = `Reply ${index + 1}`;
+        title.className = 'text-[11px] font-semibold uppercase tracking-wider text-zinc-400';
+        title.textContent = `Option ${index + 1}`;
 
         const chars = document.createElement('span');
-        chars.className = 'output-count';
+        chars.className = 'text-[11px] font-medium text-zinc-400 bg-zinc-50 px-1.5 py-0.5 rounded';
         chars.textContent = `${reply.length} chars`;
 
         top.append(title, chars);
 
         const body = document.createElement('p');
+        body.className = 'text-[13px] leading-relaxed text-zinc-900 mb-3';
         body.textContent = reply;
 
-        const copy = document.createElement('button');
-        copy.type = 'button';
-        copy.className = 'button button-secondary';
-        copy.textContent = 'Copy reply';
-        copy.addEventListener('click', () => clip(reply, replyStatus, 'Reply copied to clipboard.'));
-
-        card.append(top, body, copy);
+        const copyWrap = document.createElement('div');
+        
+        const copyBtn = document.createElement('button');
+        copyBtn.type = 'button';
+        copyBtn.className = 'btn btn--secondary btn--sm w-full group-hover:border-zinc-300';
+        copyBtn.textContent = 'Copy reply';
+        copyBtn.addEventListener('click', () => {
+          const orig = copyBtn.textContent;
+          navigator.clipboard.writeText(reply).then(() => {
+            copyBtn.textContent = 'Copied!';
+            copyBtn.classList.add('text-emerald-600');
+            setTimeout(() => {
+              copyBtn.textContent = orig;
+              copyBtn.classList.remove('text-emerald-600');
+            }, 1500);
+          });
+        });
+        
+        copyWrap.append(copyBtn);
+        card.append(top, body, copyWrap);
         replyResults.append(card);
       });
     };
@@ -472,15 +568,14 @@ const templates = [
     const buildReplies = () => {
       const source = replySource.value.trim();
       const angle = safeText(replyAngle.value || 'a creator workflow angle');
-      const style = replyStyle.value;
 
       if (!source) {
-        replyStatus.textContent = 'Paste the post you want to reply to first.';
+        replySource.focus();
         return;
       }
 
       const topic = summarizeTopic(source);
-      const styles = {
+      const styles: Record<ReplyStyle, string[]> = {
         add_value: [
           `Strong point. One layer I would add for creators is ${angle}. That is usually where the workflow either compounds or breaks.`,
           `This resonates. The missing layer for most people is ${angle}, because that is what turns a good idea into a repeatable posting habit.`,
@@ -507,300 +602,12 @@ const templates = [
         ],
       };
 
+      const style = (replyStyle.value in styles ? replyStyle.value : 'add_value') as ReplyStyle;
+
       const replies = styles[style].map((reply) => fitPost('', reply).trim());
       renderReplies(replies);
-      replyStatus.textContent = 'Reply options generated. Pick one and personalize it before posting.';
     };
 
-    replyGenerate?.addEventListener('click', buildReplies);
+    replyGenerate.addEventListener('click', buildReplies);
   })();
 </script>
-
-<style>
-  .workbench {
-    padding-top: 3rem;
-  }
-
-  .section-head {
-    margin-bottom: 1.6rem;
-  }
-
-  .section-head h2 {
-    font-size: clamp(2rem, 3.2vw, 3rem);
-    line-height: 1.08;
-    color: var(--text);
-  }
-
-  .section-copy {
-    margin-top: 0.75rem;
-    max-width: 60ch;
-    color: var(--text-muted);
-    font-size: 1.05rem;
-    line-height: 1.7;
-  }
-
-  .eyebrow,
-  .tool-kicker,
-  .template-category,
-  .output-count {
-    font-family: var(--font-mono);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .eyebrow {
-    margin: 0 0 0.85rem;
-    color: var(--accent);
-    font-size: 0.82rem;
-  }
-
-  .workbench-shell {
-    padding: 1.2rem;
-    border-radius: 24px;
-    background: rgba(255, 255, 255, 0.82);
-    border: 1px solid rgba(148, 163, 184, 0.18);
-    box-shadow: 0 24px 70px rgba(15, 23, 42, 0.09);
-    backdrop-filter: blur(12px);
-  }
-
-  .workbench-tabs,
-  .template-filters,
-  .tool-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.65rem;
-  }
-
-  .workbench-tabs {
-    margin-bottom: 1rem;
-  }
-
-  .tab-button,
-  .filter-button,
-  .button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.55rem;
-    min-height: 48px;
-    padding: 0 1rem;
-    border-radius: 999px;
-    border: 1px solid rgba(15, 23, 42, 0.08);
-    background: rgba(255, 255, 255, 0.92);
-    color: var(--text);
-    font: inherit;
-    font-weight: 700;
-    cursor: pointer;
-    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
-  }
-
-  .tab-button:hover,
-  .filter-button:hover,
-  .button:hover {
-    transform: translateY(-1px);
-  }
-
-  .tab-button.active,
-  .filter-button.active,
-  .button-primary {
-    background: var(--text);
-    color: #fff7ed;
-    box-shadow: 0 14px 34px rgba(15, 23, 42, 0.14);
-  }
-
-  .button-secondary {
-    background: rgba(255, 255, 255, 0.92);
-    color: var(--text);
-  }
-
-  .tab-panel {
-    display: none;
-  }
-
-  .tab-panel.active {
-    display: block;
-  }
-
-  .tool-grid {
-    display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: 1.25rem;
-  }
-
-  .tool-card,
-  .template-card,
-  .reply-card,
-  .output-item {
-    padding: 1.35rem;
-    border-radius: 24px;
-    background: rgba(255, 255, 255, 0.94);
-    border: 1px solid rgba(15, 23, 42, 0.07);
-  }
-
-  .tool-card-head,
-  .output-item-head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 0.8rem;
-  }
-
-  .tool-card-head h3 {
-    font-size: clamp(1.2rem, 2vw, 1.5rem);
-    line-height: 1.15;
-    color: var(--text);
-  }
-
-  .tool-kicker {
-    margin: 0;
-    color: var(--accent);
-    font-size: 0.78rem;
-  }
-
-  .tool-note,
-  .reply-card p,
-  .output-item p,
-  .template-card p {
-    margin: 0 0 1rem;
-    color: var(--text-muted);
-    line-height: 1.7;
-  }
-
-  .field {
-    display: grid;
-    gap: 0.4rem;
-    margin-bottom: 1rem;
-  }
-
-  .field span {
-    font-weight: 700;
-    color: var(--text);
-  }
-
-  .field-row {
-    display: grid;
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) 110px;
-    gap: 0.8rem;
-  }
-
-  .field-small {
-    min-width: 0;
-  }
-
-  textarea,
-  input,
-  select {
-    width: 100%;
-    border-radius: 18px;
-    border: 1px solid rgba(15, 23, 42, 0.1);
-    background: rgba(255, 255, 255, 0.98);
-    padding: 0.95rem 1rem;
-    font: inherit;
-    color: var(--text);
-  }
-
-  textarea {
-    min-height: 14rem;
-    resize: vertical;
-  }
-
-  input:focus,
-  select:focus,
-  textarea:focus,
-  .tab-button:focus-visible,
-  .filter-button:focus-visible,
-  .button:focus-visible {
-    outline: 2px solid var(--primary);
-    outline-offset: 2px;
-  }
-
-  .tool-actions {
-    margin-bottom: 0.75rem;
-  }
-
-  .status-line {
-    margin: 0;
-    color: var(--accent);
-    font-size: 0.94rem;
-  }
-
-  .output-list,
-  .reply-results {
-    display: grid;
-    gap: 0.85rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .placeholder-item {
-    margin: 0;
-    padding: 1rem;
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.82);
-    border: 1px dashed rgba(15, 23, 42, 0.12);
-    color: var(--text-muted);
-  }
-
-  .output-count {
-    font-size: 0.78rem;
-    color: var(--accent);
-  }
-
-  .template-filters {
-    margin-bottom: 1rem;
-  }
-
-  .template-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
-  }
-
-  .template-category {
-    margin: 0 0 0.45rem;
-    color: var(--teal);
-    font-size: 0.76rem;
-  }
-
-  .reply-card .button,
-  .template-card .button {
-    margin-top: 0.5rem;
-  }
-
-  @media (max-width: 1024px) {
-    .tool-grid,
-    .template-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  @media (max-width: 760px) {
-    .workbench {
-      padding-top: 2rem;
-    }
-
-    .workbench-shell,
-    .tool-card,
-    .template-card,
-    .reply-card,
-    .output-item {
-      padding: 1.15rem;
-    }
-
-    .field-row {
-      grid-template-columns: 1fr;
-    }
-
-    .tool-actions {
-      flex-direction: column;
-    }
-
-    .button,
-    .tab-button,
-    .filter-button {
-      width: 100%;
-    }
-  }
-</style>

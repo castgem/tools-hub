@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ToolPageHeader from '../../../components/ToolPageHeader.astro';
 import ToolTabs from '../../../components/ToolTabs.astro';
 
 const schemaMarkup = JSON.stringify([
@@ -7,7 +8,7 @@ const schemaMarkup = JSON.stringify([
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
     name: 'Modern DevBox',
-    url: 'https://tools.example.com/dev-tools/modern-devbox/',
+    url: 'https://usetooleasy.com/dev-tools/modern-devbox/',
     applicationCategory: 'DeveloperApplication',
     operatingSystem: 'Any',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -22,67 +23,53 @@ const schemaMarkup = JSON.stringify([
   canonicalPath="/dev-tools/modern-devbox/"
   schemaMarkup={schemaMarkup}
 >
-  <section class="bg-white py-16">
+  <ToolPageHeader
+    title="Modern DevBox"
+    description="A fast, browser-based alternative to CyberChef and DevToys. Handle your regex testing, Base64 encoding, cron scheduling, and SQL formatting locally without sending data to servers."
+    badge="100% Client-side Processing"
+    backLabel="Back to Dev Tools"
+    backHref="/dev-tools/"
+  />
+
+  <section>
     <div class="section-shell">
-      <div class="max-w-4xl">
-        <p class="text-sm font-semibold uppercase tracking-[0.2em] text-brand-700">Micro dev tools</p>
-        <h1 class="mt-4 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">Modern DevBox</h1>
-        <p class="mt-4 text-lg leading-8 text-slate-600">
-          A modern browser-based alternative to CyberChef, DevToys, and regex101 for the quick jobs you want to finish without leaving the browser: regex testing, Base64, cron, and SQL formatting.
-        </p>
-      </div>
-      <div class="mt-10 rounded-[28px] bg-slate-950 p-2">
-        <div class="devbox-theme rounded-[24px]">
-          <ToolTabs />
-        </div>
-      </div>
+      <ToolTabs />
     </div>
   </section>
 
-  <section class="border-y border-slate-200 bg-slate-50 py-16">
-    <div class="section-shell prose-copy">
-      <h2 class="text-3xl font-bold tracking-tight text-slate-900">Why this page stays separate</h2>
-      <p>
-        Regex, Base64, cron, and SQL formatting are related because they all behave like quick developer micro-tools. The comparison intent is also distinct: users search for alternatives to CyberChef, DevToys, regex101, and crontab.guru.
-      </p>
-      <p>
-        That comparison language does not belong on the JSON page or on the general text formatter page. Keeping this child route focused protects intent and makes the grouped site easier to navigate.
-      </p>
-    </div>
-  </section>
-
-  <section class="py-16">
+  <section class="border-t border-zinc-200/80 bg-zinc-50/50 py-16">
     <div class="section-shell">
-      <div class="grid gap-6 md:grid-cols-2">
-        <article class="card p-6">
-          <h2 class="text-xl font-semibold text-slate-900">Alternative positioning</h2>
-          <p class="mt-3 text-slate-600">This route owns the “CyberChef alternative” and “DevToys web version” language in the grouped site because it solves the same micro-tool workflow with less friction.</p>
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <article class="rounded-2xl border border-zinc-200/60 bg-white p-6 shadow-sm">
+          <div class="mb-4 flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600">
+            <svg xmlns="http://www.w0.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+            </svg>
+          </div>
+          <h2 class="text-[15px] font-semibold text-zinc-900">Local Privacy First</h2>
+          <p class="mt-2 text-sm text-zinc-500 leading-relaxed">Everything runs client-side. Paste internal regex samples, SQL, or API keys without worrying about data leaving your machine.</p>
         </article>
-        <article class="card p-6">
-          <h2 class="text-xl font-semibold text-slate-900">Privacy and speed</h2>
-          <p class="mt-3 text-slate-600">Everything runs client-side, which is especially important when users paste internal regex samples, SQL, or snippets they do not want to ship to a third-party server.</p>
+        
+        <article class="rounded-2xl border border-zinc-200/60 bg-white p-6 shadow-sm">
+          <div class="mb-4 flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600">
+            <svg xmlns="http://www.w0.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z" />
+            </svg>
+          </div>
+          <h2 class="text-[15px] font-semibold text-zinc-900">Lightweight Alternative</h2>
+          <p class="mt-2 text-sm text-zinc-500 leading-relaxed">Positioned as a faster CyberChef or DevToys alternative for when you just need the core workflows without installing desktop apps.</p>
+        </article>
+        
+        <article class="rounded-2xl border border-zinc-200/60 bg-white p-6 shadow-sm sm:col-span-2 lg:col-span-1">
+          <div class="mb-4 flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600">
+            <svg xmlns="http://www.w0.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 9.75 16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z" />
+            </svg>
+          </div>
+          <h2 class="text-[15px] font-semibold text-zinc-900">Unified Experience</h2>
+          <p class="mt-2 text-sm text-zinc-500 leading-relaxed">Unlike scattered generic tool sites, this single route groups the 4 most common micro-tools behind a fast Cmd+K palette and unified UI.</p>
         </article>
       </div>
     </div>
   </section>
 </BaseLayout>
-
-<style>
-  .devbox-theme {
-    --color-bg: #0b0e14;
-    --color-surface: #141821;
-    --color-surface-hover: #1c2030;
-    --color-border: #242937;
-    --color-text: #e6e8f0;
-    --color-text-secondary: #a0a6b8;
-    --color-primary: #0ea5e9;
-    --color-primary-hover: #38bdf8;
-    --color-primary-light: rgba(14, 165, 233, 0.12);
-    --color-accent: #22d3ee;
-    --color-match: rgba(250, 204, 21, 0.3);
-    --font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
-    --radius: 12px;
-    --radius-sm: 8px;
-  }
-</style>

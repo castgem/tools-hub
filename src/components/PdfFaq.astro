@@ -25,95 +25,37 @@ const schemaData = JSON.stringify({
 });
 ---
 
-<section class="faq-section section">
-  <div class="container">
-    <div class="section-title">
-      <h2>{title}</h2>
-    </div>
-    <div class="faq-list" itemscope itemtype="https://schema.org/FAQPage">
-      {items.map((item) => (
-        <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-          <summary class="faq-question" itemprop="name">
-            {item.question}
-            <span class="faq-icon" aria-hidden="true">+</span>
-          </summary>
-          <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-            <div itemprop="text">{item.answer}</div>
-          </div>
-        </details>
-      ))}
-    </div>
+<section class="w-full max-w-4xl mx-auto space-y-6">
+  <div class="mb-8 text-center sm:text-left">
+    <h2 class="text-2xl font-semibold tracking-tight text-zinc-900">{title}</h2>
+  </div>
+  
+  <div class="space-y-3" itemscope itemtype="https://schema.org/FAQPage">
+    {items.map((item) => (
+      <details class="group rounded-xl border border-zinc-200/80 bg-white shadow-sm overflow-hidden transition-all duration-200 hover:border-zinc-300" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+        <summary class="flex cursor-pointer items-center justify-between gap-4 p-5 text-sm font-semibold text-zinc-900 select-none hover:bg-zinc-50/50" itemprop="name">
+          {item.question}
+          <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-zinc-500 transition-transform duration-200 group-open:rotate-45 group-open:bg-zinc-900 group-open:text-white" aria-hidden="true">
+            <svg xmlns="http://www.w0.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-3.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+          </span>
+        </summary>
+        <div class="border-t border-zinc-100 bg-zinc-50/30 px-5 pb-5 pt-4 text-[13.5px] leading-relaxed text-zinc-600" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+          <div itemprop="text">{item.answer}</div>
+        </div>
+      </details>
+    ))}
   </div>
 </section>
 
-<script type="application/ld+json" set:html={schemaData} />
+<script is:inline type="application/ld+json" set:html={schemaData} />
 
 <style>
-  .faq-list {
-    max-width: 720px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .faq-item {
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    background: var(--bg);
-  }
-
-  .faq-item[open] {
-    border-color: var(--primary);
-  }
-
-  .faq-item[open] .faq-icon {
-    transform: rotate(45deg);
-    color: var(--primary);
-  }
-
-  .faq-question {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 1rem 1.25rem;
-    font-weight: 600;
-    font-size: 0.9375rem;
-    cursor: pointer;
+  details > summary {
     list-style: none;
-    user-select: none;
-    color: var(--text);
-    transition: background 0.1s;
   }
-
-  .faq-question::-webkit-details-marker {
+  details > summary::-webkit-details-marker {
     display: none;
-  }
-
-  .faq-question:hover {
-    background: var(--bg-alt);
-  }
-
-  .faq-icon {
-    font-size: 1.25rem;
-    font-weight: 400;
-    color: var(--text-muted);
-    transition: transform 0.2s, color 0.2s;
-    flex-shrink: 0;
-    line-height: 1;
-  }
-
-  .faq-answer {
-    padding: 0 1.25rem 1rem;
-    font-size: 0.9375rem;
-    color: var(--text-muted);
-    line-height: 1.7;
-    border-top: 1px solid var(--border);
-  }
-
-  .faq-answer div {
-    padding-top: 0.875rem;
   }
 </style>

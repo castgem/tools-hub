@@ -1,248 +1,126 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-
-const categories = [
-  {
-    href: '/dev-tools/',
-    title: 'Dev Tools',
-    description: 'JSON workflows, text cleanup, regex testing, Base64 helpers, cron building, and SQL formatting.',
-    tag: 'Developer utilities',
-    cta: 'Explore dev tools',
-  },
-  {
-    href: '/media-tools/',
-    title: 'Media Tools',
-    description: 'Image optimization, WebP conversion, Video to GIF workflows, and simple logo creation in one suite.',
-    tag: 'Creator workflows',
-    cta: 'Explore media tools',
-  },
-  {
-    href: '/creator-tools/',
-    title: 'Creator Tools',
-    description: 'Social previews, X drafting helpers, AI text humanization, and prompt optimization workflows.',
-    tag: 'Content systems',
-    cta: 'Explore creator tools',
-  },
-  {
-    href: '/document-tools/',
-    title: 'Document Tools',
-    description: 'PDF workflows for merge, compress, split, convert, and browser-first file handling.',
-    tag: 'Document utilities',
-    cta: 'Explore document tools',
-  },
-];
-
-const featuredTools = [
-  {
-    href: '/dev-tools/json-convertor/',
-    title: 'JSON Convertor',
-    description: 'Format JSON, infer TypeScript, convert curl snippets, and inspect JWT payloads.',
-    group: 'Dev Tools',
-  },
-  {
-    href: '/dev-tools/text-formatter/',
-    title: 'Text Formatter',
-    description: 'Clean, encode, deduplicate, and count text with one browser-first route.',
-    group: 'Dev Tools',
-  },
-  {
-    href: '/media-tools/image-optimizer/',
-    title: 'Image Optimizer',
-    description: 'Compress, resize, and export images without forcing an upload step.',
-    group: 'Media Tools',
-  },
-  {
-    href: '/media-tools/video-to-gif/',
-    title: 'Video to GIF',
-    description: 'Turn short clips into shareable GIFs in the browser with FFmpeg.wasm.',
-    group: 'Media Tools',
-  },
-  {
-    href: '/creator-tools/social-profiler/',
-    title: 'Social Profiler',
-    description: 'Preview metadata and link cards before sharing to Google, X, Facebook, and LinkedIn.',
-    group: 'Creator Tools',
-  },
-  {
-    href: '/document-tools/pdf-easier/',
-    title: 'PDF Easier',
-    description: 'A browser-first PDF toolkit covering merge, compress, split, and conversion workflows.',
-    group: 'Document Tools',
-  },
-];
+import { allTools, categories } from '../data/siteNavigation';
 
 const schemaMarkup = JSON.stringify([
   {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
-    name: 'Browser Tools Hub',
-    url: 'https://tools.example.com/',
-    description: 'A single-domain browser tools site with dev-tools, media-tools, creator-tools, and document-tools categories, plus shared trust pages and focused child routes.',
-  },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: [
-      {
-        '@type': 'Question',
-        name: 'What kinds of tools are included in Browser Tools Hub?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'The current grouped launch includes dev-tools, media-tools, creator-tools, and document-tools. Together they cover developer utilities, media workflows, creator publishing helpers, prompt tools, and PDF tasks.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Why put dev tools and media tools on one domain?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'The shared domain concentrates trust pages, deployment, analytics, and internal linking. The category structure still keeps each child page focused on one clear job-to-be-done instead of flattening everything into one generic tool page.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Do these tools upload data to a server?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'The launch build is designed around browser-based processing wherever practical. JSON, text, and most media workflows stay local in the browser during launch, though deployment-time policies still need to be verified on the live host.',
-        },
-      },
-    ],
+    name: 'UseToolEasy',
+    url: 'https://usetooleasy.com/',
+    description: 'Free online tools for developers, creators, and everyone. Web developer toolkit, image tools, social media tools, and document utilities — all browser-based, no signup required.',
   },
 ]);
 ---
 
 <BaseLayout
-  title="Browser Tools Hub — Dev, Media, Creator, and Document Tools"
-  description="A single shared domain for browser-based dev tools, media tools, creator tools, and document tools with one trust layer and one deployment target."
+  title="UseToolEasy — Free Online Dev Tools, Media Tools & Handy Utilities"
+  description="Free online tools for everyone: developer utilities, image tools, social media tools, and document workflows. All browser-based, no signup, easy to use."
   canonicalPath="/"
   schemaMarkup={schemaMarkup}
 >
-  <section class="overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-brand-900 text-white">
-    <div class="section-shell py-16 sm:py-24">
-      <div class="max-w-4xl">
-        <p class="inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-sm font-medium text-brand-100">
-          Single-domain grouped launch
-        </p>
-        <h1 class="mt-6 text-4xl font-extrabold tracking-tight sm:text-6xl">
-          One browser tools site, with focused routes for dev, media, creator, and document work
+  <section class="section-shell py-12 lg:py-20">
+    <div class="relative overflow-hidden rounded-3xl border border-zinc-200/80 bg-white p-8 shadow-sm sm:p-12 lg:p-16">
+      <div class="absolute inset-0 bg-[linear-gradient(to_right,#f4f4f5_1px,transparent_1px),linear-gradient(to_bottom,#f4f4f5_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-40"></div>
+      <div class="relative z-10 tool-page-lead max-w-3xl mx-auto text-center">
+        <h1 class="text-4xl font-semibold tracking-tight text-zinc-900 sm:text-5xl lg:text-6xl lg:leading-[1.1]">
+          Free online tools, easy to use.
         </h1>
-        <p class="mt-5 max-w-2xl text-lg leading-8 text-slate-200">
-          Instead of deploying separate hubs for every tool family, this site keeps developer tools, media workflows, creator helpers, and document routes under one domain. The trust pages stay shared, the categories stay clean, and each child route still targets one narrow user intent.
+        <p class="mt-6 text-lg leading-relaxed text-zinc-500 max-w-2xl mx-auto">
+          Handy developer utilities, image tools, social media helpers, and document workflows — all free, all browser-based, no signup required.
         </p>
-        <div class="mt-8 flex flex-wrap gap-3">
-          <a href="#tool-categories" class="inline-flex items-center rounded-xl bg-white px-5 py-3 font-semibold text-slate-900 no-underline hover:bg-slate-100">
-            Explore categories
-          </a>
-          <a href="/privacy/" class="inline-flex items-center rounded-xl border border-white/20 px-5 py-3 font-semibold text-white no-underline hover:bg-white/10">
-            Privacy model
-          </a>
-        </div>
-        <div class="mt-6 flex flex-wrap gap-3 text-sm text-slate-200">
-          <span class="rounded-full border border-white/15 px-3 py-1">No signup</span>
-          <span class="rounded-full border border-white/15 px-3 py-1">Browser-only processing</span>
-          <span class="rounded-full border border-white/15 px-3 py-1">One shared deploy target</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="tool-categories" class="py-16">
-    <div class="section-shell">
-      <div class="max-w-3xl">
-        <h2 class="text-3xl font-bold tracking-tight text-slate-900">Tool categories</h2>
-        <p class="mt-3 text-lg text-slate-600">
-          The homepage owns the site-wide promise. Each category owns a theme. Each child route owns one dominant query intent.
-        </p>
-      </div>
-      <div class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-        {categories.map((tool) => (
-          <article class="card p-6">
-            <p class="text-sm font-medium text-brand-700">{tool.tag}</p>
-            <h3 class="mt-3 text-2xl font-semibold text-slate-900">{tool.title}</h3>
-            <p class="mt-3 text-slate-600">{tool.description}</p>
-            <a href={tool.href} class="mt-5 inline-flex items-center text-sm font-semibold text-brand-700 no-underline hover:text-brand-800">
-              {tool.cta}
-            </a>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="border-y border-slate-200 bg-white py-16">
-    <div class="section-shell">
-      <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-        <div class="prose-copy">
-          <h2 class="text-3xl font-bold tracking-tight text-slate-900">Why keep both groups on one domain?</h2>
-          <p>
-            The deployment, trust, analytics, and SEO plumbing are easier when the site is one Astro project. The category split keeps the information architecture disciplined, so the domain can cover developer workflows, media workflows, creator helpers, and document utilities without turning into a generic junk drawer of tools.
-          </p>
-          <div class="mt-6 grid gap-4 sm:grid-cols-2">
-            <div class="card p-5">
-              <h3 class="text-lg font-semibold text-slate-900">Shared infrastructure</h3>
-              <p class="mt-2 text-sm text-slate-600">One domain means one trust layer, one Netlify deploy target, one analytics setup, and one sitemap strategy.</p>
+        
+        <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button class="w-full sm:w-auto flex items-center justify-between gap-8 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-500 shadow-sm transition-all hover:border-zinc-300 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-zinc-900/10">
+            <div class="flex items-center gap-3">
+              <svg xmlns="http://www.w0.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+              </svg>
+              <span>Search for a tool...</span>
             </div>
-            <div class="card p-5">
-              <h3 class="text-lg font-semibold text-slate-900">Category-level clarity</h3>
-              <p class="mt-2 text-sm text-slate-600">The `/dev-tools/` and `/media-tools/` directories make it obvious what belongs together and what should stay separate.</p>
+            <div class="flex items-center gap-1">
+              <kbd class="kbd-shortcut bg-zinc-100">⌘</kbd>
+              <kbd class="kbd-shortcut bg-zinc-100">K</kbd>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="tool-categories" class="section-shell pb-16 lg:pb-24">
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h2 class="text-xl font-semibold tracking-tight text-zinc-900">Explore Categories</h2>
+        <p class="mt-1 text-sm text-zinc-500">Find the right utility for your current task.</p>
+      </div>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      {categories.map((category) => (
+        <a href={category.href} class="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-zinc-300 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-zinc-900/10">
+          <div class="absolute inset-0 bg-gradient-to-br from-zinc-50/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+          
+          <div class="relative z-10">
+            <div class="mb-4 flex items-center justify-between">
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200/80 bg-zinc-50 text-zinc-600 shadow-sm transition-transform duration-300 group-hover:scale-110">
+                <svg xmlns="http://www.w0.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
+                </svg>
+              </div>
+            </div>
+            
+            <h3 class="text-base font-semibold text-zinc-900 group-hover:text-zinc-900">{category.label}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-zinc-500 line-clamp-2">{category.summary}</p>
+            
+            <div class="mt-6 flex items-center gap-1 text-sm font-medium text-zinc-900 transition-colors">
+              <span>View tools</span>
+              <svg xmlns="http://www.w0.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4 transition-transform duration-300 group-hover:translate-x-1">
+                <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd" />
+              </svg>
             </div>
           </div>
-        </div>
-        <div class="card bg-slate-950 p-6 text-slate-100">
-          <h2 class="text-xl font-semibold text-white">Launch taxonomy</h2>
-          <ul class="mt-4 space-y-3 text-sm">
-            <li><strong class="text-brand-200">Root:</strong> Browser Tools Hub</li>
-            <li><strong class="text-brand-200">Category:</strong> Dev Tools</li>
-            <li><strong class="text-brand-200">Category:</strong> Media Tools</li>
-            <li><strong class="text-brand-200">Category:</strong> Creator Tools</li>
-            <li><strong class="text-brand-200">Category:</strong> Document Tools</li>
-            <li><strong class="text-brand-200">Children:</strong> intent-specific tool pages under each directory</li>
-            <li><strong class="text-brand-200">Trust:</strong> About, Contact, Privacy</li>
-          </ul>
-        </div>
-      </div>
+        </a>
+      ))}
     </div>
   </section>
 
-  <section class="py-16">
+  <section class="border-t border-zinc-200/80 bg-zinc-50/50 py-16 lg:py-24">
     <div class="section-shell">
-      <div class="max-w-3xl">
-        <h2 class="text-3xl font-bold tracking-tight text-slate-900">Featured child routes</h2>
+      <div class="max-w-2xl">
+        <h2 class="text-2xl font-semibold tracking-tight text-zinc-900">Why use UseToolEasy?</h2>
+        <p class="mt-3 text-base text-zinc-500">
+          We built this because we were tired of tools that required signups, uploaded our data to unknown servers, or were buried in SEO spam.
+        </p>
       </div>
-      <div class="mt-8 grid gap-6 md:grid-cols-2">
-        {featuredTools.map((tool) => (
-          <article class="card p-6">
-            <p class="text-sm font-medium text-brand-700">{tool.group}</p>
-            <h3 class="mt-3 text-2xl font-semibold text-slate-900">{tool.title}</h3>
-            <p class="mt-3 text-slate-600">{tool.description}</p>
-            <a href={tool.href} class="mt-5 inline-flex items-center text-sm font-semibold text-brand-700 no-underline hover:text-brand-800">
-              Open {tool.title}
-            </a>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="pb-16">
-    <div class="section-shell">
-      <div class="max-w-3xl">
-        <h2 class="text-3xl font-bold tracking-tight text-slate-900">Frequently asked questions</h2>
-      </div>
-      <div class="mt-8 space-y-4">
-        <details class="card p-5" open>
-          <summary class="cursor-pointer text-lg font-semibold text-slate-900">What should the homepage rank for?</summary>
-          <p class="mt-3 text-slate-600">The homepage should rank for grouped browser tools and suite-level utility queries. The category pages should carry the broader dev-tools, media-tools, creator-tools, and document-tools clusters, while the child pages carry the direct transactional terms.</p>
-        </details>
-        <details class="card p-5">
-          <summary class="cursor-pointer text-lg font-semibold text-slate-900">Why not deploy dev and media tools as two separate hubs?</summary>
-          <p class="mt-3 text-slate-600">If the goal is one domain, keeping the four tool families in one Astro project is cleaner. You avoid duplicated trust pages, duplicated deployment config, and multiple parallel site roots.</p>
-        </details>
-        <details class="card p-5">
-          <summary class="cursor-pointer text-lg font-semibold text-slate-900">How is SEO protected when multiple tool families share a domain?</summary>
-          <p class="mt-3 text-slate-600">The category directories prevent the domain from collapsing into one generic page. The root explains the site, the category pages explain the tool family, and the child routes stay tightly aligned to one dominant workflow.</p>
-        </details>
+      <div class="mt-10 grid gap-6 md:grid-cols-3">
+        <article class="rounded-2xl border border-zinc-200/60 bg-white p-6 shadow-sm">
+          <div class="mb-4 flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600">
+            <svg xmlns="http://www.w0.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z" />
+            </svg>
+          </div>
+          <h3 class="font-medium text-zinc-900">Task-focused design</h3>
+          <p class="mt-2 text-sm text-zinc-500 leading-relaxed">Each tool does exactly one thing well. No cluttered interfaces or confusing settings panels.</p>
+        </article>
+        <article class="rounded-2xl border border-zinc-200/60 bg-white p-6 shadow-sm">
+          <div class="mb-4 flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600">
+            <svg xmlns="http://www.w0.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+            </svg>
+          </div>
+          <h3 class="font-medium text-zinc-900">100% Client-side</h3>
+          <p class="mt-2 text-sm text-zinc-500 leading-relaxed">Files never leave your browser. All processing happens locally for maximum privacy and speed.</p>
+        </article>
+        <article class="rounded-2xl border border-zinc-200/60 bg-white p-6 shadow-sm">
+          <div class="mb-4 flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600">
+            <svg xmlns="http://www.w0.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" />
+            </svg>
+          </div>
+          <h3 class="font-medium text-zinc-900">Instant access</h3>
+          <p class="mt-2 text-sm text-zinc-500 leading-relaxed">Press ⌘K anywhere to jump directly to the tool you need without navigating through menus.</p>
+        </article>
       </div>
     </div>
   </section>

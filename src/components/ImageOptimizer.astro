@@ -1,82 +1,147 @@
 <section class="section" id="optimizer">
-  <div class="container">
+  <div class="container max-w-4xl">
     <h2 class="visually-hidden">Image Optimizer Tool</h2>
-    <image-optimizer>
+    <image-optimizer class="block space-y-6">
       <!-- Upload area -->
-      <div class="opt-upload" id="opt-drop-zone" role="button" tabindex="0" aria-labelledby="opt-drop-label">
+      <div class="opt-upload group relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-zinc-200 bg-zinc-50/50 p-12 text-center transition-all duration-200 hover:border-zinc-300 hover:bg-zinc-100" id="opt-drop-zone" role="button" tabindex="0" aria-labelledby="opt-drop-label">
         <div class="opt-upload__content">
-          <span class="opt-upload__icon" aria-hidden="true">&#128247;</span>
-          <p class="opt-upload__text" id="opt-drop-label"><strong>Drag and drop images here</strong></p>
-          <p class="text-sm text-gray">or click to browse. Accepts JPEG, PNG, WebP, GIF.</p>
+          <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-white shadow-sm ring-1 ring-zinc-900/5 transition-transform group-hover:scale-110">
+            <svg xmlns="http://www.w0.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-zinc-600">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+            </svg>
+          </div>
+          <p class="text-base font-semibold text-zinc-900" id="opt-drop-label">Drag and drop images here</p>
+          <p class="mt-2 text-sm text-zinc-500">or click to browse. Accepts JPEG, PNG, WebP, GIF.</p>
         </div>
         <label for="opt-file-input" class="visually-hidden">Select image files to optimize</label>
-        <input type="file" id="opt-file-input" accept="image/jpeg,image/png,image/webp,image/gif" multiple class="visually-hidden" />
+        <input type="file" id="opt-file-input" accept="image/jpeg,image/png,image/webp,image/gif" multiple class="visually-hidden absolute inset-0 h-full w-full cursor-pointer opacity-0" />
       </div>
 
       <!-- Settings panel (hidden until images are loaded) -->
-      <div class="opt-settings" id="opt-settings" hidden>
-        <div class="opt-settings__row">
-          <div class="opt-settings__field">
-            <label for="opt-format">Output Format</label>
-            <select id="opt-format">
-              <option value="image/webp">WebP</option>
-              <option value="image/jpeg">JPEG</option>
-              <option value="image/png">PNG</option>
-            </select>
+      <div class="opt-settings rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-sm" id="opt-settings" hidden>
+        <div class="grid gap-6 sm:grid-cols-2">
+          <div class="space-y-4">
+            <div>
+              <label for="opt-format" class="form-label">Output Format</label>
+              <select id="opt-format" class="form-select">
+                <option value="image/webp">WebP</option>
+                <option value="image/jpeg">JPEG</option>
+                <option value="image/png">PNG</option>
+              </select>
+            </div>
+            <div>
+              <label for="opt-quality" class="form-label flex justify-between">
+                <span>Quality</span>
+                <span class="text-zinc-500"><span id="opt-quality-val">80</span>%</span>
+              </label>
+              <input type="range" id="opt-quality" min="1" max="100" value="80" class="w-full accent-zinc-900" />
+            </div>
           </div>
-          <div class="opt-settings__field">
-            <label for="opt-quality">Quality: <span id="opt-quality-val">80</span>%</label>
-            <input type="range" id="opt-quality" min="1" max="100" value="80" />
-          </div>
-        </div>
-        <div class="opt-settings__row">
-          <div class="opt-settings__field">
-            <label for="opt-resize-mode">Resize</label>
-            <select id="opt-resize-mode">
-              <option value="none">No Resize</option>
-              <option value="percentage">By Percentage</option>
-              <option value="dimensions">By Dimensions</option>
-            </select>
-          </div>
-          <div class="opt-settings__field opt-resize-pct" id="opt-resize-pct-wrap" hidden>
-            <label for="opt-resize-pct">Scale: <span id="opt-pct-val">50</span>%</label>
-            <input type="range" id="opt-resize-pct" min="5" max="100" value="50" />
-          </div>
-          <div class="opt-settings__field opt-resize-dims" id="opt-resize-dims-wrap" hidden>
-            <span class="opt-settings__field-label" aria-hidden="true">Max Width &times; Height (px)</span>
-            <div class="opt-dims-inputs">
-              <label for="opt-max-w" class="visually-hidden">Max width in pixels</label>
-              <input type="number" id="opt-max-w" placeholder="Width" min="1" max="10000" aria-label="Max width in pixels" />
-              <span aria-hidden="true">&times;</span>
-              <label for="opt-max-h" class="visually-hidden">Max height in pixels</label>
-              <input type="number" id="opt-max-h" placeholder="Height" min="1" max="10000" aria-label="Max height in pixels" />
+          
+          <div class="space-y-4">
+            <div>
+              <label for="opt-resize-mode" class="form-label">Resize Mode</label>
+              <select id="opt-resize-mode" class="form-select">
+                <option value="none">No Resize</option>
+                <option value="percentage">By Percentage</option>
+                <option value="dimensions">By Dimensions</option>
+              </select>
+            </div>
+            
+            <div class="opt-resize-pct" id="opt-resize-pct-wrap" hidden>
+              <label for="opt-resize-pct" class="form-label flex justify-between">
+                <span>Scale</span>
+                <span class="text-zinc-500"><span id="opt-pct-val">50</span>%</span>
+              </label>
+              <input type="range" id="opt-resize-pct" min="5" max="100" value="50" class="w-full accent-zinc-900" />
+            </div>
+            
+            <div class="opt-resize-dims" id="opt-resize-dims-wrap" hidden>
+              <span class="form-label">Max Width × Height (px)</span>
+              <div class="flex items-center gap-3">
+                <label for="opt-max-w" class="visually-hidden">Max width in pixels</label>
+                <input type="number" id="opt-max-w" placeholder="Width" min="1" max="10000" class="form-control" />
+                <span class="text-zinc-400">×</span>
+                <label for="opt-max-h" class="visually-hidden">Max height in pixels</label>
+                <input type="number" id="opt-max-h" placeholder="Height" min="1" max="10000" class="form-control" />
+              </div>
             </div>
           </div>
         </div>
-        <div class="opt-settings__actions">
-          <button class="btn btn--primary" id="opt-process-btn" type="button">Optimize All</button>
-          <button class="btn btn--secondary" id="opt-clear-btn" type="button">Clear All</button>
+        
+        <div class="mt-8 flex flex-wrap gap-3 border-t border-zinc-100 pt-6">
+          <button class="btn btn--primary flex-1 sm:flex-none" id="opt-process-btn" type="button">Optimize Images</button>
+          <button class="btn btn--secondary flex-1 sm:flex-none" id="opt-clear-btn" type="button">Clear Selection</button>
         </div>
       </div>
 
       <!-- Results list -->
-      <div id="opt-results" class="opt-results" hidden>
-        <div class="opt-results__header">
-          <h3>Results</h3>
-          <button class="btn btn--success btn--sm" id="opt-zip-btn" type="button">Download All as ZIP</button>
+      <div id="opt-results" class="rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-sm" hidden>
+        <div class="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-zinc-100 pb-4">
+          <h3 class="text-lg font-semibold tracking-tight text-zinc-900">Optimization Results</h3>
+          <button class="btn btn--secondary btn--sm" id="opt-zip-btn" type="button">
+            <svg xmlns="http://www.w0.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 13.5 12 16.5m0 0 3-3m-3 3v-6m3 5.36l-3-3m-3 3-3-3" />
+            </svg>
+            Download ZIP
+          </button>
         </div>
-        <ul id="opt-results-list" class="opt-results__list" role="list"></ul>
-        <p id="opt-summary" class="opt-summary text-center text-sm text-gray"></p>
+        <ul id="opt-results-list" class="space-y-3" role="list"></ul>
+        <div class="mt-6 rounded-lg bg-emerald-50 px-4 py-3 text-center text-sm font-medium text-emerald-800 ring-1 ring-inset ring-emerald-500/20" id="opt-summary"></div>
       </div>
 
       <!-- Processing indicator -->
-      <p id="opt-status" class="text-center text-sm text-gray mt-2" aria-live="polite" hidden></p>
+      <p id="opt-status" class="text-center text-sm font-medium text-zinc-500" aria-live="polite" hidden></p>
     </image-optimizer>
   </div>
 </section>
 
 <script>
+  type ResizeMode = 'none' | 'percentage' | 'dimensions';
+  type JSZipInstance = {
+    file(name: string, blob: Blob): void;
+    generateAsync(options: { type: 'blob' }): Promise<Blob>;
+  };
+  type JSZipConstructor = new () => JSZipInstance;
+
+  interface OptimizedImageResult {
+    originalName: string;
+    originalSize: number;
+    originalWidth: number;
+    originalHeight: number;
+    newSize: number;
+    newWidth: number;
+    newHeight: number;
+    blob: Blob;
+    fileName: string;
+  }
+
+  const globalWindow = window as Window & typeof globalThis & { JSZip?: JSZipConstructor };
+
   class ImageOptimizerElement extends HTMLElement {
+    files: File[];
+    results: OptimizedImageResult[];
+    dropZone!: HTMLElement;
+    fileInput!: HTMLInputElement;
+    settingsPanel!: HTMLElement;
+    resultsPanel!: HTMLElement;
+    resultsList!: HTMLUListElement;
+    statusEl!: HTMLElement;
+    summaryEl!: HTMLElement;
+    formatSelect!: HTMLSelectElement;
+    qualitySlider!: HTMLInputElement;
+    qualityVal!: HTMLElement;
+    resizeMode!: HTMLSelectElement;
+    pctWrap!: HTMLElement;
+    dimsWrap!: HTMLElement;
+    pctSlider!: HTMLInputElement;
+    pctVal!: HTMLElement;
+    maxW!: HTMLInputElement;
+    maxH!: HTMLInputElement;
+    processBtn!: HTMLButtonElement;
+    clearBtn!: HTMLButtonElement;
+    zipBtn!: HTMLButtonElement;
+
     constructor() {
       super();
       this.files = [];
@@ -84,73 +149,93 @@
     }
 
     connectedCallback() {
-      this.dropZone = this.querySelector('#opt-drop-zone');
-      this.fileInput = this.querySelector('#opt-file-input');
-      this.settingsPanel = this.querySelector('#opt-settings');
-      this.resultsPanel = this.querySelector('#opt-results');
-      this.resultsList = this.querySelector('#opt-results-list');
-      this.statusEl = this.querySelector('#opt-status');
-      this.summaryEl = this.querySelector('#opt-summary');
-      this.formatSelect = this.querySelector('#opt-format');
-      this.qualitySlider = this.querySelector('#opt-quality');
-      this.qualityVal = this.querySelector('#opt-quality-val');
-      this.resizeMode = this.querySelector('#opt-resize-mode');
-      this.pctWrap = this.querySelector('#opt-resize-pct-wrap');
-      this.dimsWrap = this.querySelector('#opt-resize-dims-wrap');
-      this.pctSlider = this.querySelector('#opt-resize-pct');
-      this.pctVal = this.querySelector('#opt-pct-val');
-      this.maxW = this.querySelector('#opt-max-w');
-      this.maxH = this.querySelector('#opt-max-h');
-      this.processBtn = this.querySelector('#opt-process-btn');
-      this.clearBtn = this.querySelector('#opt-clear-btn');
-      this.zipBtn = this.querySelector('#opt-zip-btn');
+      const dropZone = this.querySelector<HTMLElement>('#opt-drop-zone');
+      const fileInput = this.querySelector<HTMLInputElement>('#opt-file-input');
+      const settingsPanel = this.querySelector<HTMLElement>('#opt-settings');
+      const resultsPanel = this.querySelector<HTMLElement>('#opt-results');
+      const resultsList = this.querySelector<HTMLUListElement>('#opt-results-list');
+      const statusEl = this.querySelector<HTMLElement>('#opt-status');
+      const summaryEl = this.querySelector<HTMLElement>('#opt-summary');
+      const formatSelect = this.querySelector<HTMLSelectElement>('#opt-format');
+      const qualitySlider = this.querySelector<HTMLInputElement>('#opt-quality');
+      const qualityVal = this.querySelector<HTMLElement>('#opt-quality-val');
+      const resizeMode = this.querySelector<HTMLSelectElement>('#opt-resize-mode');
+      const pctWrap = this.querySelector<HTMLElement>('#opt-resize-pct-wrap');
+      const dimsWrap = this.querySelector<HTMLElement>('#opt-resize-dims-wrap');
+      const pctSlider = this.querySelector<HTMLInputElement>('#opt-resize-pct');
+      const pctVal = this.querySelector<HTMLElement>('#opt-pct-val');
+      const maxW = this.querySelector<HTMLInputElement>('#opt-max-w');
+      const maxH = this.querySelector<HTMLInputElement>('#opt-max-h');
+      const processBtn = this.querySelector<HTMLButtonElement>('#opt-process-btn');
+      const clearBtn = this.querySelector<HTMLButtonElement>('#opt-clear-btn');
+      const zipBtn = this.querySelector<HTMLButtonElement>('#opt-zip-btn');
+
+      if (!dropZone || !fileInput || !settingsPanel || !resultsPanel || !resultsList || !statusEl || !summaryEl || !formatSelect || !qualitySlider || !qualityVal || !resizeMode || !pctWrap || !dimsWrap || !pctSlider || !pctVal || !maxW || !maxH || !processBtn || !clearBtn || !zipBtn) {
+        return;
+      }
+
+      this.dropZone = dropZone;
+      this.fileInput = fileInput;
+      this.settingsPanel = settingsPanel;
+      this.resultsPanel = resultsPanel;
+      this.resultsList = resultsList;
+      this.statusEl = statusEl;
+      this.summaryEl = summaryEl;
+      this.formatSelect = formatSelect;
+      this.qualitySlider = qualitySlider;
+      this.qualityVal = qualityVal;
+      this.resizeMode = resizeMode;
+      this.pctWrap = pctWrap;
+      this.dimsWrap = dimsWrap;
+      this.pctSlider = pctSlider;
+      this.pctVal = pctVal;
+      this.maxW = maxW;
+      this.maxH = maxH;
+      this.processBtn = processBtn;
+      this.clearBtn = clearBtn;
+      this.zipBtn = zipBtn;
 
       this.bindEvents();
     }
 
     bindEvents() {
-      // Drop zone
-      this.dropZone.addEventListener('click', () => this.fileInput.click());
-      this.dropZone.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.fileInput.click(); }
-      });
-      this.dropZone.addEventListener('dragover', (e) => { e.preventDefault(); this.dropZone.classList.add('opt-upload--active'); });
-      this.dropZone.addEventListener('dragleave', () => this.dropZone.classList.remove('opt-upload--active'));
-      this.dropZone.addEventListener('drop', (e) => {
+      // Input event mapping...
+      this.dropZone.addEventListener('dragover', (e: DragEvent) => { e.preventDefault(); this.dropZone.classList.add('border-zinc-400', 'bg-zinc-100'); });
+      this.dropZone.addEventListener('dragleave', () => { this.dropZone.classList.remove('border-zinc-400', 'bg-zinc-100'); });
+      this.dropZone.addEventListener('drop', (e: DragEvent) => {
         e.preventDefault();
-        this.dropZone.classList.remove('opt-upload--active');
+        this.dropZone.classList.remove('border-zinc-400', 'bg-zinc-100');
         if (e.dataTransfer?.files) this.addFiles(e.dataTransfer.files);
       });
       this.fileInput.addEventListener('change', () => {
         if (this.fileInput.files) this.addFiles(this.fileInput.files);
       });
 
-      // Settings
       this.qualitySlider.addEventListener('input', () => { this.qualityVal.textContent = this.qualitySlider.value; });
       this.pctSlider.addEventListener('input', () => { this.pctVal.textContent = this.pctSlider.value; });
       this.resizeMode.addEventListener('change', () => this.updateResizeUI());
 
-      // Actions
       this.processBtn.addEventListener('click', () => this.processAll());
       this.clearBtn.addEventListener('click', () => this.clearAll());
       this.zipBtn.addEventListener('click', () => this.downloadZip());
     }
 
-    addFiles(fileList) {
+    addFiles(fileList: FileList) {
       const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
       for (const f of fileList) {
         if (validTypes.includes(f.type)) this.files.push(f);
       }
       if (this.files.length > 0) {
         this.settingsPanel.hidden = false;
-        this.dropZone.querySelector('.opt-upload__text').innerHTML =
-          '<strong>' + this.files.length + ' image' + (this.files.length > 1 ? 's' : '') + ' selected</strong>';
-      this.dropZone.querySelector('.opt-upload__sub')?.remove();
+        const uploadText = this.dropZone.querySelector<HTMLElement>('#opt-drop-label');
+        if (uploadText) {
+          uploadText.textContent = `${this.files.length} image${this.files.length > 1 ? 's' : ''} selected`;
+        }
       }
     }
 
     updateResizeUI() {
-      const mode = this.resizeMode.value;
+      const mode = this.resizeMode.value as ResizeMode;
       this.pctWrap.hidden = mode !== 'percentage';
       this.dimsWrap.hidden = mode !== 'dimensions';
     }
@@ -167,7 +252,9 @@
 
       const format = this.formatSelect.value;
       const quality = parseInt(this.qualitySlider.value, 10) / 100;
-      const resizeMode = this.resizeMode.value;
+      const resizeMode = (this.resizeMode.value === 'percentage' || this.resizeMode.value === 'dimensions'
+        ? this.resizeMode.value
+        : 'none') as ResizeMode;
       const pct = parseInt(this.pctSlider.value, 10) / 100;
       const maxW = parseInt(this.maxW.value, 10) || 0;
       const maxH = parseInt(this.maxH.value, 10) || 0;
@@ -187,17 +274,15 @@
       this.resultsPanel.hidden = false;
       this.processBtn.disabled = false;
 
-      // Summary
       const totalOrig = this.results.reduce((s, r) => s + r.originalSize, 0);
       const totalNew = this.results.reduce((s, r) => s + r.newSize, 0);
       const saved = totalOrig - totalNew;
       const pctSaved = totalOrig > 0 ? Math.round((saved / totalOrig) * 100) : 0;
-      this.summaryEl.textContent =
-        'Total saved: ' + this.formatBytes(saved) + ' (' + pctSaved + '% reduction across ' + this.results.length + ' image' + (this.results.length > 1 ? 's' : '') + ')';
+      this.summaryEl.innerHTML = `Saved <strong>${this.formatBytes(saved)}</strong> in total (${pctSaved}% reduction)`;
     }
 
-    processImage(file, format, quality, resizeMode, pct, maxW, maxH) {
-      return new Promise((resolve, reject) => {
+    processImage(file: File, format: string, quality: number, resizeMode: ResizeMode, pct: number, maxW: number, maxH: number): Promise<OptimizedImageResult> {
+      return new Promise((resolve, reject: (reason?: Error) => void) => {
         const img = new Image();
         const url = URL.createObjectURL(file);
         img.onload = () => {
@@ -220,6 +305,10 @@
           canvas.width = w;
           canvas.height = h;
           const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            reject(new Error('Canvas context unavailable'));
+            return;
+          }
           ctx.drawImage(img, 0, 0, w, h);
 
           const useQuality = format === 'image/png' ? undefined : quality;
@@ -245,29 +334,32 @@
       });
     }
 
-    renderResult(r) {
+    renderResult(r: OptimizedImageResult) {
       const li = document.createElement('li');
-      li.className = 'opt-result-item card';
+      li.className = 'flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-xl border border-zinc-200/80 bg-zinc-50/50 p-4';
       const reduction = r.originalSize > 0 ? Math.round(((r.originalSize - r.newSize) / r.originalSize) * 100) : 0;
-      const sign = reduction >= 0 ? '' : '+';
+      const isPositive = reduction >= 0;
+      const badgeClass = isPositive ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700';
+      const sign = isPositive ? '-' : '+';
 
-      li.innerHTML =
-        '<div class="opt-result-item__info">' +
-          '<p class="opt-result-item__name"><strong>' + this.escapeHtml(r.originalName) + '</strong></p>' +
-          '<p class="text-sm text-gray">' +
-            this.formatBytes(r.originalSize) + ' (' + r.originalWidth + '&times;' + r.originalHeight + ')' +
-            ' &rarr; ' +
-            this.formatBytes(r.newSize) + ' (' + r.newWidth + '&times;' + r.newHeight + ')' +
-          '</p>' +
-          '<p class="opt-result-item__savings text-sm"><strong>' + sign + reduction + '% smaller</strong></p>' +
-        '</div>' +
-        '<button class="btn btn--primary btn--sm opt-result-item__dl" type="button">Download</button>';
+      li.innerHTML = `
+        <div class="min-w-0 flex-1">
+          <p class="truncate font-medium text-zinc-900">${this.escapeHtml(r.originalName)}</p>
+          <div class="mt-1 flex flex-wrap items-center gap-2 text-xs text-zinc-500">
+            <span>${this.formatBytes(r.originalSize)}</span>
+            <svg xmlns="http://www.w0.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-3"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg>
+            <span class="font-medium text-zinc-700">${this.formatBytes(r.newSize)}</span>
+            <span class="inline-flex items-center rounded-md px-1.5 py-0.5 font-medium ${badgeClass}">${sign}${Math.abs(reduction)}%</span>
+          </div>
+        </div>
+        <button class="btn btn--secondary btn--sm whitespace-nowrap opt-result-item__dl" type="button">Download</button>
+      `;
 
-      li.querySelector('.opt-result-item__dl').addEventListener('click', () => this.downloadBlob(r.blob, r.fileName));
+      li.querySelector<HTMLButtonElement>('.opt-result-item__dl')?.addEventListener('click', () => this.downloadBlob(r.blob, r.fileName));
       this.resultsList.appendChild(li);
     }
 
-    downloadBlob(blob, name) {
+    downloadBlob(blob: Blob, name: string) {
       const a = document.createElement('a');
       const url = URL.createObjectURL(blob);
       a.href = url;
@@ -281,44 +373,36 @@
     async downloadZip() {
       if (this.results.length === 0) return;
       this.zipBtn.disabled = true;
+      const originalText = this.zipBtn.innerHTML;
       this.zipBtn.textContent = 'Creating ZIP...';
 
       try {
-        const JSZip = (await import('https://cdn.jsdelivr.net/npm/jszip@3/dist/jszip.min.js')).default
-          || (await this.loadJSZip());
-        const zip = new JSZip();
+        await this.ensureJSZipGlobal();
+        if (!globalWindow.JSZip) {
+          throw new Error('JSZip unavailable');
+        }
+        const zip = new globalWindow.JSZip();
         for (const r of this.results) {
           zip.file(r.fileName, r.blob);
         }
         const content = await zip.generateAsync({ type: 'blob' });
         this.downloadBlob(content, 'optimized-images.zip');
-      } catch {
-        // Fallback: try global JSZip loaded via script tag
-        try {
-          await this.ensureJSZipGlobal();
-          const zip = new window.JSZip();
-          for (const r of this.results) {
-            zip.file(r.fileName, r.blob);
-          }
-          const content = await zip.generateAsync({ type: 'blob' });
-          this.downloadBlob(content, 'optimized-images.zip');
-        } catch (err2) {
-          console.error('ZIP download failed', err2);
-          alert('ZIP download failed. Please download images individually.');
-        }
+      } catch (err2) {
+        console.error('ZIP download failed', err2);
+        alert('ZIP download failed. Please download images individually.');
       }
 
       this.zipBtn.disabled = false;
-      this.zipBtn.textContent = 'Download All as ZIP';
+      this.zipBtn.innerHTML = originalText;
     }
 
-    ensureJSZipGlobal() {
-      if (window.JSZip) return Promise.resolve();
+    ensureJSZipGlobal(): Promise<void> {
+      if (globalWindow.JSZip) return Promise.resolve();
       return new Promise((resolve, reject) => {
         const s = document.createElement('script');
         s.src = 'https://cdn.jsdelivr.net/npm/jszip@3/dist/jszip.min.js';
-        s.onload = resolve;
-        s.onerror = reject;
+        s.onload = () => resolve();
+        s.onerror = () => reject(new Error('Failed to load JSZip'));
         document.head.appendChild(s);
       });
     }
@@ -332,16 +416,19 @@
       this.statusEl.hidden = true;
       this.summaryEl.textContent = '';
       this.fileInput.value = '';
-      this.dropZone.querySelector('.opt-upload__text').innerHTML = '<strong>Drag and drop images here</strong>';
+      const uploadText = this.dropZone.querySelector<HTMLElement>('#opt-drop-label');
+      if (uploadText) {
+        uploadText.textContent = 'Drag and drop images here';
+      }
     }
 
-    formatBytes(bytes) {
+    formatBytes(bytes: number) {
       if (bytes < 1024) return bytes + ' B';
       if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
       return (bytes / 1048576).toFixed(2) + ' MB';
     }
 
-    escapeHtml(str) {
+    escapeHtml(str: string) {
       const d = document.createElement('div');
       d.textContent = str;
       return d.innerHTML;
@@ -350,141 +437,3 @@
 
   customElements.define('image-optimizer', ImageOptimizerElement);
 </script>
-
-<style>
-  /* Upload zone */
-  .opt-upload {
-    border: 2px dashed var(--color-gray-300);
-    border-radius: var(--radius-lg);
-    padding: 3rem 1.5rem;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-    background: var(--color-gray-50);
-  }
-
-  .opt-upload:hover,
-  .opt-upload--active {
-    border-color: var(--color-primary);
-    background: var(--color-primary-light);
-  }
-
-  .opt-upload__icon {
-    font-size: 2.5rem;
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-
-  .opt-upload__text {
-    margin-bottom: 0.25rem;
-  }
-
-  /* Settings */
-  .opt-settings {
-    margin-top: 1.5rem;
-    padding: 1.5rem;
-    background: var(--color-gray-50);
-    border: 1px solid var(--color-gray-200);
-    border-radius: var(--radius-lg);
-  }
-
-  .opt-settings__row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .opt-settings__field {
-    flex: 1 1 200px;
-  }
-
-  .opt-settings__field label,
-  .opt-settings__field-label {
-    display: block;
-    font-weight: 600;
-    font-size: 0.875rem;
-    margin-bottom: 0.375rem;
-    color: var(--color-gray-700);
-  }
-
-  .opt-settings__field select,
-  .opt-settings__field input[type="number"] {
-    width: 100%;
-    padding: 0.5rem 0.75rem;
-    font-size: 0.9375rem;
-    border: 1px solid var(--color-gray-300);
-    border-radius: var(--radius);
-    background: var(--color-white);
-  }
-
-  .opt-settings__field input[type="range"] {
-    width: 100%;
-    margin-top: 0.25rem;
-  }
-
-  .opt-dims-inputs {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .opt-dims-inputs input {
-    width: 100%;
-    flex: 1;
-  }
-
-  .opt-settings__actions {
-    display: flex;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-  }
-
-  /* Results */
-  .opt-results {
-    margin-top: 2rem;
-  }
-
-  .opt-results__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-  }
-
-  .opt-results__list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .opt-result-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .opt-result-item__info {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .opt-result-item__name {
-    margin-bottom: 0.125rem;
-    word-break: break-all;
-  }
-
-  .opt-result-item__savings {
-    color: var(--color-success);
-    margin-bottom: 0;
-  }
-
-  .opt-summary {
-    margin-top: 1rem;
-  }
-</style>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ToolPageHeader from '../../../components/ToolPageHeader.astro';
 import PdfFaq from '../../../components/PdfFaq.astro';
 
 const faqItems = [
@@ -21,7 +22,7 @@ const schemaMarkup = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
   name: 'PDF Easier',
-  url: 'https://tools.example.com/document-tools/pdf-easier/',
+  url: 'https://usetooleasy.com/document-tools/pdf-easier/',
   applicationCategory: 'UtilitiesApplication',
   operatingSystem: 'Any',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -35,57 +36,46 @@ const schemaMarkup = JSON.stringify({
   canonicalPath="/document-tools/pdf-easier/"
   schemaMarkup={schemaMarkup}
 >
-  <section class="bg-gradient-to-br from-sky-50 to-white py-16">
-    <div class="section-shell max-w-4xl">
-      <a href="/document-tools/" class="text-sm font-medium text-brand-700 no-underline hover:text-brand-800">← Back to Document Tools</a>
-      <h1 class="mt-4 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">PDF Easier</h1>
-      <p class="mt-4 text-lg text-slate-600">
-        PDF Easier is the document-tools route for browser-first PDF jobs. It is designed around the high-frequency operations people search for most: merge, compress, split, rotate, and image conversion workflows.
-      </p>
-    </div>
-  </section>
+  <ToolPageHeader
+    title="PDF Easier"
+    description="PDF Easier is the document-tools route for browser-first PDF jobs. It is designed around the high-frequency operations people search for most: merge, compress, split, rotate, and image conversion workflows."
+    badge="Browser-first Processing"
+    backLabel="Back to Document Tools"
+    backHref="/document-tools/"
+  />
 
-  <section class="py-12">
-    <div class="section-shell grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-      <article id="merge-workflows" class="card p-6">
-        <h2 class="text-xl font-semibold text-slate-900">Merge PDF</h2>
-        <p class="mt-3 text-slate-600">Combine multiple PDFs into one output file without forcing an upload-heavy workflow.</p>
+  <section class="border-t border-zinc-200/80 bg-zinc-50/50 py-16">
+    <div class="section-shell grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <article id="merge-workflows" class="rounded-2xl border border-zinc-200/60 bg-white p-6 shadow-sm">
+        <h2 class="text-[15px] font-semibold text-zinc-900">Merge PDF</h2>
+        <p class="mt-2 text-sm leading-relaxed text-zinc-500">Combine multiple PDFs into one output file without forcing an upload-heavy workflow.</p>
       </article>
-      <article id="compress-workflows" class="card p-6">
-        <h2 class="text-xl font-semibold text-slate-900">Compress PDF</h2>
-        <p class="mt-3 text-slate-600">Reduce file size for email and sharing while keeping the route aligned to compression intent.</p>
+      <article id="compress-workflows" class="rounded-2xl border border-zinc-200/60 bg-white p-6 shadow-sm">
+        <h2 class="text-[15px] font-semibold text-zinc-900">Compress PDF</h2>
+        <p class="mt-2 text-sm leading-relaxed text-zinc-500">Reduce file size for email and sharing while keeping the route aligned to compression intent.</p>
       </article>
-      <article id="split-workflows" class="card p-6">
-        <h2 class="text-xl font-semibold text-slate-900">Split PDF</h2>
-        <p class="mt-3 text-slate-600">Extract page ranges cleanly when a user only needs part of a document.</p>
+      <article id="split-workflows" class="rounded-2xl border border-zinc-200/60 bg-white p-6 shadow-sm">
+        <h2 class="text-[15px] font-semibold text-zinc-900">Split PDF</h2>
+        <p class="mt-2 text-sm leading-relaxed text-zinc-500">Extract page ranges cleanly when a user only needs part of a document.</p>
       </article>
-      <article id="rotate-workflows" class="card p-6">
-        <h2 class="text-xl font-semibold text-slate-900">Rotate PDF</h2>
-        <p class="mt-3 text-slate-600">Fix orientation issues without sending the file to a third-party server.</p>
+      <article id="rotate-workflows" class="rounded-2xl border border-zinc-200/60 bg-white p-6 shadow-sm">
+        <h2 class="text-[15px] font-semibold text-zinc-900">Rotate PDF</h2>
+        <p class="mt-2 text-sm leading-relaxed text-zinc-500">Fix orientation issues without sending the file to a third-party server.</p>
       </article>
-      <article id="pdf-to-image-workflows" class="card p-6">
-        <h2 class="text-xl font-semibold text-slate-900">PDF to Image</h2>
-        <p class="mt-3 text-slate-600">Convert PDF pages into image assets for previews, slides, or content repurposing.</p>
+      <article id="pdf-to-image-workflows" class="rounded-2xl border border-zinc-200/60 bg-white p-6 shadow-sm">
+        <h2 class="text-[15px] font-semibold text-zinc-900">PDF to Image</h2>
+        <p class="mt-2 text-sm leading-relaxed text-zinc-500">Convert PDF pages into image assets for previews, slides, or content repurposing.</p>
       </article>
-      <article id="image-to-pdf-workflows" class="card p-6">
-        <h2 class="text-xl font-semibold text-slate-900">Image to PDF</h2>
-        <p class="mt-3 text-slate-600">Turn JPG or PNG files into a document-ready PDF workflow.</p>
-      </article>
-    </div>
-  </section>
-
-  <section class="pb-16">
-    <div class="section-shell grid gap-6 md:grid-cols-2">
-      <article class="card p-6">
-        <h2 class="text-2xl font-semibold text-slate-900">Why this page belongs on the main domain</h2>
-        <p class="mt-3 text-slate-600">PDF workflows are still browser-first utilities. Keeping them under the shared domain means they inherit the same trust pages, deployment setup, and future analytics stack as the other tool families.</p>
-      </article>
-      <article class="card p-6">
-        <h2 class="text-2xl font-semibold text-slate-900">Why it still needs its own category</h2>
-        <p class="mt-3 text-slate-600">Document workflows are not the same as media asset workflows or developer micro-tools. The separate document-tools directory protects intent and keeps the site architecture legible.</p>
+      <article id="image-to-pdf-workflows" class="rounded-2xl border border-zinc-200/60 bg-white p-6 shadow-sm">
+        <h2 class="text-[15px] font-semibold text-zinc-900">Image to PDF</h2>
+        <p class="mt-2 text-sm leading-relaxed text-zinc-500">Turn JPG or PNG files into a document-ready PDF workflow.</p>
       </article>
     </div>
   </section>
 
-  <PdfFaq items={faqItems} title="PDF Easier FAQ" />
+  <section class="border-t border-zinc-200/80 bg-white py-16">
+    <div class="section-shell">
+      <PdfFaq items={faqItems} title="Frequently Asked Questions" />
+    </div>
+  </section>
 </BaseLayout>
